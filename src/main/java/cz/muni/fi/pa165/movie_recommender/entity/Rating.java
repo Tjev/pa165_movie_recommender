@@ -9,7 +9,6 @@ import java.util.Objects;
  * Represents rating of a movie from a user
  *
  * @author Kristian Tkacik
- * @since 02.04.2021
  */
 @Entity
 public class Rating {
