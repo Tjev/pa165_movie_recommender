@@ -103,6 +103,12 @@ public class Movie {
         return Collections.unmodifiableSet(directors);
     }
 
+    /**
+     * Adds many-to-many connection to the given director
+     * and this movie.
+     *
+     * @param director director that directed this movie
+     */
     public void addDirector(Person director) {
         directors.add(director);
     }
@@ -111,6 +117,12 @@ public class Movie {
         return Collections.unmodifiableSet(actors);
     }
 
+    /**
+     * Adds many-to-many connection to the given actor
+     * and this movie.
+     *
+     * @return actor that acted in this movie
+     */
     public void addActor(Person actor) {
         actors.add(actor);
     }
