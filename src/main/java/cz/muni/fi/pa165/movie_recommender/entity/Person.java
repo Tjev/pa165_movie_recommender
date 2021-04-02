@@ -96,21 +96,25 @@ public class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Person)) return false;
+
         Person person = (Person) o;
-        return getName().equals(person.getName())
-                && Objects.equals(getDateOfBirth(), person.getDateOfBirth())
-                && Objects.equals(getBio(), person.getBio())
-                && Objects.equals(getDirectedMovies(), person.getDirectedMovies())
-                && Objects.equals(getActsInMovies(), person.getActsInMovies());
+
+        if (!getName().equals(person.getName())) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(person.getDateOfBirth()) : person.getDateOfBirth() != null)
+            return false;
+        if (getBio() != null ? !getBio().equals(person.getBio()) : person.getBio() != null) return false;
+        if (getDirectedMovies() != null ? !getDirectedMovies().equals(person.getDirectedMovies()) : person.getDirectedMovies() != null)
+            return false;
+        return getActsInMovies() != null ? getActsInMovies().equals(person.getActsInMovies()) : person.getActsInMovies() == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(),
-                getDateOfBirth(),
-                getBio(),
-                getDirectedMovies(),
-                getActsInMovies());
+        int result = getName().hashCode();
+        result = 31 * result + (getDateOfBirth() != null ? getDateOfBirth().hashCode() : 0);
+        result = 31 * result + (getBio() != null ? getBio().hashCode() : 0);
+        result = 31 * result + (getDirectedMovies() != null ? getDirectedMovies().hashCode() : 0);
+        result = 31 * result + (getActsInMovies() != null ? getActsInMovies().hashCode() : 0);
+        return result;
     }
-
 }
