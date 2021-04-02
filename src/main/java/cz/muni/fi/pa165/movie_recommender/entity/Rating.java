@@ -1,8 +1,9 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
-import javax.validation.constraints.NotNull;
 
 /**
  * Represents rating of a movie from a user
@@ -17,44 +18,45 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @ManyToOne
+    @Column(nullable = false)
+    @ManyToOne()
     private Movie movie;
 
-    @NotNull
-    @ManyToOne
+    @Column(nullable = false)
+    @ManyToOne()
     private User user;
 
-    @NotNull
-    private int overallScore;
+    @Column(nullable = false)
+    private BigDecimal overallScore;
 
-    @NotNull
+    @Column(nullable = false)
     private int originality;
 
-    @NotNull
+    @Column(nullable = false)
     private int soundtrack;
 
-    @NotNull
+    @Column(nullable = false)
     private int narrative;
 
-    @NotNull
+    @Column(nullable = false)
     private int cinematography;
 
-    @NotNull
+    @Column(nullable = false)
     private int depth;
 
     public Rating() {
     }
 
-    public Rating(@NotNull Movie movie, @NotNull User user, @NotNull int overallScore, @NotNull int originality, @NotNull int soundtrack, @NotNull int narrative, @NotNull int cinematography, @NotNull int depth) {
-        this.movie = movie;
-        this.user = user;
-        this.overallScore = overallScore;
+    public Rating(Movie movie, User user, int originality, int soundtrack, int narrative, int cinematography, int depth) {
+        this.movie = Objects.requireNonNull(movie);
+        this.user = Objects.requireNonNull(user);
         this.originality = originality;
         this.soundtrack = soundtrack;
         this.narrative = narrative;
         this.cinematography = cinematography;
         this.depth = depth;
+        this.overallScore = new BigDecimal(originality + soundtrack + narrative + cinematography + depth)
+                            .divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
     }
 
     public Long getId() {
@@ -81,11 +83,11 @@ public class Rating {
         this.user = user;
     }
 
-    public int getOverallScore() {
+    public BigDecimal getOverallScore() {
         return overallScore;
     }
 
-    public void setOverallScore(int overallScore) {
+    public void setOverallScore(BigDecimal overallScore) {
         this.overallScore = overallScore;
     }
 
@@ -143,7 +145,7 @@ public class Rating {
         if (getNarrative() != rating.getNarrative()) return false;
         if (getOriginality() != rating.getOriginality()) return false;
         if (getSoundtrack() != rating.getSoundtrack()) return false;
-        return getOverallScore() == rating.getOverallScore();
+        return getOverallScore().equals(rating.getOverallScore());
     }
 
     @Override
