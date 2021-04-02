@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Represents each person involved in movie industry
  *
- * @author Jiří Papoušek
+ * @author Jiri Papousek
  */
 @Entity
 public class Person {
