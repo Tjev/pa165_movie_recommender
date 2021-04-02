@@ -35,9 +35,11 @@ public class Movie {
     private byte[] graphics;
 
     @ManyToMany()
+    @JoinTable(name = "director_movie")
     private Set<Person> directors = new HashSet<>();
 
     @ManyToMany()
+    @JoinTable(name = "actor_movie")
     private Set<Person> actors = new HashSet<>();
 
     public Movie() {

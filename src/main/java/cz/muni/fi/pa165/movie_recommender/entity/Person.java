@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
@@ -83,8 +82,8 @@ public class Person {
      * @param movie that has been directed by this person
      */
     public void addDirectedMovie(Movie movie) {
-        movie.addDirector(this);
         directedMovies.add(movie);
+        movie.addDirector(this);
     }
 
     /**
@@ -93,8 +92,8 @@ public class Person {
      * @param movie in which the person acted
      */
     public void addActsInMovie(Movie movie) {
-        movie.addActor(this);
         actsInMovies.add(movie);
+        movie.addActor(this);
     }
 
     @Override
@@ -107,18 +106,13 @@ public class Person {
         if (!getName().equals(person.getName())) return false;
         if (getDateOfBirth() != null ? !getDateOfBirth().equals(person.getDateOfBirth()) : person.getDateOfBirth() != null)
             return false;
-        if (getBio() != null ? !getBio().equals(person.getBio()) : person.getBio() != null) return false;
-        if (getDirectedMovies() != null ? !getDirectedMovies().equals(person.getDirectedMovies()) : person.getDirectedMovies() != null)
-            return false;
-        return getActsInMovies() != null ? getActsInMovies().equals(person.getActsInMovies()) : person.getActsInMovies() == null;
+        return getBio() != null ? getBio().equals(person.getBio()) : person.getBio() == null;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getName(),
                 getDateOfBirth(),
-                getBio(),
-                getDirectedMovies(),
-                getActsInMovies());
+                getBio());
     }
 }

@@ -24,12 +24,14 @@ public class Main {
 
         Movie m = new Movie();
         m.setTitle("film");
-        em.persist(m);
+        m.addGenre(Genre.ACTION);
 
         Person p = new Person("ahoj", null, null);
-        em.persist(p);
 
-        //p.addActsInMovie(m);
+        p.addActsInMovie(m);
+
+        em.persist(m);
+        em.persist(p);
 
         em.getTransaction().commit();
 
@@ -38,7 +40,7 @@ public class Main {
 
         Person foundP = em.find(Person.class, p.getId());
         System.out.println(foundP.getName());
-        //System.out.println(foundP.getActsInMovies());
+        System.out.println(foundP.getActsInMovies().iterator().next().getTitle());
 
         appContext.close();
     }
