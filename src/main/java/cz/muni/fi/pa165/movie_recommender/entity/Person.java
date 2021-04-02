@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,10 +28,10 @@ public class Person {
     private String bio;
 
     @ManyToMany(mappedBy = "directors")
-    private Set<Movie> directedMovies;
+    private Set<Movie> directedMovies = new HashSet<>();
 
     @ManyToMany(mappedBy = "actors")
-    private Set<Movie> actsInMovies;
+    private Set<Movie> actsInMovies = new HashSet<>();
 
     public Person() {}
 
@@ -38,6 +39,10 @@ public class Person {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
