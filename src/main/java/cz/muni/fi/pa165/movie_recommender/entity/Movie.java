@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -33,10 +34,10 @@ public class Movie {
     @Lob
     private byte[] graphics;
 
-    @ManyToMany
+    @ManyToMany()
     private Set<Person> directors = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany()
     private Set<Person> actors = new HashSet<>();
 
     public Movie() {
@@ -49,14 +50,6 @@ public class Movie {
         this.year = year;
         this.genres = genres;
         this.graphics = graphics;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -89,6 +82,10 @@ public class Movie {
 
     public void setGenres(Set<Genre> genres) {
         this.genres = genres;
+    }
+
+    public void addGenre(Genre genre) {
+        genres.add(genre);
     }
 
     public byte[] getGraphics() {
@@ -145,12 +142,11 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        int result = getTitle().hashCode();
-        result = 31 * result + (getBio() != null ? getBio().hashCode() : 0);
-        result = 31 * result + (getYear() != null ? getYear().hashCode() : 0);
-        result = 31 * result + getGenres().hashCode();
-        result = 31 * result + (getDirectors() != null ? getDirectors().hashCode() : 0);
-        result = 31 * result + (getActors() != null ? getActors().hashCode() : 0);
-        return result;
+        return Objects.hash(
+                getTitle(),
+                getBio(), getYear(),
+                getGenres(),
+                getDirectors(),
+                getActors());
     }
 }
