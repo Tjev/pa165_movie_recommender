@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -20,22 +19,23 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
     private LocalDate dateOfBirth;
 
     private String bio;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "")
     private Set<Movie> directedMovies;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "")
     private Set<Movie> actsInMovies;
 
     public Person() {}
 
     public Person(String name, LocalDate dateOfBirth, String bio) {
+        Objects.requireNonNull(name);
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
