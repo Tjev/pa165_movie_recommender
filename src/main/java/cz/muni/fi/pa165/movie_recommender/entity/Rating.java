@@ -150,6 +150,15 @@ public class Rating {
 
     @Override
     public int hashCode() {
-        return Objects.hash(movie, user, overallScore, originality, soundtrack, narrative, cinematography, depth);
+        return Objects.hash(
+                getMovie(),
+                getUser(),
+                getOverallScore(),
+                getOriginality(),
+                getSoundtrack(),
+                getNarrative(),
+                getCinematography(),
+                getDepth());
     }
+
 }
