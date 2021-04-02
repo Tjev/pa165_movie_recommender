@@ -33,6 +33,8 @@ public class Person {
     @ManyToMany
     private Set<Movie> actsInMovies;
 
+    public Person() {}
+
     public Person(String name, LocalDate dateOfBirth, String bio) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
