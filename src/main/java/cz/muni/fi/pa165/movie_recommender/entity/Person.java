@@ -7,9 +7,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-
 /**
  * Represents each person involved in movie industry
+ *
+ * @author Jiří Papoušek
  */
 @Entity
 public class Person {
@@ -117,4 +118,5 @@ public class Person {
         result = 31 * result + (getActsInMovies() != null ? getActsInMovies().hashCode() : 0);
         return result;
     }
+
 }
