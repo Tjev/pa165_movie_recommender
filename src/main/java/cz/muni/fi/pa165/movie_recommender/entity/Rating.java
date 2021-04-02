@@ -48,8 +48,8 @@ public class Rating {
     }
 
     public Rating(Movie movie, User user, int originality, int soundtrack, int narrative, int cinematography, int depth) {
-        this.movie = Objects.requireNonNull(movie);
-        this.user = Objects.requireNonNull(user);
+        this.movie = movie;
+        this.user = user;
         this.originality = originality;
         this.soundtrack = soundtrack;
         this.narrative = narrative;
