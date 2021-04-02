@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity class that represents a movie
+ *
+ * @author Radoslav Chudovsky
+ */
 @Entity
 public class Movie {
 
