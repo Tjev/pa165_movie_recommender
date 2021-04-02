@@ -54,16 +54,11 @@ public class Rating {
         this.narrative = narrative;
         this.cinematography = cinematography;
         this.depth = depth;
-        this.overallScore = new BigDecimal(originality + soundtrack + narrative + cinematography + depth)
-                            .divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
+        updateOverallScore();
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Movie getMovie() {
@@ -86,16 +81,13 @@ public class Rating {
         return overallScore;
     }
 
-    public void setOverallScore(BigDecimal overallScore) {
-        this.overallScore = overallScore;
-    }
-
     public int getOriginality() {
         return originality;
     }
 
     public void setOriginality(int originality) {
         this.originality = originality;
+        updateOverallScore();
     }
 
     public int getSoundtrack() {
@@ -104,6 +96,7 @@ public class Rating {
 
     public void setSoundtrack(int soundtrack) {
         this.soundtrack = soundtrack;
+        updateOverallScore();
     }
 
     public int getNarrative() {
@@ -112,6 +105,7 @@ public class Rating {
 
     public void setNarrative(int narrative) {
         this.narrative = narrative;
+        updateOverallScore();
     }
 
     public int getCinematography() {
@@ -120,6 +114,7 @@ public class Rating {
 
     public void setCinematography(int cinematography) {
         this.cinematography = cinematography;
+        updateOverallScore();
     }
 
     public int getDepth() {
@@ -128,6 +123,7 @@ public class Rating {
 
     public void setDepth(int depth) {
         this.depth = depth;
+        updateOverallScore();
     }
 
     @Override
@@ -160,4 +156,12 @@ public class Rating {
                 getDepth());
     }
 
+    private void updateOverallScore() {
+        this.overallScore = new BigDecimal(
+                        getOriginality() +
+                            getSoundtrack() +
+                            getNarrative() +
+                            getCinematography() +
+                            getDepth()).divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
+    }
 }
