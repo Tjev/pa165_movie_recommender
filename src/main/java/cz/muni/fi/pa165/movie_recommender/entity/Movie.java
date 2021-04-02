@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,17 @@ public class Movie {
     @ManyToMany
     private Set<Person> actors = new HashSet<>();
 
+    public Movie() {
+    }
+
+    public Movie(String title, String bio, LocalDate year, Set<Genre> genres,
+                 byte[] graphics) {
+        this.title = title;
+        this.bio = bio;
+        this.year = year;
+        this.genres = genres;
+        this.graphics = graphics;
+    }
 
     public Long getId() {
         return id;
@@ -83,7 +95,7 @@ public class Movie {
     }
 
     public Set<Person> getDirectors() {
-        return directors;
+        return Collections.unmodifiableSet(directors);
     }
 
     public void addDirector(Person director) {
@@ -91,7 +103,7 @@ public class Movie {
     }
 
     public Set<Person> getActors() {
-        return actors;
+        return Collections.unmodifiableSet(actors);
     }
 
     public void addActor(Person actor) {
@@ -108,7 +120,10 @@ public class Movie {
         if (!getTitle().equals(movie.getTitle())) return false;
         if (getBio() != null ? !getBio().equals(movie.getBio()) : movie.getBio() != null) return false;
         if (getYear() != null ? !getYear().equals(movie.getYear()) : movie.getYear() != null) return false;
-        return getGenres().equals(movie.getGenres());
+        if (!getGenres().equals(movie.getGenres())) return false;
+        if (getDirectors() != null ? !getDirectors().equals(movie.getDirectors()) : movie.getDirectors() != null)
+            return false;
+        return getActors() != null ? getActors().equals(movie.getActors()) : movie.getActors() == null;
     }
 
     @Override
@@ -117,6 +132,8 @@ public class Movie {
         result = 31 * result + (getBio() != null ? getBio().hashCode() : 0);
         result = 31 * result + (getYear() != null ? getYear().hashCode() : 0);
         result = 31 * result + getGenres().hashCode();
+        result = 31 * result + (getDirectors() != null ? getDirectors().hashCode() : 0);
+        result = 31 * result + (getActors() != null ? getActors().hashCode() : 0);
         return result;
     }
 }
