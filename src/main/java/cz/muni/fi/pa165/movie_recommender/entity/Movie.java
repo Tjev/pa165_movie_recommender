@@ -52,6 +52,10 @@ public class Movie {
         this.graphics = graphics;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -144,7 +148,8 @@ public class Movie {
     public int hashCode() {
         return Objects.hash(
                 getTitle(),
-                getBio(), getYear(),
+                getBio(),
+                getYear(),
                 getGenres(),
                 getDirectors(),
                 getActors());
