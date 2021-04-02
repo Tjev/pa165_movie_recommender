@@ -35,7 +35,6 @@ public class Person {
     public Person() {}
 
     public Person(String name, LocalDate dateOfBirth, String bio) {
-        Objects.requireNonNull(name);
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
