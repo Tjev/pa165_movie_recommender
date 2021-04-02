@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +17,9 @@ public class User {
 
     @Column(nullable = false, unique = false)
     private String mailAddress;
+
+    @OneToMany(mappedBy = "user")
+    private List<Rating> userRatings = new ArrayList<>();
 
     public User() {
     }
@@ -48,8 +53,12 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
+
         User user = (User) o;
-        return username.equals(user.username) && mailAddress.equals(user.mailAddress);
+
+        if (!getUsername().equals(user.getUsername())) return false;
+        if (!getMailAddress().equals(user.getMailAddress())) return false;
+        return Objects.equals(userRatings, user.userRatings);
     }
 
     @Override
