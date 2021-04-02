@@ -34,6 +34,14 @@ public interface PersonDao {
     Person findById(Long id);
 
     /**
+     * Retrieves all persons from the data source who match the given name
+     *
+     * @param name to be matched
+     * @return list of all persons matching the name
+     */
+    List<Person> findByName(String name);
+
+    /**
      * Merges the person by its ID with its current representation in the data source.
      *
      * @param person to be merged
