@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity that represents registered recommender system users.
+ *
+ * @author Tomas Jevocin
+ */
 @Entity
 public class User {
 
