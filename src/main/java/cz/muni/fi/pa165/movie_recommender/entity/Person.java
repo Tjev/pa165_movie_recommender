@@ -110,12 +110,11 @@ public class Person {
 
     @Override
     public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + (getDateOfBirth() != null ? getDateOfBirth().hashCode() : 0);
-        result = 31 * result + (getBio() != null ? getBio().hashCode() : 0);
-        result = 31 * result + (getDirectedMovies() != null ? getDirectedMovies().hashCode() : 0);
-        result = 31 * result + (getActsInMovies() != null ? getActsInMovies().hashCode() : 0);
-        return result;
+        return Objects.hash(getName(),
+                getDateOfBirth(),
+                getBio(),
+                getDirectedMovies(),
+                getActsInMovies());
     }
 
 }
