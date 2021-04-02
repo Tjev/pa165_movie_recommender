@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Objects;
@@ -80,7 +80,7 @@ public class Person {
      * @param movie in which the person acted
      */
     public void addActsInMovie(Movie movie) {
-        actsInMovies.add(movie)
+        actsInMovies.add(movie);
     }
 
     @Override
@@ -97,7 +97,11 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getDateOfBirth(), getBio(), getDirectedMovies(), getActsInMovies());
+        return Objects.hash(getName(),
+                getDateOfBirth(),
+                getBio(),
+                getDirectedMovies(),
+                getActsInMovies());
     }
 
 }
