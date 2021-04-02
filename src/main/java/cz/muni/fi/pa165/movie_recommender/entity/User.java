@@ -34,10 +34,6 @@ public class User {
         this.mailAddress = mailAddress;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
