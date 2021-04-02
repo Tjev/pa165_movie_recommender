@@ -28,10 +28,11 @@ public class Movie {
     private byte[] graphics;
 
     @ManyToMany
-    private Set<Person> directors;
+    private Set<Person> directors = new HashSet<>();
 
     @ManyToMany
-    private Set<Person> actors;
+    private Set<Person> actors = new HashSet<>();
+
 
     public Long getId() {
         return id;
@@ -85,16 +86,16 @@ public class Movie {
         return directors;
     }
 
-    public void setDirectors(Set<Person> directors) {
-        this.directors = directors;
+    public void addDirector(Person director) {
+        directors.add(director);
     }
 
     public Set<Person> getActors() {
         return actors;
     }
 
-    public void setActors(Set<Person> actors) {
-        this.actors = actors;
+    public void addActor(Person actor) {
+        actors.add(actor);
     }
 
     @Override
