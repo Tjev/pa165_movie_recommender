@@ -7,10 +7,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-//TODO: Decide what entity (Person/Movie) should own many-to-many relationships.
 
 /**
- * Represents each person involved in movie industry.
+ * Represents each person involved in movie industry
  */
 @Entity
 public class Person {
@@ -26,10 +25,10 @@ public class Person {
 
     private String bio;
 
-    @ManyToMany(mappedBy = "")
+    @ManyToMany(mappedBy = "directors")
     private Set<Movie> directedMovies;
 
-    @ManyToMany(mappedBy = "")
+    @ManyToMany(mappedBy = "actors")
     private Set<Movie> actsInMovies;
 
     public Person() {}
@@ -79,6 +78,7 @@ public class Person {
      * @param movie that has been directed by this person
      */
     public void addDirectedMovie(Movie movie) {
+        movie.addDirector(this);
         directedMovies.add(movie);
     }
 
@@ -88,6 +88,7 @@ public class Person {
      * @param movie in which the person acted
      */
     public void addActsInMovie(Movie movie) {
+        movie.addActor(this);
         actsInMovies.add(movie);
     }
 
