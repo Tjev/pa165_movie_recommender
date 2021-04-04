@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,10 +27,10 @@ public class Person {
     private String bio;
 
     @ManyToMany(mappedBy = "directors")
-    private Set<Movie> directedMovies = new HashSet<>();
+    private Set<Movie> directedMovies;
 
     @ManyToMany(mappedBy = "actors")
-    private Set<Movie> actsInMovies = new HashSet<>();
+    private Set<Movie> actsInMovies;
 
     public Person() {}
 
@@ -38,10 +38,6 @@ public class Person {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -82,8 +78,8 @@ public class Person {
      * @param movie that has been directed by this person
      */
     public void addDirectedMovie(Movie movie) {
-        directedMovies.add(movie);
         movie.addDirector(this);
+        directedMovies.add(movie);
     }
 
     /**
@@ -92,8 +88,8 @@ public class Person {
      * @param movie in which the person acted
      */
     public void addActsInMovie(Movie movie) {
-        actsInMovies.add(movie);
         movie.addActor(this);
+        actsInMovies.add(movie);
     }
 
     @Override
@@ -106,13 +102,18 @@ public class Person {
         if (!getName().equals(person.getName())) return false;
         if (getDateOfBirth() != null ? !getDateOfBirth().equals(person.getDateOfBirth()) : person.getDateOfBirth() != null)
             return false;
-        return getBio() != null ? getBio().equals(person.getBio()) : person.getBio() == null;
+        if (getBio() != null ? !getBio().equals(person.getBio()) : person.getBio() != null) return false;
+        if (getDirectedMovies() != null ? !getDirectedMovies().equals(person.getDirectedMovies()) : person.getDirectedMovies() != null)
+            return false;
+        return getActsInMovies() != null ? getActsInMovies().equals(person.getActsInMovies()) : person.getActsInMovies() == null;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getName(),
                 getDateOfBirth(),
-                getBio());
+                getBio(),
+                getDirectedMovies(),
+                getActsInMovies());
     }
 }
