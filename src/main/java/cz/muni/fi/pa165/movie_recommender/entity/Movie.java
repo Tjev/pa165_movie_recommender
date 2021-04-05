@@ -24,7 +24,7 @@ public class Movie {
 
     private String bio;
 
-    private LocalDate year;
+    private LocalDate releaseYear;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -35,19 +35,21 @@ public class Movie {
     private byte[] graphics;
 
     @ManyToMany()
+    @JoinTable(name = "director_movie")
     private Set<Person> directors = new HashSet<>();
 
     @ManyToMany()
+    @JoinTable(name = "actor_movie")
     private Set<Person> actors = new HashSet<>();
 
     public Movie() {
     }
 
-    public Movie(String title, String bio, LocalDate year, Set<Genre> genres,
-                 byte[] graphics) {
+    public Movie(String title, String bio, LocalDate year,
+                 Set<Genre> genres, byte[] graphics) {
         this.title = title;
         this.bio = bio;
-        this.year = year;
+        this.releaseYear = year;
         this.genres = genres;
         this.graphics = graphics;
     }
@@ -73,11 +75,11 @@ public class Movie {
     }
 
     public LocalDate getYear() {
-        return year;
+        return releaseYear;
     }
 
     public void setYear(LocalDate year) {
-        this.year = year;
+        this.releaseYear = year;
     }
 
     public Set<Genre> getGenres() {
