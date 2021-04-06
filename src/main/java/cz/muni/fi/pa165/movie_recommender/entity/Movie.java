@@ -1,6 +1,11 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,16 +24,22 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private String title;
 
     private String bio;
 
+    @NotNull
+    @Column(nullable = false)
     private LocalDate releaseYear;
 
+    @NotEmpty
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @ElementCollection
+    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Genre> genres = new HashSet<>();
 
     @Lob
@@ -41,6 +52,9 @@ public class Movie {
     @ManyToMany()
     @JoinTable(name = "actor_movie")
     private Set<Person> actors = new HashSet<>();
+
+    @OneToMany(mappedBy = "movie")
+    private Set<Rating> ratings = new HashSet<>();
 
     public Movie() {
     }
@@ -86,10 +100,6 @@ public class Movie {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
-    }
-
     public void addGenre(Genre genre) {
         genres.add(genre);
     }
@@ -124,10 +134,25 @@ public class Movie {
      * Adds many-to-many connection to the given actor
      * and this movie.
      *
-     * @return actor that acted in this movie
+     * @param actor actor that acted in this movie
      */
     public void addActor(Person actor) {
         actors.add(actor);
+    }
+
+    public Set<Rating> getRatings() {
+        return Collections.unmodifiableSet(ratings);
+    }
+
+    /**
+     * Adds one-to-many connection to the given rating
+     * and this movie.
+     *
+     * @param rating rating connected to this movie
+     */
+    public void addRating(Rating rating) {
+        ratings.add(rating);
+        rating.setMovie(this);
     }
 
     @Override
@@ -140,10 +165,7 @@ public class Movie {
         if (!getTitle().equals(movie.getTitle())) return false;
         if (getBio() != null ? !getBio().equals(movie.getBio()) : movie.getBio() != null) return false;
         if (getYear() != null ? !getYear().equals(movie.getYear()) : movie.getYear() != null) return false;
-        if (!getGenres().equals(movie.getGenres())) return false;
-        if (getDirectors() != null ? !getDirectors().equals(movie.getDirectors()) : movie.getDirectors() != null)
-            return false;
-        return getActors() != null ? getActors().equals(movie.getActors()) : movie.getActors() == null;
+        return getGenres().equals(movie.getGenres());
     }
 
     @Override
@@ -152,8 +174,6 @@ public class Movie {
                 getTitle(),
                 getBio(),
                 getYear(),
-                getGenres(),
-                getDirectors(),
-                getActors());
+                getGenres());
     }
 }
