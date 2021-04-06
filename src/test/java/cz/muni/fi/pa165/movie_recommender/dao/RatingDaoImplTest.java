@@ -1,72 +1,66 @@
 package cz.muni.fi.pa165.movie_recommender.dao;
 
+import cz.muni.fi.pa165.movie_recommender.PersistenceApplicationContext;
 import cz.muni.fi.pa165.movie_recommender.entity.Genre;
 import cz.muni.fi.pa165.movie_recommender.entity.Movie;
 import cz.muni.fi.pa165.movie_recommender.entity.Rating;
-import cz.muni.fi.pa165.movie_recommender.entity.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import cz.muni.fi.pa165.movie_recommender.entity.AppUser;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@ExtendWith(MockitoExtension.class)
-@Transactional
+@ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceContext
-    private EntityManager em;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     @Autowired
     private RatingDao dao;
 
     private Movie movie1;
     private Movie movie2;
-    private User user1;
-    private User user2;
+    private AppUser user1;
+    private AppUser user2;
 
-    @BeforeEach
-    public void setUp() {
-        Set<Genre> genres = new HashSet<>();
-        genres.add(Genre.ACTION);
+    @BeforeMethod
+    public void beforeTest() {
+        Set<Genre> genres = new HashSet<>(Arrays.asList(Genre.ACTION));
+
         movie1 = new Movie("Shrek", null, null, genres, null);
         movie2 = new Movie("James Bond", null, null, genres, null);
 
-        user1 = new User("novak", "novak@mail.com");
-        user2 = new User("svoboda", "svoboda@mail.com");
+        user1 = new AppUser("novak", "novak@mail.com");
+        user2 = new AppUser("svoboda", "svoboda@mail.com");
 
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
+
         em.persist(movie1);
         em.persist(user1);
         em.persist(movie2);
         em.persist(user2);
-        em.getTransaction().commit();
-        em.close();
-    }
 
-    @AfterEach
-    public void afterEach() {
-        em.getTransaction().begin();
-        em.createQuery("delete from Movie").executeUpdate();
-        em.createQuery("delete from User").executeUpdate();
-        em.createQuery("delete from Rating").executeUpdate();
         em.getTransaction().commit();
         em.close();
     }
 
     @Test
     public void createTest() {
+        EntityManager em = emf.createEntityManager();
+
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
         dao.create(rating);
 
@@ -75,11 +69,13 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
         em.getTransaction().commit();
         em.close();
 
-        assertThat(result).isEqualTo(rating);
+        Assert.assertEquals(result, rating);
     }
 
     @Test
     void findAllTest() {
+        EntityManager em = emf.createEntityManager();
+
         Rating rating1 = new Rating(movie1, user1, 1, 2, 3, 4, 5);
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
@@ -93,14 +89,16 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
         List<Rating> ratings = dao.findAll();
 
-        assertThat(ratings.contains(rating1)).isTrue();
-        assertThat(ratings.contains(rating2)).isTrue();
-        assertThat(ratings.contains(rating3)).isTrue();
-        assertThat(ratings.size()).isEqualTo(3);
+        Assert.assertTrue(ratings.contains(rating1));
+        Assert.assertTrue(ratings.contains(rating2));
+        Assert.assertTrue(ratings.contains(rating3));
+        Assert.assertEquals(ratings.size(), 3);
     }
 
     @Test
     void findByIdTest() {
+        EntityManager em = emf.createEntityManager();
+
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
         em.getTransaction().begin();
@@ -110,11 +108,13 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
         Rating result = dao.findById(rating.getId());
 
-        assertThat(result).isEqualTo(rating);
+        Assert.assertEquals(result, rating);
     }
 
     @Test
     public void updateTest() {
+        EntityManager em = emf.createEntityManager();
+
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
         em.getTransaction().begin();
@@ -126,16 +126,19 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
         dao.update(rating);
 
+        em = emf.createEntityManager();
         em.getTransaction().begin();
         Rating result = em.find(Rating.class, rating.getId());
         em.getTransaction().commit();
         em.close();
 
-        assertThat(result.getOriginality()).isEqualTo(4);
+        Assert.assertEquals(result.getOriginality(), 4);
     }
 
     @Test
     public void removeTest() {
+        EntityManager em = emf.createEntityManager();
+
         Rating rating1 = new Rating(movie1, user1, 1, 2, 3, 4, 5);
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
@@ -149,6 +152,7 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
         dao.remove(rating1);
 
+        em = emf.createEntityManager();
         em.getTransaction().begin();
         Rating result1 = em.find(Rating.class, rating1.getId());
         Rating result2 = em.find(Rating.class, rating2.getId());
@@ -156,9 +160,23 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
         em.getTransaction().commit();
         em.close();
 
-        assertThat(result1).isEqualTo(null);
-        assertThat(result2).isEqualTo(rating2);
-        assertThat(result3).isEqualTo(rating3);
+        Assert.assertNull(result1);
+        Assert.assertEquals(result2, rating2);
+        Assert.assertEquals(result3, rating3);
+    }
+
+    @AfterMethod
+    public void afterTest() {
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        em.createQuery("delete from Rating").executeUpdate();
+        em.createQuery("delete from Movie").executeUpdate();
+        em.createQuery("delete from AppUser").executeUpdate();
+
+        em.getTransaction().commit();
+        em.close();
     }
 
 }
