@@ -10,9 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,13 +22,14 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class RatingDaoImplTest {
+@Transactional
+public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceContext
     private EntityManager em;
 
     @Autowired
-    private RatingDao dao = new RatingDaoImpl();
+    private RatingDao dao;
 
     private Movie movie1;
     private Movie movie2;
@@ -38,14 +41,16 @@ public class RatingDaoImplTest {
         Set<Genre> genres = new HashSet<>();
         genres.add(Genre.ACTION);
         movie1 = new Movie("Shrek", null, null, genres, null);
-        movie1 = new Movie("James Bond", null, null, genres, null);
+        movie2 = new Movie("James Bond", null, null, genres, null);
 
         user1 = new User("novak", "novak@mail.com");
-        user1 = new User("svoboda", "svoboda@mail.com");
+        user2 = new User("svoboda", "svoboda@mail.com");
 
         em.getTransaction().begin();
         em.persist(movie1);
         em.persist(user1);
+        em.persist(movie2);
+        em.persist(user2);
         em.getTransaction().commit();
         em.close();
     }
