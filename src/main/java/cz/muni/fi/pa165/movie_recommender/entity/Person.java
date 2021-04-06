@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -19,6 +20,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private String name;
 
@@ -40,36 +42,36 @@ public class Person {
         this.bio = bio;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public Set<Movie> getDirectedMovies() {
-        return Collections.unmodifiableSet(directedMovies);
-    }
-
-    public Set<Movie> getActsInMovies() {
-        return Collections.unmodifiableSet(actsInMovies);
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Set<Movie> getDirectedMovies() {
+        return Collections.unmodifiableSet(directedMovies);
     }
 
     /**
@@ -80,6 +82,10 @@ public class Person {
     public void addDirectedMovie(Movie movie) {
         movie.addDirector(this);
         directedMovies.add(movie);
+    }
+
+    public Set<Movie> getActsInMovies() {
+        return Collections.unmodifiableSet(actsInMovies);
     }
 
     /**
@@ -102,18 +108,13 @@ public class Person {
         if (!getName().equals(person.getName())) return false;
         if (getDateOfBirth() != null ? !getDateOfBirth().equals(person.getDateOfBirth()) : person.getDateOfBirth() != null)
             return false;
-        if (getBio() != null ? !getBio().equals(person.getBio()) : person.getBio() != null) return false;
-        if (getDirectedMovies() != null ? !getDirectedMovies().equals(person.getDirectedMovies()) : person.getDirectedMovies() != null)
-            return false;
-        return getActsInMovies() != null ? getActsInMovies().equals(person.getActsInMovies()) : person.getActsInMovies() == null;
+        return getBio() != null ? getBio().equals(person.getBio()) : person.getBio() == null;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getName(),
                 getDateOfBirth(),
-                getBio(),
-                getDirectedMovies(),
-                getActsInMovies());
+                getBio());
     }
 }
