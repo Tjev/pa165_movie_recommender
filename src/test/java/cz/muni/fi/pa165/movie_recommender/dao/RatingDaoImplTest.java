@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.movie_recommender.entity.Movie;
 import cz.muni.fi.pa165.movie_recommender.entity.Rating;
 import cz.muni.fi.pa165.movie_recommender.entity.AppUser;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -178,5 +177,4 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
         em.getTransaction().commit();
         em.close();
     }
-
 }
