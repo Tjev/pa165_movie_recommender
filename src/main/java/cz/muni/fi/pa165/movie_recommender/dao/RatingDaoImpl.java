@@ -40,6 +40,6 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public void remove(Rating rating) {
-        em.remove(rating);
+        em.remove(em.contains(rating) ? rating : em.merge(rating));
     }
 }
