@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.movie_recommender.entity.dao;
+package cz.muni.fi.pa165.movie_recommender.dao;
 
 import cz.muni.fi.pa165.movie_recommender.entity.Person;
 
