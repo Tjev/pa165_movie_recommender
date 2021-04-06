@@ -44,47 +44,29 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
         user1 = new User("novak", "novak@mail.com");
         user2 = new User("svoboda", "svoboda@mail.com");
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        em.persist(movie1);
-        em.persist(user1);
-        em.persist(movie2);
-        em.persist(user2);
-
-        em.getTransaction().commit();
-        em.close();
+        persistToDB(movie1);
+        persistToDB(movie2);
+        persistToDB(user1);
+        persistToDB(user2);
     }
 
     @Test
     public void createTest() {
         EntityManager em = emf.createEntityManager();
-
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
         dao.create(rating);
-
-        em.getTransaction().begin();
-        Rating result = em.find(Rating.class, rating.getId());
-        em.getTransaction().commit();
-        em.close();
-
-        Assert.assertEquals(result, rating);
+        Assert.assertEquals(getFromDB(rating.getId()), rating);
     }
 
     @Test
     void findAllTest() {
-        EntityManager em = emf.createEntityManager();
-
         Rating rating1 = new Rating(movie1, user1, 1, 2, 3, 4, 5);
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        em.getTransaction().begin();
-        em.persist(rating1);
-        em.persist(rating2);
-        em.persist(rating3);
-        em.getTransaction().commit();
-        em.close();
+        persistToDB(rating1);
+        persistToDB(rating2);
+        persistToDB(rating3);
 
         List<Rating> ratings = dao.findAll();
 
@@ -96,72 +78,67 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     void findByIdTest() {
-        EntityManager em = emf.createEntityManager();
-
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
-
-        em.getTransaction().begin();
-        em.persist(rating);
-        em.getTransaction().commit();
-        em.close();
-
-        Rating result = dao.findById(rating.getId());
-
-        Assert.assertEquals(result, rating);
+        persistToDB(rating);
+        Assert.assertEquals(dao.findById(rating.getId()), rating);
     }
 
     @Test
     public void updateTest() {
-        EntityManager em = emf.createEntityManager();
-
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
-
-        em.getTransaction().begin();
-        em.persist(rating);
-        em.getTransaction().commit();
-        em.close();
+        persistToDB(rating);
 
         rating.setOriginality(4);
-
         dao.update(rating);
 
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Rating result = em.find(Rating.class, rating.getId());
-        em.getTransaction().commit();
-        em.close();
-
-        Assert.assertEquals(result.getOriginality(), 4);
+        Assert.assertEquals(getFromDB(rating.getId()).getOriginality(), 4);
     }
 
     @Test
     public void removeTest() {
-        EntityManager em = emf.createEntityManager();
-
         Rating rating1 = new Rating(movie1, user1, 1, 2, 3, 4, 5);
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        em.getTransaction().begin();
-        em.persist(rating1);
-        em.persist(rating2);
-        em.persist(rating3);
-        em.getTransaction().commit();
-        em.close();
+        persistToDB(rating1);
+        persistToDB(rating2);
+        persistToDB(rating3);
 
         dao.remove(rating1);
 
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Rating result1 = em.find(Rating.class, rating1.getId());
-        Rating result2 = em.find(Rating.class, rating2.getId());
-        Rating result3 = em.find(Rating.class, rating3.getId());
-        em.getTransaction().commit();
-        em.close();
+        Assert.assertNull(getFromDB(rating1.getId()));
+        Assert.assertEquals(getFromDB(rating2.getId()), rating2);
+        Assert.assertEquals(getFromDB(rating3.getId()), rating3);
+    }
 
-        Assert.assertNull(result1);
-        Assert.assertEquals(result2, rating2);
-        Assert.assertEquals(result3, rating3);
+    private void persistToDB(Object object) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(object);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    private Rating getFromDB(long id) {
+        Rating p;
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            p = em.find(Rating.class, id);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return p;
     }
 
     @AfterMethod
