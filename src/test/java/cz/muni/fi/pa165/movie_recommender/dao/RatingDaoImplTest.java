@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.movie_recommender.PersistenceApplicationContext;
 import cz.muni.fi.pa165.movie_recommender.entity.Genre;
 import cz.muni.fi.pa165.movie_recommender.entity.Movie;
 import cz.muni.fi.pa165.movie_recommender.entity.Rating;
-import cz.muni.fi.pa165.movie_recommender.entity.AppUser;
+import cz.muni.fi.pa165.movie_recommender.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,8 +31,8 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
     private Movie movie1;
     private Movie movie2;
-    private AppUser user1;
-    private AppUser user2;
+    private User user1;
+    private User user2;
 
     @BeforeMethod
     public void beforeTest() {
@@ -41,8 +41,8 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
         movie1 = new Movie("Shrek", null, null, genres, null);
         movie2 = new Movie("James Bond", null, null, genres, null);
 
-        user1 = new AppUser("novak", "novak@mail.com");
-        user2 = new AppUser("svoboda", "svoboda@mail.com");
+        user1 = new User("novak", "novak@mail.com");
+        user2 = new User("svoboda", "svoboda@mail.com");
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -172,7 +172,7 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
         em.createQuery("delete from Rating").executeUpdate();
         em.createQuery("delete from Movie").executeUpdate();
-        em.createQuery("delete from AppUser").executeUpdate();
+        em.createQuery("delete from User").executeUpdate();
 
         em.getTransaction().commit();
         em.close();
