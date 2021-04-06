@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Tomas Jevocin
  */
 @Entity
+@Table(name = "system_user")
 public class User {
 
     @Id
