@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.movie_recommender.dao;
 
-import cz.muni.fi.pa165.movie_recommender.dao.PersonDao;
 import cz.muni.fi.pa165.movie_recommender.entity.Person;
 import org.springframework.stereotype.Repository;
 
@@ -48,7 +47,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void remove(Person person) {
-        em.remove(person);
+        em.remove(em.contains(person) ? person : em.merge(person));
     }
 
 }
