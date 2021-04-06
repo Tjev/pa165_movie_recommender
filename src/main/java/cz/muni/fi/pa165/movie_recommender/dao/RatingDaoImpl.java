@@ -16,30 +16,30 @@ import java.util.List;
 public class RatingDaoImpl implements RatingDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public void create(Rating rating) {
-        entityManager.persist(rating);
+        em.persist(rating);
     }
 
     @Override
     public List<Rating> findAll() {
-        return entityManager.createQuery("select r from Rating r", Rating.class).getResultList();
+        return em.createQuery("select r from Rating r", Rating.class).getResultList();
     }
 
     @Override
     public Rating findById(Long id) {
-        return entityManager.find(Rating.class, id);
+        return em.find(Rating.class, id);
     }
 
     @Override
     public void update(Rating rating) {
-        entityManager.merge(rating);
+        em.merge(rating);
     }
 
     @Override
     public void remove(Rating rating) {
-        entityManager.remove(rating);
+        em.remove(rating);
     }
 }
