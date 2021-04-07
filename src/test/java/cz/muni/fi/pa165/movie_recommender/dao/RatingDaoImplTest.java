@@ -17,11 +17,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Tests for RatingDaoImpl
+ *
+ * @author Jiri Papousek
+ */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
@@ -40,8 +46,8 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
     public void beforeTest() {
         Set<Genre> genres = new HashSet<>(Arrays.asList(Genre.ACTION));
 
-        movie1 = new Movie("Shrek", null, null, genres, null);
-        movie2 = new Movie("James Bond", null, null, genres, null);
+        movie1 = new Movie("Shrek", null, LocalDate.of(2000, 1, 1), genres, null);
+        movie2 = new Movie("James Bond", null, LocalDate.of(2000, 11, 11), genres, null);
 
         user1 = new User("novak", "novak@mail.com");
         user2 = new User("svoboda", "svoboda@mail.com");
