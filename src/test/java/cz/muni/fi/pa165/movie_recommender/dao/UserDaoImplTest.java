@@ -10,8 +10,15 @@ import org.testng.annotations.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 
+/**
+ * Test class for UserDaoImpl.
+ *
+ * @author Kristian Tkacik
+ */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
 
@@ -63,6 +70,55 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         }
     }
 
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createDuplicateTest() {
+        User u = new User("Cameron", "diaz@mail.com");
+        userDao.create(u);
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createWithNonUniqueUsernameTest() {
+        User u = new User("John", "diaz@mail.com");
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createWithNonUniqueMailAddressTest() {
+        User u = new User("Cameron", "john@mail.com");
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createWithNullUsernameTest() {
+        User u = new User(null, "diaz@mail.com");
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createWithNullMailAddressTest() {
+        User u = new User("Cameron", null);
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createWithInvalidEmailTest() {
+        User u = new User("Cameron", "mail");
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createWithEmptyUsernameTest() {
+        User u = new User("", "diaz@mail.com");
+        userDao.create(u);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createWithEmptyMailAddressTest() {
+        User u = new User("Cameron", "");
+        userDao.create(u);
+    }
+
     @Test
     public void findAllTest() {
         Assert.assertTrue(userDao.findAll().contains(u1));
@@ -78,14 +134,16 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByUsernameTest() {
-        Assert.assertEquals(userDao.findByUsername("John"), u1);
-        Assert.assertEquals(userDao.findByUsername("Maria"), u2);
+        Assert.assertTrue(userDao.findByUsername("John").contains(u1));
+        Assert.assertTrue(userDao.findByUsername("Maria").contains(u2));
+        Assert.assertEquals(userDao.findByUsername("John").size(), 1);
+        Assert.assertEquals(userDao.findByUsername("Maria").size(), 1);
     }
 
     @Test
     public void updateTest() {
         u1.setMailAddress("john@newmail.com");
-        u2.setMailAddress("maria@newmail.com");
+        u2.setMailAddress("maria@newemail.com");
 
         userDao.update(u1);
         userDao.update(u2);
@@ -98,8 +156,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
             User foundUser2 = em.find(User.class, u2.getId());
             em.getTransaction().commit();
 
-            Assert.assertEquals(foundUser1.getMailAddress(), u1.getMailAddress());
-            Assert.assertEquals(foundUser2.getMailAddress(), u2.getMailAddress());
+            Assert.assertEquals(foundUser1, u1);
+            Assert.assertEquals(foundUser2, u2);
         } finally {
             if (em != null) {
                 em.close();
@@ -115,6 +173,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
+
             em.getTransaction().begin();
             User foundUser1 = em.find(User.class, u1.getId());
             User foundUser2 = em.find(User.class, u2.getId());
