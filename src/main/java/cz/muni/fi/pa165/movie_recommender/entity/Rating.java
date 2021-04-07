@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,24 +34,29 @@ public class Rating {
     @Column(nullable = false)
     private BigDecimal overallScore;
 
-    @NotNull
     @Column(nullable = false)
+    @Min(1)
+    @Max(5)
     private int originality;
 
-    @NotNull
     @Column(nullable = false)
+    @Min(1)
+    @Max(5)
     private int soundtrack;
 
-    @NotNull
     @Column(nullable = false)
+    @Min(1)
+    @Max(5)
     private int narrative;
 
-    @NotNull
     @Column(nullable = false)
+    @Min(1)
+    @Max(5)
     private int cinematography;
 
-    @NotNull
     @Column(nullable = false)
+    @Min(1)
+    @Max(5)
     private int depth;
 
     public Rating() {
