@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +50,14 @@ public class User {
 
     public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
+    }
+
+    public List<Rating> getUserRatings() {
+        return Collections.unmodifiableList(userRatings);
+    }
+
+    public void addRating(Rating rating) {
+        userRatings.add(rating);
     }
 
     @Override
