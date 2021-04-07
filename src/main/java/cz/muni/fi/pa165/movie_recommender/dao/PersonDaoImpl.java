@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Jiri Papousek
  */
 @Repository
+@Transactional
 public class PersonDaoImpl implements PersonDao {
 
     @PersistenceContext
