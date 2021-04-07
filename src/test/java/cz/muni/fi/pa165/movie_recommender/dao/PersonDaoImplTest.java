@@ -1,25 +1,29 @@
 package cz.muni.fi.pa165.movie_recommender.dao;
 
 import cz.muni.fi.pa165.movie_recommender.PersistenceApplicationContext;
-import cz.muni.fi.pa165.movie_recommender.entity.Movie;
 import cz.muni.fi.pa165.movie_recommender.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Tests for PersonDaoImpl methods
+ *
+ * @author Radoslav Chudovsky
+ */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-public class PersonDaoTest extends AbstractTestNGSpringContextTests {
+public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private PersonDao personDao;
@@ -34,6 +38,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
         persistToDB(p);
 
         Person found = personDao.findById(p.getId());
+
         Assert.assertNotNull(found);
         Assert.assertEquals(found, p);
     }
@@ -41,8 +46,8 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void createTest() {
         Person p = new Person();
-        p.setName("Some name");
-        p.setBio("Some bio");
+        p.setName("name");
+        p.setBio("bio");
         p.setDateOfBirth(LocalDate.of(1990, 4, 22));
 
         personDao.create(p);
@@ -50,10 +55,33 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
         Person found = getFromDB(p.getId());
 
         Assert.assertNotNull(found);
-        Assert.assertEquals(found.getName(), p.getName());
-        Assert.assertEquals(found.getBio(), p.getBio());
-        Assert.assertEquals(found.getDateOfBirth(), p.getDateOfBirth());
         Assert.assertEquals(found, p);
+    }
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createDuplicateTest() {
+        Person p = new Person();
+        p.setName("name");
+        p.setBio("bio");
+        p.setDateOfBirth(LocalDate.of(1990, 4, 22));
+
+        personDao.create(p);
+        personDao.create(p);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void nullNameTest() {
+        Person p = new Person();
+
+        personDao.create(p);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void emptyNameTest() {
+        Person p = new Person();
+        p.setName("");
+
+        personDao.create(p);
     }
 
     @Test
@@ -107,40 +135,31 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void removeTest() {
         Person p = new Person();
         p.setName("name");
-
         persistToDB(p);
-        Assert.assertNotNull(getFromDB(p.getId()));
 
         personDao.remove(p);
+
         Assert.assertNull(getFromDB(p.getId()));
     }
 
     @Test
     public void updateTest() {
         Person p = new Person();
-        p.setName("Some name");
-        p.setBio("Some bio");
+        p.setName("name");
+        p.setBio("bio");
         p.setDateOfBirth(LocalDate.of(1990, 4, 22));
         persistToDB(p);
 
         p.setName("new name");
         p.setBio("new bio");
         p.setDateOfBirth(LocalDate.of(2000, 1, 1));
+
         personDao.update(p);
 
         Person found = getFromDB(p.getId());
-        Assert.assertEquals(found.getName(), "new name");
-        Assert.assertEquals(found.getBio(), "new bio");
-        Assert.assertEquals(found.getDateOfBirth(), LocalDate.of(2000, 1, 1));
+
+        Assert.assertEquals(found, p);
     }
-
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void nullNameTest() {
-        Person p = new Person();
-        personDao.create(p);
-    }
-
-
 
     private void persistToDB(Object object) {
         EntityManager em = null;
@@ -179,7 +198,6 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
             em = emf.createEntityManager();
             em.getTransaction().begin();
             em.createQuery("delete from Person").executeUpdate();
-            em.createQuery("delete from Movie").executeUpdate();
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -187,6 +205,4 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
             }
         }
     }
-
-
 }
