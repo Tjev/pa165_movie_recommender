@@ -1,8 +1,11 @@
 package cz.muni.fi.pa165.movie_recommender.dao;
 
-import cz.muni.fi.pa165.movie_recommender.dao.PersonDao;
 import cz.muni.fi.pa165.movie_recommender.entity.Person;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -10,35 +13,45 @@ import java.util.List;
  *
  * @author Jiri Papousek
  */
+@Repository
+@Transactional
 public class PersonDaoImpl implements PersonDao {
+
+    @PersistenceContext
+    EntityManager em;
 
     @Override
     public void create(Person person) {
-
+        em.persist(person);
     }
 
     @Override
     public List<Person> findAll() {
-        return null;
+        return em.createQuery("select p from Person p", Person.class).getResultList();
     }
 
     @Override
     public Person findById(Long id) {
-        return null;
+        return em.find(Person.class, id);
     }
 
     @Override
     public List<Person> findByName(String name) {
-        return null;
+        return em.createQuery("select p from Person p where p.name = :name", Person.class)
+                .setParameter("name", name)
+                .getResultList();
     }
 
     @Override
     public void update(Person person) {
-
+        em.merge(person);
     }
 
     @Override
     public void remove(Person person) {
-
+        if (!em.contains(person)) {
+            person = em.merge(person);
+        }
+        em.remove(person);
     }
 }
