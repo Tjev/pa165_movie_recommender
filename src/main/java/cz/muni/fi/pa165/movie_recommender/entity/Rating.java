@@ -35,28 +35,28 @@ public class Rating {
     private BigDecimal overallScore;
 
     @Column(nullable = false)
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int originality;
 
     @Column(nullable = false)
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int soundtrack;
 
     @Column(nullable = false)
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int narrative;
 
     @Column(nullable = false)
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int cinematography;
 
     @Column(nullable = false)
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int depth;
 
     public Rating() {
