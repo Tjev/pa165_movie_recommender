@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Tomas Jevocin
  */
 @Entity
+@Table(name = "system_user")
 public class User {
 
     @Id
@@ -58,8 +59,7 @@ public class User {
         User user = (User) o;
 
         if (!getUsername().equals(user.getUsername())) return false;
-        if (!getMailAddress().equals(user.getMailAddress())) return false;
-        return Objects.equals(userRatings, user.userRatings);
+        return getMailAddress().equals(user.getMailAddress());
     }
 
     @Override
@@ -68,5 +68,4 @@ public class User {
                 getUsername(),
                 getMailAddress());
     }
-
 }
