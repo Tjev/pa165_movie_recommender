@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,7 @@ public class User {
     private String username;
 
     @Column(nullable = false, unique = true)
+    @Email(message = "Should be a valid email address")
     private String mailAddress;
 
     @OneToMany(mappedBy = "user")
