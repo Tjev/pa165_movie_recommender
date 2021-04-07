@@ -1,7 +1,10 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,16 +14,19 @@ import java.util.Objects;
  * @author Tomas Jevocin
  */
 @Entity
-@Table(name = "system_user")
+@Table(name = "app_user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     @Column(nullable = false, unique = true)
     private String username;
 
+    @NotEmpty
+    @Email(message = "Should be a valid email address")
     @Column(nullable = false, unique = true)
     private String mailAddress;
 
@@ -49,6 +55,14 @@ public class User {
 
     public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
+    }
+
+    public List<Rating> getUserRatings() {
+        return Collections.unmodifiableList(userRatings);
+    }
+
+    public void addRating(Rating rating) {
+        userRatings.add(rating);
     }
 
     @Override
