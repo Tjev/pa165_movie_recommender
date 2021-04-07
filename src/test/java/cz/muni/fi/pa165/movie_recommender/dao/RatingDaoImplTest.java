@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.movie_recommender.entity.Movie;
 import cz.muni.fi.pa165.movie_recommender.entity.Rating;
 import cz.muni.fi.pa165.movie_recommender.entity.User;
 
+import javax.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -15,6 +16,7 @@ import org.testng.annotations.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -52,10 +54,47 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createTest() {
-        EntityManager em = emf.createEntityManager();
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
+
         dao.create(rating);
+
         Assert.assertEquals(getFromDB(rating.getId()), rating);
+    }
+
+    @Test(expectedExceptions = PersistenceException.class)
+    public void createDuplicateTest() {
+        Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
+
+        dao.create(rating);
+        dao.create(rating);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createWithTooHighOriginalityTest() {
+        Rating rating = new Rating(movie1, user1, 6, 2, 3, 4, 5);
+
+        dao.create(rating);
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void createWithTooLowOriginalityTest() {
+        Rating rating = new Rating(movie1, user1, 0, 2, 3, 4, 5);
+
+        dao.create(rating);
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void createRatingWithoutMovie() {
+        Rating rating = new Rating(null, user1, 1, 2, 3, 4, 5);
+
+        dao.create(rating);
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void createRatingWithoutUser() {
+        Rating rating = new Rating(movie1, null, 1, 2, 3, 4, 5);
+
+        dao.create(rating);
     }
 
     @Test
@@ -79,19 +118,23 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test
     void findByIdTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
+
         persistToDB(rating);
+
         Assert.assertEquals(dao.findById(rating.getId()), rating);
     }
 
     @Test
     public void updateTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
-        persistToDB(rating);
 
+        persistToDB(rating);
+        rating.setMovie(movie2);
+        rating.setUser(user2);
         rating.setOriginality(4);
         dao.update(rating);
 
-        Assert.assertEquals(getFromDB(rating.getId()).getOriginality(), 4);
+        Assert.assertEquals(getFromDB(rating.getId()), rating);
     }
 
     @Test
