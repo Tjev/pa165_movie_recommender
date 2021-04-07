@@ -39,6 +39,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
+
             em.getTransaction().begin();
             em.persist(u1);
             em.persist(u2);
@@ -58,6 +59,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
+
             em.getTransaction().begin();
             User foundUser = em.find(User.class, u.getId());
             em.getTransaction().commit();
@@ -73,6 +75,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void createDuplicateTest() {
         User u = new User("Cameron", "diaz@mail.com");
+
         userDao.create(u);
         userDao.create(u);
     }
@@ -80,42 +83,49 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void createWithNonUniqueUsernameTest() {
         User u = new User("John", "diaz@mail.com");
+
         userDao.create(u);
     }
 
     @Test(expectedExceptions = PersistenceException.class)
     public void createWithNonUniqueMailAddressTest() {
         User u = new User("Cameron", "john@mail.com");
+
         userDao.create(u);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithNullUsernameTest() {
         User u = new User(null, "diaz@mail.com");
+
         userDao.create(u);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithNullMailAddressTest() {
         User u = new User("Cameron", null);
+
         userDao.create(u);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithInvalidEmailTest() {
         User u = new User("Cameron", "mail");
+
         userDao.create(u);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithEmptyUsernameTest() {
         User u = new User("", "diaz@mail.com");
+
         userDao.create(u);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithEmptyMailAddressTest() {
         User u = new User("Cameron", "");
+
         userDao.create(u);
     }
 
@@ -151,6 +161,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
+
             em.getTransaction().begin();
             User foundUser1 = em.find(User.class, u1.getId());
             User foundUser2 = em.find(User.class, u2.getId());
@@ -193,6 +204,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
+
             em.getTransaction().begin();
             em.createQuery("delete from User").executeUpdate();
             em.getTransaction().commit();
