@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Tomas Jevocin
  */
 @Entity
-@Table(name = "system_user")
+@Table(name = "app_user")
 public class User {
 
     @Id
