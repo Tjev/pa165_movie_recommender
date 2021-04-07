@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.movie_recommender.dao;
 
 import cz.muni.fi.pa165.movie_recommender.entity.Rating;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Kristian Tkacik
  */
 @Repository
+@Transactional
 public class RatingDaoImpl implements RatingDao {
 
     @PersistenceContext
