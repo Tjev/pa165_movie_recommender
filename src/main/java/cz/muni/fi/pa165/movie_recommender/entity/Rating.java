@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -17,30 +20,43 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @JoinColumn(nullable = false)
     @ManyToOne()
     private Movie movie;
 
+    @NotNull
     @JoinColumn(nullable = false)
     @ManyToOne()
     private User user;
 
+    @NotNull
     @Column(nullable = false)
     private BigDecimal overallScore;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int originality;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int soundtrack;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int narrative;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int cinematography;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Minimum rating value is 1")
+    @Max(value = 5, message = "Maximum rating value is 5")
     private int depth;
 
     public Rating() {
@@ -139,8 +155,7 @@ public class Rating {
         if (getDepth() != rating.getDepth()) return false;
         if (getNarrative() != rating.getNarrative()) return false;
         if (getOriginality() != rating.getOriginality()) return false;
-        if (getSoundtrack() != rating.getSoundtrack()) return false;
-        return getOverallScore().equals(rating.getOverallScore());
+        return getSoundtrack() == rating.getSoundtrack();
     }
 
     @Override
@@ -148,7 +163,6 @@ public class Rating {
         return Objects.hash(
                 getMovie(),
                 getUser(),
-                getOverallScore(),
                 getOriginality(),
                 getSoundtrack(),
                 getNarrative(),
