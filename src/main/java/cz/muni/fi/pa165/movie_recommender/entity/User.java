@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.movie_recommender.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,11 +21,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @NotEmpty
     @Email(message = "Should be a valid email address")
+    @Column(nullable = false, unique = true)
     private String mailAddress;
 
     @OneToMany(mappedBy = "user")
