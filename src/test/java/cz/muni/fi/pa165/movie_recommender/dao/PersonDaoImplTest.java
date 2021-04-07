@@ -32,18 +32,6 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
     EntityManagerFactory emf;
 
     @Test
-    public void findByIdTest() {
-        Person p = new Person();
-        p.setName("name");
-        persistToDB(p);
-
-        Person found = personDao.findById(p.getId());
-
-        Assert.assertNotNull(found);
-        Assert.assertEquals(found, p);
-    }
-
-    @Test
     public void createTest() {
         Person p = new Person();
         p.setName("name");
@@ -54,7 +42,6 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
 
         Person found = getFromDB(p.getId());
 
-        Assert.assertNotNull(found);
         Assert.assertEquals(found, p);
     }
 
@@ -100,11 +87,21 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
 
         List<Person> found = personDao.findAll();
 
-        Assert.assertNotNull(found);
         Assert.assertEquals(found.size(), 3);
         Assert.assertTrue(found.contains(firstP));
         Assert.assertTrue(found.contains(secondP));
         Assert.assertTrue(found.contains(thirdP));
+    }
+
+    @Test
+    public void findByIdTest() {
+        Person p = new Person();
+        p.setName("name");
+        persistToDB(p);
+
+        Person found = personDao.findById(p.getId());
+
+        Assert.assertEquals(found, p);
     }
 
     @Test
@@ -124,22 +121,10 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
 
         List<Person> found = personDao.findByName(name);
 
-        Assert.assertNotNull(found);
         Assert.assertEquals(found.size(), 2);
         Assert.assertTrue(found.contains(firstP));
         Assert.assertTrue(found.contains(secondP));
         Assert.assertFalse(found.contains(thirdP));
-    }
-
-    @Test
-    public void removeTest() {
-        Person p = new Person();
-        p.setName("name");
-        persistToDB(p);
-
-        personDao.remove(p);
-
-        Assert.assertNull(getFromDB(p.getId()));
     }
 
     @Test
@@ -159,6 +144,32 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
         Person found = getFromDB(p.getId());
 
         Assert.assertEquals(found, p);
+    }
+
+    @Test
+    public void removeTest() {
+        Person p = new Person();
+        p.setName("name");
+        persistToDB(p);
+
+        personDao.remove(p);
+
+        Assert.assertNull(getFromDB(p.getId()));
+    }
+
+    @AfterMethod
+    public void afterTest() {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.createQuery("delete from Person").executeUpdate();
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 
     private void persistToDB(Object object) {
@@ -189,20 +200,5 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
             }
         }
         return p;
-    }
-
-    @AfterMethod
-    public void afterTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from Person").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
     }
 }
