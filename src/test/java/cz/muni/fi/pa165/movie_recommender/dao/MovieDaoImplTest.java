@@ -14,7 +14,10 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +27,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     @PersistenceUnit
     private EntityManagerFactory emf;
 
-    private static final Set<Genre> genres = Set.of(Genre.ACTION);
+    private static final Set<Genre> genres = new HashSet<>(Arrays.asList(Genre.ACTION));
 
     Movie titanic;
     Movie suspiria;
@@ -56,7 +59,8 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    private void createTest() {
+    public void createTest() {
+
         Movie braveheart = new Movie("Braveheart", null, LocalDate.of(1995, 5, 19), genres, null);
 
         movieDao.create(braveheart);
@@ -76,8 +80,32 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
         }
     }
 
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void nullTitleTest() {
+
+        Movie movie = new Movie(null, null, LocalDate.of(2000, 1, 1), genres, null);
+
+        movieDao.create(movie);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void emptyTitleTest() {
+
+        Movie movie = new Movie("", null, LocalDate.of(2000, 1, 1), genres, null);
+
+        movieDao.create(movie);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void nullDateTest() {
+
+        Movie braveheart = new Movie("Braveheart", null, null, genres, null);
+
+        movieDao.create(braveheart);
+    }
+
     @Test
-    private void findAllTest() {
+    public void findAllTest() {
 
         List<Movie> result = movieDao.findAll();
 
@@ -87,7 +115,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    private void findByIdTest() {
+    public void findByIdTest() {
 
         Movie result = movieDao.findById(suspiria.getId());
 
@@ -95,7 +123,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    private void findByTitleTest() {
+    public void findByTitleTest() {
 
         List<Movie> result = movieDao.findByTitle(titanic.getTitle());
 
@@ -103,7 +131,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    private void findByTitleMultipleResultsTest() {
+    public void findByTitleMultipleResultsTest() {
 
         List<Movie> result = movieDao.findByTitle("Suspiria");
 
@@ -112,7 +140,8 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    private void updateMovieTest() {
+    public void updateMovieTest() {
+
         Movie braveheart = new Movie("Braveheart", null, LocalDate.of(1995, 5, 19), genres, null);
         String bio = "It has Mel Gibson in it...";
 
@@ -140,7 +169,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    private void removeMovieTest() {
+    public void removeMovieTest() {
 
         movieDao.remove(suspiria);
 
@@ -163,6 +192,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @AfterMethod
     private void tearDown() {
+
         EntityManager em = emf.createEntityManager();
 
         try {
