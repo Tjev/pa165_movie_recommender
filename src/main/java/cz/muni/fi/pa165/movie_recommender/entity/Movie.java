@@ -37,7 +37,7 @@ public class Movie {
     @NotEmpty
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Genre> genres = new HashSet<>();
