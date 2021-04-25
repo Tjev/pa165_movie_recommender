@@ -29,8 +29,8 @@ public class User implements Serializable {
 
     @NotEmpty
     @Email(message = "Should be a valid email address")
-    @Column(name = "mail_address", nullable = false, unique = true)
-    private String mailAddress;
+    @Column(name = "email_address", nullable = false, unique = true)
+    private String emailAddress;
 
     @OneToMany(mappedBy = "user")
     @Column(name = "user_ratings")
@@ -39,9 +39,9 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String mailAddress) {
+    public User(String username, String emailAddress) {
         this.username = username;
-        this.mailAddress = mailAddress;
+        this.emailAddress = emailAddress;
     }
 
     public Long getId() {
@@ -52,12 +52,12 @@ public class User implements Serializable {
         return username;
     }
 
-    public String getMailAddress() {
-        return mailAddress;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setMailAddress(String mailAddress) {
-        this.mailAddress = mailAddress;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public List<Rating> getUserRatings() {
@@ -76,14 +76,14 @@ public class User implements Serializable {
         User user = (User) o;
 
         if (!getUsername().equals(user.getUsername())) return false;
-        return getMailAddress().equals(user.getMailAddress());
+        return getEmailAddress().equals(user.getEmailAddress());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
                 getUsername(),
-                getMailAddress());
+                getEmailAddress());
     }
 
     @Override
@@ -91,7 +91,7 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", mailAddress='" + mailAddress + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }
 }

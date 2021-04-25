@@ -152,8 +152,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateTest() {
-        u1.setMailAddress("john@newmail.com");
-        u2.setMailAddress("maria@newemail.com");
+        u1.setEmailAddress("john@newmail.com");
+        u2.setEmailAddress("maria@newemail.com");
 
         userDao.update(u1);
         userDao.update(u2);
