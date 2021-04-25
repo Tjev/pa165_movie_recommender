@@ -27,7 +27,7 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public List<Rating> findAll() {
-        return em.createQuery("select r from Rating r", Rating.class).getResultList();
+        return em.createQuery("SELECT r FROM Rating r", Rating.class).getResultList();
     }
 
     @Override

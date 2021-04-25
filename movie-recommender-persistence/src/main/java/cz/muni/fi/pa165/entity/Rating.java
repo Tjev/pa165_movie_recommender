@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -14,47 +15,49 @@ import java.util.Objects;
  * @author Kristian Tkacik
  */
 @Entity
-public class Rating {
+@Table(name = "rating")
+public class Rating implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "movie", nullable = false)
     @ManyToOne()
     private Movie movie;
 
     @NotNull
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "app_user", nullable = false)
     @ManyToOne()
     private User user;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "overall_score", nullable = false)
     private BigDecimal overallScore;
 
-    @Column(nullable = false)
+    @Column(name = "originality", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int originality;
 
-    @Column(nullable = false)
+    @Column(name = "soundtrack", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int soundtrack;
 
-    @Column(nullable = false)
+    @Column(name = "narrative", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int narrative;
 
-    @Column(nullable = false)
+    @Column(name = "cinematography", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int cinematography;
 
-    @Column(nullable = false)
+    @Column(name = "depth", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int depth;
@@ -177,5 +180,20 @@ public class Rating {
                             getNarrative() +
                             getCinematography() +
                             getDepth()).divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
+    }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "id=" + id +
+                ", movie=" + movie +
+                ", user=" + user +
+                ", overallScore=" + overallScore +
+                ", originality=" + originality +
+                ", soundtrack=" + soundtrack +
+                ", narrative=" + narrative +
+                ", cinematography=" + cinematography +
+                ", depth=" + depth +
+                '}';
     }
 }

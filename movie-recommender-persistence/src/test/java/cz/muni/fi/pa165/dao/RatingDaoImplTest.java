@@ -196,9 +196,9 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
 
         em.getTransaction().begin();
 
-        em.createQuery("delete from Rating").executeUpdate();
-        em.createQuery("delete from Movie").executeUpdate();
-        em.createQuery("delete from User").executeUpdate();
+        em.createQuery("DELETE FROM Rating").executeUpdate();
+        em.createQuery("DELETE FROM Movie").executeUpdate();
+        em.createQuery("DELETE FROM User").executeUpdate();
 
         em.getTransaction().commit();
         em.close();

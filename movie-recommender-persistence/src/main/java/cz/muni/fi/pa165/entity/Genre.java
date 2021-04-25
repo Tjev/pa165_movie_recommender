@@ -24,5 +24,11 @@ public enum Genre {
     SPORT,
     THRILLER,
     WAR,
-    WESTERN
+    WESTERN;
+
+    @Override
+    public String toString() {
+        var s = this.name();
+        return s.charAt(0) + s.substring(1).toLowerCase();
+    }
 }

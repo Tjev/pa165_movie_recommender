@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Objects;
@@ -14,24 +15,30 @@ import java.util.Set;
  * @author Jiri Papousek
  */
 @Entity
-public class Person {
+@Table(name = "person")
+public class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "bio")
     private String bio;
 
     @ManyToMany(mappedBy = "directors")
+    @Column(name = "directed_movies")
     private Set<Movie> directedMovies;
 
     @ManyToMany(mappedBy = "actors")
+    @Column(name = "acts_in_movies")
     private Set<Movie> actsInMovies;
 
     public Person() {}
@@ -116,5 +123,15 @@ public class Person {
         return Objects.hash(getName(),
                 getDateOfBirth(),
                 getBio());
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", bio='" + bio + '\'' +
+                '}';
     }
 }

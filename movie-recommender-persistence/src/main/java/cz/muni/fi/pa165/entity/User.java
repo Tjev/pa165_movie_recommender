@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,22 +16,24 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "app_user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @NotEmpty
     @Email(message = "Should be a valid email address")
-    @Column(nullable = false, unique = true)
+    @Column(name = "mail_address", nullable = false, unique = true)
     private String mailAddress;
 
     @OneToMany(mappedBy = "user")
+    @Column(name = "user_ratings")
     private List<Rating> userRatings = new ArrayList<>();
 
     public User() {
@@ -81,5 +84,14 @@ public class User {
         return Objects.hash(
                 getUsername(),
                 getMailAddress());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", mailAddress='" + mailAddress + '\'' +
+                '}';
     }
 }

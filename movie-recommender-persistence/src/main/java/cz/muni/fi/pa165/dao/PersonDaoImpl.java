@@ -27,7 +27,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> findAll() {
-        return em.createQuery("select p from Person p", Person.class).getResultList();
+        return em.createQuery("SELECT p FROM Person p", Person.class).getResultList();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> findByName(String name) {
-        return em.createQuery("select p from Person p where p.name = :name", Person.class)
+        return em.createQuery("SELECT p FROM Person p WHERE p.name = :name", Person.class)
                 .setParameter("name", name)
                 .getResultList();
     }

@@ -197,7 +197,7 @@ public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
 
         try {
             em.getTransaction().begin();
-            em.createQuery("delete from Movie").executeUpdate();
+            em.createQuery("DELETE FROM Movie").executeUpdate();
             em.getTransaction().commit();
         } finally {
             if (em != null) {

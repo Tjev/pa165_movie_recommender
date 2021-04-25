@@ -206,7 +206,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
             em = emf.createEntityManager();
 
             em.getTransaction().begin();
-            em.createQuery("delete from User").executeUpdate();
+            em.createQuery("DELETE FROM User").executeUpdate();
             em.getTransaction().commit();
         } finally {
             if (em != null) {
