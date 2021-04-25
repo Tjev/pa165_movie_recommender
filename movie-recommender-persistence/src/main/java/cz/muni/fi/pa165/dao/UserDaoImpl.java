@@ -43,6 +43,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User findByEmailAddress(String emailAddress) {
+        return em.createQuery("SELECT u FROM User u WHERE u.emailAddress = :emailAdress", User.class)
+                .setParameter("emailAddress", emailAddress)
+                .getSingleResult();
+    }
+
+    @Override
     public void update(User user) {
         em.merge(user);
     }

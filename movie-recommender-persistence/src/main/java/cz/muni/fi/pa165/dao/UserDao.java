@@ -42,6 +42,14 @@ public interface UserDao {
     List<User> findByUsername(String username);
 
     /**
+     * Retrieve a user by its email address from the data source.
+     *
+     * @param emailAddress - email address of the user
+     * @return user entity matching the emailAddress
+     */
+    User findByEmailAddress(String emailAddress);
+
+    /**
      * Merges user by its ID with its current representation in the data source.
      *
      * @param user
