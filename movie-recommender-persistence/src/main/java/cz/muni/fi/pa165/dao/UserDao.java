@@ -52,7 +52,7 @@ public interface UserDao {
     /**
      * Merges user by its ID with its current representation in the data source.
      *
-     * @param user
+     * @param user - user to be updated
      */
     void update(User user);
 
