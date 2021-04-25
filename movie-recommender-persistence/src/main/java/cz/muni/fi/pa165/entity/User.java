@@ -28,6 +28,11 @@ public class User implements Serializable {
     private String username;
 
     @NotEmpty
+    private String passwordHash;
+
+    private boolean admin;
+
+    @NotEmpty
     @Email(message = "Should be a valid email address")
     @Column(name = "email_address", nullable = false, unique = true)
     private String emailAddress;
@@ -52,6 +57,14 @@ public class User implements Serializable {
         return username;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -66,6 +79,14 @@ public class User implements Serializable {
 
     public void addRating(Rating rating) {
         userRatings.add(rating);
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isAdmin() {
+        return admin;
     }
 
     @Override
