@@ -12,4 +12,12 @@
     <artifactId>movie-recommender-service</artifactId>
     <packaging>jar</packaging>
     <name>Service Layer</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>movie-recommender-persistence</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
 </project>
