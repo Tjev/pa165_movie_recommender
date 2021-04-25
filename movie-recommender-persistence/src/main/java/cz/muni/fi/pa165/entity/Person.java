@@ -15,24 +15,30 @@ import java.util.Set;
  * @author Jiri Papousek
  */
 @Entity
+@Table(name = "person")
 public class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "bio")
     private String bio;
 
     @ManyToMany(mappedBy = "directors")
+    @Column(name = "directed_movies")
     private Set<Movie> directedMovies;
 
     @ManyToMany(mappedBy = "actors")
+    @Column(name = "acts_in_movies")
     private Set<Movie> actsInMovies;
 
     public Person() {}

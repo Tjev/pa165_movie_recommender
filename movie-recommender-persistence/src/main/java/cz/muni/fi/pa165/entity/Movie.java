@@ -19,31 +19,36 @@ import java.util.Set;
  * @author Radoslav Chudovsky
  */
 @Entity
+@Table(name = "movie")
 public class Movie implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "bio")
     private String bio;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "release_year", nullable = false)
     private LocalDate releaseYear;
 
     @NotEmpty
-    @Column(nullable = false)
+    @Column(name = "genres", nullable = false)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Genre> genres = new HashSet<>();
 
     @Lob
+    @Column(name = "graphics")
     private byte[] graphics;
 
     @ManyToMany()
@@ -55,6 +60,7 @@ public class Movie implements Serializable {
     private Set<Person> actors = new HashSet<>();
 
     @OneToMany(mappedBy = "movie")
+    @Column(name = "ratings")
     private Set<Rating> ratings = new HashSet<>();
 
     public Movie() {

@@ -15,47 +15,49 @@ import java.util.Objects;
  * @author Kristian Tkacik
  */
 @Entity
+@Table(name = "rating")
 public class Rating implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "movie", nullable = false)
     @ManyToOne()
     private Movie movie;
 
     @NotNull
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "app_user", nullable = false)
     @ManyToOne()
     private User user;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "overall_score", nullable = false)
     private BigDecimal overallScore;
 
-    @Column(nullable = false)
+    @Column(name = "originality", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int originality;
 
-    @Column(nullable = false)
+    @Column(name = "soundtrack", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int soundtrack;
 
-    @Column(nullable = false)
+    @Column(name = "narrative", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int narrative;
 
-    @Column(nullable = false)
+    @Column(name = "cinematography", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int cinematography;
 
-    @Column(nullable = false)
+    @Column(name = "depth", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int depth;

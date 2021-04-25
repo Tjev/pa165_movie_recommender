@@ -20,18 +20,20 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @NotEmpty
     @Email(message = "Should be a valid email address")
-    @Column(nullable = false, unique = true)
+    @Column(name = "mail_address", nullable = false, unique = true)
     private String mailAddress;
 
     @OneToMany(mappedBy = "user")
+    @Column(name = "user_ratings")
     private List<Rating> userRatings = new ArrayList<>();
 
     public User() {
