@@ -5,7 +5,7 @@ import cz.muni.fi.pa165.entity.User;
 import java.util.List;
 
 /**
- * DAO for manipulation with User entities
+ * DAO for manipulation with {@link User} entities
  *
  * @author Tomas Jevocin.
  */
