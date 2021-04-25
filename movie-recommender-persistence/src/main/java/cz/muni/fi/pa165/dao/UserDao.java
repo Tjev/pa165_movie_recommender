@@ -26,7 +26,7 @@ public interface UserDao {
     List<User> findAll();
 
     /**
-     * Retrieve a user by its ID from the data source.
+     * Retrieves a user by its ID from the data source.
      *
      * @param id - id of the user
      * @return user entity matching the id
@@ -34,7 +34,7 @@ public interface UserDao {
     User findById(Long id);
 
     /**
-     * Retrieve a user by its username from the data source.
+     * Retrieves a user by its username from the data source.
      *
      * @param username - username on which the user should be matched
      * @return user entity matching the given username
@@ -42,7 +42,7 @@ public interface UserDao {
     User findByUsername(String username);
 
     /**
-     * Retrieve a user by its email address from the data source.
+     * Retrieves a user by its email address from the data source.
      *
      * @param emailAddress - email address of the user
      * @return user entity matching the emailAddress
@@ -57,7 +57,7 @@ public interface UserDao {
     void update(User user);
 
     /**
-     * Remove user from the data source.
+     * Removes user from the data source.
      *
      * @param user - user to be removed
      */
