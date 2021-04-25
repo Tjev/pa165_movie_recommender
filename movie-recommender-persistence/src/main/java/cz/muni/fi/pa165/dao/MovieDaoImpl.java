@@ -19,7 +19,7 @@ import java.util.List;
 public class MovieDaoImpl implements MovieDao {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Override
     public void create(Movie movie) {
