@@ -28,7 +28,7 @@ public class MovieDaoImpl implements MovieDao {
 
     @Override
     public List<Movie> findAll() {
-        return em.createQuery("select m from Movie m", Movie.class).getResultList();
+        return em.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MovieDaoImpl implements MovieDao {
 
     @Override
     public List<Movie> findByTitle(String title) {
-        return em.createQuery("select m from Movie m where m.title=:title", Movie.class)
+        return em.createQuery("SELECT m FROM Movie m WHERE m.title=:title", Movie.class)
                 .setParameter("title", title)
                 .getResultList();
     }

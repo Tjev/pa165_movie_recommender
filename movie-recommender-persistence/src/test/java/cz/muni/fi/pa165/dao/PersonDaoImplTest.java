@@ -163,7 +163,7 @@ public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
-            em.createQuery("delete from Person").executeUpdate();
+            em.createQuery("DELETE FROM Person").executeUpdate();
             em.getTransaction().commit();
         } finally {
             if (em != null) {

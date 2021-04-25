@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-        return em.createQuery("select u from User u", User.class).getResultList();
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findByUsername(String username) {
-        return em.createQuery("select u from User u where u.username = :username", User.class)
+        return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
                 .setParameter("username", username)
                 .getResultList();
     }
