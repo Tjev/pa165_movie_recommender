@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Set;
  * @author Jiri Papousek
  */
 @Entity
-public class Person {
+public class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
