@@ -177,4 +177,15 @@ public class Movie implements Serializable {
                 getYear(),
                 getGenres());
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", bio='" + bio + '\'' +
+                ", releaseYear=" + releaseYear +
+                ", genres=" + genres +
+                '}';
+    }
 }

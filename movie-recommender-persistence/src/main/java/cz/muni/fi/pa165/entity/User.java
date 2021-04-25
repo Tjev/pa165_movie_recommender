@@ -83,4 +83,13 @@ public class User implements Serializable {
                 getUsername(),
                 getMailAddress());
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", mailAddress='" + mailAddress + '\'' +
+                '}';
+    }
 }

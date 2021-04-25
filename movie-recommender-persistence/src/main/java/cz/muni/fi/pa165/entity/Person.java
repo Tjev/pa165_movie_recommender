@@ -118,4 +118,14 @@ public class Person implements Serializable {
                 getDateOfBirth(),
                 getBio());
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", bio='" + bio + '\'' +
+                '}';
+    }
 }

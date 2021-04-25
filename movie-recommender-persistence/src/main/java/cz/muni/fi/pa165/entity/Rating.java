@@ -179,4 +179,19 @@ public class Rating implements Serializable {
                             getCinematography() +
                             getDepth()).divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
     }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "id=" + id +
+                ", movie=" + movie +
+                ", user=" + user +
+                ", overallScore=" + overallScore +
+                ", originality=" + originality +
+                ", soundtrack=" + soundtrack +
+                ", narrative=" + narrative +
+                ", cinematography=" + cinematography +
+                ", depth=" + depth +
+                '}';
+    }
 }
