@@ -34,12 +34,12 @@ public interface UserDao {
     User findById(Long id);
 
     /**
-     * Retrieve users with matching username from the data source.
+     * Retrieve a user by its username from the data source.
      *
      * @param username - username on which the user should be matched
-     * @return users entities which match the given username
+     * @return user entity matching the given username
      */
-    List<User> findByUsername(String username);
+    User findByUsername(String username);
 
     /**
      * Retrieve a user by its email address from the data source.

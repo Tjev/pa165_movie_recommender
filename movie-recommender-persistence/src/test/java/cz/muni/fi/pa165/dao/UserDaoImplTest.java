@@ -144,10 +144,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByUsernameTest() {
-        Assert.assertTrue(userDao.findByUsername("John").contains(u1));
-        Assert.assertTrue(userDao.findByUsername("Maria").contains(u2));
-        Assert.assertEquals(userDao.findByUsername("John").size(), 1);
-        Assert.assertEquals(userDao.findByUsername("Maria").size(), 1);
+        Assert.assertEquals(userDao.findByUsername("John"), u1);
+        Assert.assertEquals(userDao.findByUsername("Maria"), u2);
     }
 
     @Test
