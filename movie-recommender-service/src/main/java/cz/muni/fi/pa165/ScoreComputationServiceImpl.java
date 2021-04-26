@@ -12,6 +12,11 @@ import java.math.RoundingMode;
 import java.util.Set;
 import java.util.function.ToIntFunction;
 
+/**
+ * Implementation of ScoreComputationService.
+ *
+ * @author Kristian Tkacik
+ */
 @Service
 public class ScoreComputationServiceImpl implements ScoreComputationService {
 
