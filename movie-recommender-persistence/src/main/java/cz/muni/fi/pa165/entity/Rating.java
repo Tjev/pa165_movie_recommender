@@ -33,10 +33,6 @@ public class Rating implements Serializable {
     @ManyToOne()
     private User user;
 
-    @NotNull
-    @Column(name = "overall_score", nullable = false)
-    private BigDecimal overallScore;
-
     @Column(name = "originality", nullable = false)
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
@@ -73,7 +69,6 @@ public class Rating implements Serializable {
         this.narrative = narrative;
         this.cinematography = cinematography;
         this.depth = depth;
-        updateOverallScore();
     }
 
     public Long getId() {
@@ -96,17 +91,12 @@ public class Rating implements Serializable {
         this.user = user;
     }
 
-    public BigDecimal getOverallScore() {
-        return overallScore;
-    }
-
     public int getOriginality() {
         return originality;
     }
 
     public void setOriginality(int originality) {
         this.originality = originality;
-        updateOverallScore();
     }
 
     public int getSoundtrack() {
@@ -115,7 +105,6 @@ public class Rating implements Serializable {
 
     public void setSoundtrack(int soundtrack) {
         this.soundtrack = soundtrack;
-        updateOverallScore();
     }
 
     public int getNarrative() {
@@ -124,7 +113,6 @@ public class Rating implements Serializable {
 
     public void setNarrative(int narrative) {
         this.narrative = narrative;
-        updateOverallScore();
     }
 
     public int getCinematography() {
@@ -133,7 +121,6 @@ public class Rating implements Serializable {
 
     public void setCinematography(int cinematography) {
         this.cinematography = cinematography;
-        updateOverallScore();
     }
 
     public int getDepth() {
@@ -142,7 +129,6 @@ public class Rating implements Serializable {
 
     public void setDepth(int depth) {
         this.depth = depth;
-        updateOverallScore();
     }
 
     @Override
@@ -173,22 +159,12 @@ public class Rating implements Serializable {
                 getDepth());
     }
 
-    private void updateOverallScore() {
-        this.overallScore = new BigDecimal(
-                        getOriginality() +
-                            getSoundtrack() +
-                            getNarrative() +
-                            getCinematography() +
-                            getDepth()).divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
-    }
-
     @Override
     public String toString() {
         return "Rating{" +
                 "id=" + id +
                 ", movie=" + movie +
                 ", user=" + user +
-                ", overallScore=" + overallScore +
                 ", originality=" + originality +
                 ", soundtrack=" + soundtrack +
                 ", narrative=" + narrative +
