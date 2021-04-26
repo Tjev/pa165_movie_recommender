@@ -47,12 +47,4 @@ public interface RatingService {
      * @param rating to be removed
      */
     void remove(Rating rating);
-
-    /**
-     * Gets the overall score of the rating computed from all other scores.
-     *
-     * @param rating to get the overall score for
-     * @return the overall score of the rating
-     */
-    BigDecimal getOverallScore(Rating rating);
 }

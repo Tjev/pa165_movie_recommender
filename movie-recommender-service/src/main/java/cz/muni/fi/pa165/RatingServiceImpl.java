@@ -50,14 +50,4 @@ public class RatingServiceImpl implements RatingService {
     public void remove(Rating rating) {
         ratingDao.remove(rating);
     }
-
-    @Override
-    public BigDecimal getOverallScore(Rating rating) {
-        return new BigDecimal(
-                        rating.getOriginality() +
-                        rating.getSoundtrack() +
-                        rating.getNarrative() +
-                        rating.getCinematography() +
-                        rating.getDepth()).divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
-    }
 }
