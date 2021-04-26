@@ -9,6 +9,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+/**
+ * Implementation of the {@link RatingService}. This class is part of the service
+ * module of the application that provides the implementation of the business
+ * logic (main logic of the application).
+ *
+ * @author Kristian Tkacik
+ */
 @Service
 public class RatingServiceImpl implements RatingService {
 
