@@ -8,7 +8,7 @@ import java.util.List;
  * Dao interface for manipulation with
  * Movie entity
  *
- * @author RadoslavChudovsky
+ * @author Radoslav Chudovsky
  */
 public interface MovieDao {
 
