@@ -35,7 +35,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findById(Long id) {
-        return personDao.findById();
+        return personDao.findById(id);
     }
 
     @Override
