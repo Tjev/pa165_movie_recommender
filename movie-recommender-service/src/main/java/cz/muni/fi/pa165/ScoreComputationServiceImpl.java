@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Set;
+import java.util.function.ToIntFunction;
 
 @Service
 public class ScoreComputationServiceImpl implements ScoreComputationService {
@@ -37,7 +38,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
 
     @Override
     public BigDecimal getOverallScoreForMovie(Movie movie) {
-        Set<Rating> ratings = getRatings(movie);
+        Set<Rating> ratings = movieDao.findById(movie.getId()).getRatings();
 
         BigDecimal score = BigDecimal.ZERO;
 
@@ -50,45 +51,36 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
 
     @Override
     public BigDecimal getOriginalityScoreForMovie(Movie movie) {
-        Set<Rating> ratings = getRatings(movie);
-        int score = ratings.stream().mapToInt(Rating::getOriginality).sum();
-
-        return new BigDecimal(score).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return computeAverage(movie, Rating::getOriginality);
     }
 
     @Override
     public BigDecimal getSoundtrackScoreForMovie(Movie movie) {
-        Set<Rating> ratings = getRatings(movie);
-        int score = ratings.stream().mapToInt(Rating::getSoundtrack).sum();
-
-        return new BigDecimal(score).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return computeAverage(movie, Rating::getSoundtrack);
     }
 
     @Override
     public BigDecimal getNarrativeScoreForMovie(Movie movie) {
-        Set<Rating> ratings = getRatings(movie);
-        int score = ratings.stream().mapToInt(Rating::getNarrative).sum();
-
-        return new BigDecimal(score).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return computeAverage(movie, Rating::getNarrative);
     }
 
     @Override
     public BigDecimal getCinematographyScoreForMovie(Movie movie) {
-        Set<Rating> ratings = getRatings(movie);
-        int score = ratings.stream().mapToInt(Rating::getCinematography).sum();
-
-        return new BigDecimal(score).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return computeAverage(movie, Rating::getCinematography);
     }
 
     @Override
     public BigDecimal getDepthScoreForMovie(Movie movie) {
-        Set<Rating> ratings = getRatings(movie);
-        int score = ratings.stream().mapToInt(Rating::getDepth).sum();
-
-        return new BigDecimal(score).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return computeAverage(movie, Rating::getDepth);
     }
 
-    private Set<Rating> getRatings(Movie movie) {
-        return movieDao.findById(movie.getId()).getRatings();
+    private BigDecimal computeAverage(Movie movie, ToIntFunction<Rating> func) {
+        Set<Rating> ratings = movieDao.findById(movie.getId()).getRatings();
+
+        int scoreSum = ratings.stream()
+                .mapToInt(func)
+                .sum();
+
+        return new BigDecimal(scoreSum).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
     }
 }
