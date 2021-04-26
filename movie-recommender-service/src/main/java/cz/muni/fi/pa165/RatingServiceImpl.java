@@ -3,11 +3,13 @@ package cz.muni.fi.pa165;
 import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+@Service
 public class RatingServiceImpl implements RatingService {
 
     private RatingDao ratingDao;
@@ -45,7 +47,7 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public BigDecimal getOverallScore(Rating rating) {
         return new BigDecimal(
-                    rating.getOriginality() +
+                        rating.getOriginality() +
                         rating.getSoundtrack() +
                         rating.getNarrative() +
                         rating.getCinematography() +
