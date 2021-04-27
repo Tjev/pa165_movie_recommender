@@ -33,7 +33,7 @@ public interface MovieService {
      * @param id id of the movie
      * @return movie matching the id
      */
-    Movie findById(long id);
+    Movie findById(Long id);
 
     /**
      * Retrieves all movies from the data source
