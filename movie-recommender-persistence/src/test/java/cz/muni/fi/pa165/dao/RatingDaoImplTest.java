@@ -131,6 +131,40 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void findByMovieTest() {
+        Rating rating1 = new Rating(movie1, user1, 1, 2, 3, 4, 5);
+        Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
+        Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
+
+        persistToDB(rating1);
+        persistToDB(rating2);
+        persistToDB(rating3);
+
+        List<Rating> ratings = dao.findByMovie(movie1);
+
+        Assert.assertTrue(ratings.contains(rating1));
+        Assert.assertTrue(ratings.contains(rating2));
+        Assert.assertEquals(ratings.size(), 2);
+    }
+
+    @Test
+    public void findByUserTest() {
+        Rating rating1 = new Rating(movie1, user1, 1, 2, 3, 4, 5);
+        Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
+        Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
+
+        persistToDB(rating1);
+        persistToDB(rating2);
+        persistToDB(rating3);
+
+        List<Rating> ratings = dao.findByUser(user2);
+
+        Assert.assertTrue(ratings.contains(rating2));
+        Assert.assertTrue(ratings.contains(rating3));
+        Assert.assertEquals(ratings.size(), 2);
+    }
+
+    @Test
     public void updateTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
