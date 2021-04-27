@@ -12,6 +12,19 @@ import java.util.List;
  */
 public interface RecommendationService {
 
-    List<Movie> getRecommendations(User user, int n);
-    List<Movie> getRecommendations(Movie movie, int n);
+    /**
+     * Gets all movies rated by users that rated the given movie
+     *
+     * @param movie for recommendation
+     * @return list of movies
+     */
+    List<Movie> getRecommendationsBasedOnUsers(Movie movie);
+
+    /**
+     * Gets all movies that share at least one genre with the given movie
+     *
+     * @param movie for recommendation
+     * @return list of movies
+     */
+    List<Movie> getRecommendationsBasedOnGenres(Movie movie);
 }
