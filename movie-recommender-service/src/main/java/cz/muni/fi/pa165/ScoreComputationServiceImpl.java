@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Set;
+import java.util.List;
 import java.util.function.ToIntFunction;
 
 /**
@@ -43,7 +43,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
 
     @Override
     public BigDecimal getOverallScoreForMovie(Movie movie) {
-        Set<Rating> ratings = ratingDao.findByMovie(movieDao.findById(movie.getId()));
+        List<Rating> ratings = ratingDao.findByMovie(movieDao.findById(movie.getId()));
 
         BigDecimal score = BigDecimal.ZERO;
 
@@ -80,7 +80,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
     }
 
     private BigDecimal computeAverage(Movie movie, ToIntFunction<Rating> func) {
-        Set<Rating> ratings = ratingDao.findByMovie(movieDao.findById(movie.getId()));
+        List<Rating> ratings = ratingDao.findByMovie(movieDao.findById(movie.getId()));
 
         int scoreSum = ratings.stream()
                 .mapToInt(func)
