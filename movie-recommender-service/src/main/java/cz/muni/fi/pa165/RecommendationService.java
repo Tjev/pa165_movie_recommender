@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.entity.Movie;
-import cz.muni.fi.pa165.entity.User;
 
 import java.util.List;
 

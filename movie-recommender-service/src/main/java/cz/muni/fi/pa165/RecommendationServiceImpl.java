@@ -2,7 +2,6 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.MovieDao;
 import cz.muni.fi.pa165.dao.RatingDao;
-import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
@@ -11,20 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of RecommendationService.
+ *
+ * @author Jiri Papousek
+ */
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final MovieDao movieDao;
-    private final UserDao userDao;
     private final RatingDao ratingDao;
 
     @Autowired
-    public RecommendationServiceImpl(MovieDao movieDao, UserDao userDao, RatingDao ratingDao) {
+    public RecommendationServiceImpl(MovieDao movieDao, RatingDao ratingDao) {
         this.movieDao = movieDao;
-        this.userDao = userDao;
         this.ratingDao = ratingDao;
     }
 
