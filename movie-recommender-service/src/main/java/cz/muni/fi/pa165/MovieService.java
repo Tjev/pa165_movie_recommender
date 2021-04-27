@@ -1,16 +1,15 @@
-package cz.muni.fi.pa165.dao;
+package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.entity.Movie;
 
 import java.util.List;
 
 /**
- * Dao interface for manipulation with
- * Movie entity
+ * An interface that defines a service access to the {@link Movie} entity.
  *
  * @author Radoslav Chudovsky
  */
-public interface MovieDao {
+public interface MovieService {
 
     /**
      * Saves movie entity into the data source
@@ -18,7 +17,6 @@ public interface MovieDao {
      * @param movie movie to be saved
      */
     void create(Movie movie);
-
 
     /**
      * Retrieves a list of all movies from the
