@@ -32,7 +32,7 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public Movie findById(long id) {
+    public Movie findById(Long id) {
         return em.find(Movie.class, id);
     }
 
