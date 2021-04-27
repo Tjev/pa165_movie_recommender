@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.PersonDao;
-import cz.muni.fi.pa165.dao.PersonDaoImpl;
 import cz.muni.fi.pa165.entity.Person;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,31 +25,84 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void create(Person person) {
-        personDao.create(person);
+        if (person == null) {
+            throw new IllegalArgumentException("Person parameter is null.");
+        }
+
+        try {
+            personDao.create(person);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while creating Person.", e);
+        }
     }
 
     @Override
     public List<Person> findAll() {
-        return personDao.findAll();
+        try {
+            return personDao.findAll();
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while finding Persons.", e);
+        }
     }
 
     @Override
     public Person findById(Long id) {
-        return personDao.findById(id);
+        if (id == null) {
+            throw new IllegalArgumentException("Id parameter is null.");
+        }
+
+        try {
+            return personDao.findById(id);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while finding Person by its id.", e);
+        }
     }
 
     @Override
     public List<Person> findByName(String name) {
-        return personDao.findByName(name);
+        if (name == null) {
+            throw new IllegalArgumentException("Person parameter is null.");
+        }
+
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Person parameter is empty.");
+        }
+
+        try {
+            return personDao.findByName(name);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while finding Person by its name.", e);
+        }
     }
 
     @Override
     public void update(Person person) {
-        personDao.update(person);
+        if (person == null) {
+            throw new IllegalArgumentException("Person parameter is null.");
+        }
+
+        try {
+            personDao.update(person);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while updating Person.", e);
+        }
     }
 
     @Override
     public void remove(Person person) {
-        personDao.remove(person);
+        if (person == null) {
+            throw new IllegalArgumentException("Person parameter is null.");
+        }
+
+        Person found = personDao.findById(person.getId());
+        if (found == null) {
+            throw new IllegalArgumentException("Person is not in the database.");
+        }
+
+        try {
+            personDao.remove(person);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while removing Person.", e);
+        }
     }
 }
