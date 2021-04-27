@@ -1,34 +1,53 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.MovieDao;
+import cz.muni.fi.pa165.dao.RatingDao;
+import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
+import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final MovieDao movieDao;
+    private final UserDao userDao;
+    private final RatingDao ratingDao;
 
     @Autowired
-    public RecommendationServiceImpl(MovieDao movieDao) {
+    public RecommendationServiceImpl(MovieDao movieDao, UserDao userDao, RatingDao ratingDao) {
         this.movieDao = movieDao;
+        this.userDao = userDao;
+        this.ratingDao = ratingDao;
     }
 
     @Override
-    public List<Movie> getRecommendations(User user, int n) {
-        return null;
+    public List<Movie> getRecommendationsBasedOnUsers(Movie movie) {
+        Movie persistedMovie = movieDao.findById(movie.getId());
+
+        List<User> users = ratingDao.findByMovie(persistedMovie).stream()
+                .map(Rating::getUser)
+                .collect(Collectors.toList());
+
+        List<Movie> movies = new ArrayList<>();
+        for (var user : users) {
+            List<Rating> ratings = ratingDao.findByUser(user);
+            for (var rating : ratings) {
+                movies.add(rating.getMovie());
+            }
+        }
+        return movies;
     }
 
     @Override
-    public List<Movie> getRecommendations(Movie movie, int n) {
+    public List<Movie> getRecommendationsBasedOnGenres(Movie movie) {
         Movie persistedMovie = movieDao.findById(movie.getId());
 
         List<Movie> movies = movieDao.findAll();
@@ -43,6 +62,6 @@ public class RecommendationServiceImpl implements RecommendationService {
             }
         }
 
-        return candidates.subList(0, n);
+        return candidates;
     }
 }
