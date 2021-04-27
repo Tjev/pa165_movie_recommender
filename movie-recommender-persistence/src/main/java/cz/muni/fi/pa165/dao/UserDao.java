@@ -5,7 +5,7 @@ import cz.muni.fi.pa165.entity.User;
 import java.util.List;
 
 /**
- * DAO for manipulation with User entities
+ * DAO for manipulation with {@link User} entities
  *
  * @author Tomas Jevocin.
  */
@@ -26,7 +26,7 @@ public interface UserDao {
     List<User> findAll();
 
     /**
-     * Retrieve a user by its ID from the data source.
+     * Retrieves a user by its ID from the data source.
      *
      * @param id - id of the user
      * @return user entity matching the id
@@ -34,22 +34,30 @@ public interface UserDao {
     User findById(Long id);
 
     /**
-     * Retrieve users with matching username from the data source.
+     * Retrieves a user by its username from the data source.
      *
      * @param username - username on which the user should be matched
-     * @return users entities which match the given username
+     * @return user entity matching the given username
      */
-    List<User> findByUsername(String username);
+    User findByUsername(String username);
+
+    /**
+     * Retrieves a user by its email address from the data source.
+     *
+     * @param emailAddress - email address of the user
+     * @return user entity matching the emailAddress
+     */
+    User findByEmailAddress(String emailAddress);
 
     /**
      * Merges user by its ID with its current representation in the data source.
      *
-     * @param user
+     * @param user - user to be updated
      */
     void update(User user);
 
     /**
-     * Remove user from the data source.
+     * Removes user from the data source.
      *
      * @param user - user to be removed
      */
