@@ -79,6 +79,7 @@ public class User implements Serializable {
 
     public void addRating(Rating rating) {
         userRatings.add(rating);
+        rating.setUser(this);
     }
 
     public void setAdmin(boolean admin) {
