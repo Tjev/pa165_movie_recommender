@@ -36,6 +36,9 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
         u1 = new User("John", "john@mail.com");
         u2 = new User("Maria", "maria@mail.com");
 
+        u1.setPasswordHash("password1");
+        u2.setPasswordHash("password2");
+
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
@@ -54,6 +57,9 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test
     public void createTest() {
         User u = new User("Cameron", "diaz@mail.com");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
+
         userDao.create(u);
 
         EntityManager em = null;
@@ -75,6 +81,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void createDuplicateTest() {
         User u = new User("Cameron", "diaz@mail.com");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
         userDao.create(u);
@@ -83,6 +91,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void createWithNonUniqueUsernameTest() {
         User u = new User("John", "diaz@mail.com");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
@@ -90,6 +100,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void createWithNonUniqueMailAddressTest() {
         User u = new User("Cameron", "john@mail.com");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
@@ -97,6 +109,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithNullUsernameTest() {
         User u = new User(null, "diaz@mail.com");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
@@ -104,6 +118,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithNullMailAddressTest() {
         User u = new User("Cameron", null);
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
@@ -111,6 +127,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithInvalidEmailTest() {
         User u = new User("Cameron", "mail");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
@@ -118,6 +136,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithEmptyUsernameTest() {
         User u = new User("", "diaz@mail.com");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
@@ -125,6 +145,8 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createWithEmptyMailAddressTest() {
         User u = new User("Cameron", "");
+        u.setAdmin(false);
+        u.setPasswordHash("password");
 
         userDao.create(u);
     }
