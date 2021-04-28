@@ -66,13 +66,7 @@ public class RatingServiceImpl implements RatingService {
             throw new IllegalArgumentException("Rating parameter is null");
         }
 
-        Rating found;
-        try {
-            found = ratingDao.findById(rating.getId());
-        } catch (Exception e) {
-            throw new ServiceLayerException("Error occurred while removing rating", e);
-        }
-
+        Rating found = findById(rating.getId());
         if (found == null) {
             throw new IllegalArgumentException("Rating is not in the database.");
         }
@@ -90,13 +84,7 @@ public class RatingServiceImpl implements RatingService {
             throw new IllegalArgumentException("Rating parameter is null");
         }
 
-        Rating found;
-        try {
-            found = ratingDao.findById(rating.getId());
-        } catch (Exception e) {
-            throw new ServiceLayerException("Error occurred while removing rating", e);
-        }
-
+        Rating found = findById(rating.getId());
         if (found == null) {
             throw new IllegalArgumentException("Rating is not in the database.");
         }
