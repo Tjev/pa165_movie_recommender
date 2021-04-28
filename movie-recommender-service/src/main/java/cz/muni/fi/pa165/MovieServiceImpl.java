@@ -83,7 +83,7 @@ public class MovieServiceImpl implements MovieService {
             throw new IllegalArgumentException("Movie parameter is null");
         }
 
-        Movie found = movieDao.findById(movie.getId());
+        Movie found = findById(movie.getId());
         if (found == null) {
             throw new IllegalArgumentException("Movie is not in the database.");
         }
@@ -101,7 +101,7 @@ public class MovieServiceImpl implements MovieService {
             throw new IllegalArgumentException("Movie parameter is null");
         }
 
-        Movie found = movieDao.findById(movie.getId());
+        Movie found = findById(movie.getId());
         if (found == null) {
             throw new IllegalArgumentException("Movie is not in the database.");
         }
