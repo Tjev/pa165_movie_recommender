@@ -69,6 +69,10 @@ public class Rating implements Serializable {
         this.depth = depth;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
