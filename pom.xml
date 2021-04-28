@@ -24,11 +24,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15to18</artifactId>
-            <version>1.68</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+        </configuration>
+    </plugin>
 
     <modules>
         <module>movie-recommender-api</module>

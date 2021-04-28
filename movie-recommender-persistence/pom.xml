@@ -59,14 +59,6 @@
             <version>2.14.1</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.4.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- For embedded usage -->
-        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.10.2.0</version>
