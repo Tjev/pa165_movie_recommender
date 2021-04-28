@@ -2,11 +2,10 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Rating;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ import java.util.List;
 @Service
 public class RatingServiceImpl implements RatingService {
 
-    private RatingDao ratingDao;
+    private final RatingDao ratingDao;
 
     @Autowired
     public RatingServiceImpl(RatingDao ratingDao) {
@@ -28,26 +27,72 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void create(Rating rating) {
-        ratingDao.create(rating);
+        if (rating == null) {
+            throw new IllegalArgumentException("Rating parameter is null.");
+        }
+
+        try {
+            ratingDao.create(rating);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while creating Rating.", e);
+        }
     }
 
     @Override
     public List<Rating> findAll() {
-        return ratingDao.findAll();
+        try {
+            return ratingDao.findAll();
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving all ratings.");
+        }
     }
 
     @Override
     public Rating findById(Long id) {
-        return ratingDao.findById(id);
+        if (id == null) {
+            throw new IllegalArgumentException("Id parameter is null.");
+        }
+
+        try {
+            return ratingDao.findById(id);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving rating by id.", e);
+        }
     }
 
     @Override
     public void update(Rating rating) {
-        ratingDao.update(rating);
+        if (rating == null) {
+            throw new IllegalArgumentException("Rating parameter is null");
+        }
+
+        Rating found = findById(rating.getId());
+        if (found == null) {
+            throw new IllegalArgumentException("Rating is not in the database.");
+        }
+
+        try {
+            ratingDao.update(rating);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while updating rating", e);
+        }
     }
 
     @Override
     public void remove(Rating rating) {
-        ratingDao.remove(rating);
+        if (rating == null) {
+            throw new IllegalArgumentException("Rating parameter is null");
+        }
+
+        Rating found = findById(rating.getId());
+        if (found == null) {
+            throw new IllegalArgumentException("Rating is not in the database.");
+        }
+
+        try {
+            ratingDao.remove(rating);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while removing rating", e);
+        }
     }
 }
