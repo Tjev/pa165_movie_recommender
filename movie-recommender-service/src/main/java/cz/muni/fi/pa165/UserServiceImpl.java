@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(User user, String password) {
+    public void register(User user, String password) {
         if (user == null) {
             throw new IllegalArgumentException("Movie parameter is null.");
         }
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmailAddress(String emailAddress) {
+    public User findByEmailAddress(String emailAddress) {
         validateStringParameter(emailAddress, "Email address");
 
         try {
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public User findByUsername(String username) {
         validateStringParameter(username, "Username");
 
         try {

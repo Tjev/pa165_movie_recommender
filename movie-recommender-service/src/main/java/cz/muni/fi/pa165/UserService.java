@@ -16,7 +16,7 @@ public interface UserService {
      *
      * @param user - user to be saved
      */
-    void registerUser(User user, String password);
+    void register(User user, String password);
 
     /**
      * Retrieves a list of all users from the persistence layer.
@@ -39,7 +39,7 @@ public interface UserService {
      * @param emailAddress - email address on which the user should be matched
      * @return user entity which matches the given email
      */
-    User findUserByEmailAddress(String emailAddress);
+    User findByEmailAddress(String emailAddress);
 
     /**
      * Retrieves a user with matching username from the persistence layer.
@@ -47,7 +47,7 @@ public interface UserService {
      * @param username - username on which the user should be matched
      * @return users entity which matches the given username
      */
-    User findUserByUsername(String username);
+    User findByUsername(String username);
 
     /**
      * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
