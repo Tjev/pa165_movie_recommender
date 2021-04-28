@@ -23,7 +23,7 @@ import java.util.List;
  * @author Radoslav Chudovsky
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-public class PersonDaoImplTest extends AbstractTestNGSpringContextTests {
+public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private PersonDao personDao;

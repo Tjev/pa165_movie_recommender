@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
  *
  * @author Jiri Papousek
  */
-public class ScoreComputationServiceImplTest {
+public class ScoreComputationServiceTest {
 
     private static final Set<Genre> GENRES = new HashSet<>(Arrays.asList(Genre.ACTION));
 

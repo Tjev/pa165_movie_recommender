@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  *
  * @author Radoslav Chudovsky, Jiri Papousek
  */
-public class UserServiceImplTest {
+public class UserServiceTest {
 
     @Mock
     private UserDao userDao;
