@@ -23,7 +23,7 @@ public interface UserService {
      *
      * @return a list of all existing User entities
      */
-    List<User> getAllUsers();
+    List<User> findAll();
 
     /**
      * Retrieves a user by its ID from the persistence layer.
@@ -31,7 +31,7 @@ public interface UserService {
      * @param id - id of the user
      * @return user entity matching the id
      */
-    User findUserById(Long id);
+    User findById(Long id);
 
     /**
      * Retrieves a user with matching email from the persistence layer.

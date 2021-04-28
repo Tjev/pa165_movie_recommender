@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         try {
             return userDao.findAll();
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(Long id) {
+    public User findById(Long id) {
         return getPersistedUserById(id);
     }
 
