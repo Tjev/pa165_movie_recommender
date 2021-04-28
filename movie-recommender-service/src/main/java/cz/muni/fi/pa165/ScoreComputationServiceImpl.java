@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.dao.MovieDao;
 import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,18 +33,32 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
 
     @Override
     public BigDecimal getOverallScoreForRating(Rating rating) {
-        Rating persistedRating = ratingDao.findById(rating.getId());
+        if (rating == null) {
+            throw new IllegalArgumentException("Rating is null.");
+        }
+
+        Rating persistedRating;
+        try {
+            persistedRating = ratingDao.findById(rating.getId());
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while finding given rating by its id.", e);
+        }
+
+        if (persistedRating == null) {
+            throw new IllegalArgumentException("Rating is not in the database.");
+        }
+
         return new BigDecimal(
                         persistedRating.getOriginality() +
                         persistedRating.getSoundtrack() +
                         persistedRating.getNarrative() +
                         persistedRating.getCinematography() +
-                        persistedRating.getDepth()).divide(new BigDecimal("5"), RoundingMode.HALF_EVEN);
+                        persistedRating.getDepth()).divide(new BigDecimal("5"));
     }
 
     @Override
     public BigDecimal getOverallScoreForMovie(Movie movie) {
-        List<Rating> ratings = ratingDao.findByMovie(movieDao.findById(movie.getId()));
+        List<Rating> ratings = getRatings(movie);
 
         BigDecimal score = BigDecimal.ZERO;
 
@@ -51,7 +66,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
             score = score.add(getOverallScoreForRating(rating));
         }
 
-        return score.divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return score.divide(new BigDecimal(ratings.size()));
     }
 
     @Override
@@ -80,12 +95,37 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
     }
 
     private BigDecimal computeAverage(Movie movie, ToIntFunction<Rating> func) {
-        List<Rating> ratings = ratingDao.findByMovie(movieDao.findById(movie.getId()));
+        List<Rating> ratings = getRatings(movie);
 
         int scoreSum = ratings.stream()
                 .mapToInt(func)
                 .sum();
 
-        return new BigDecimal(scoreSum).divide(new BigDecimal(ratings.size()), RoundingMode.HALF_EVEN);
+        return new BigDecimal(scoreSum).divide(new BigDecimal(ratings.size()));
+    }
+
+    private List<Rating> getRatings(Movie movie) {
+        if (movie == null) {
+            throw new IllegalArgumentException("Movie is null.");
+        }
+
+        Movie persistedMovie;
+        try {
+            persistedMovie = movieDao.findById(movie.getId());
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while finding movie by its id.", e);
+        }
+
+        if (persistedMovie == null) {
+            throw new IllegalArgumentException("Movie is not in the database.");
+        }
+
+        List<Rating> ratings;
+        try {
+            ratings = ratingDao.findByMovie(movie);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while finding ratings for the given movie.", e);
+        }
+        return ratings;
     }
 }
