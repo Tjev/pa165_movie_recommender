@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,20 +32,24 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<Movie> getRecommendationsBasedOnUsers(Movie movie) {
-        Movie persistedMovie = movieDao.findById(movie.getId());
-
-        List<User> users = ratingDao.findByMovie(persistedMovie).stream()
-                .map(Rating::getUser)
-                .collect(Collectors.toList());
-
-        List<Movie> movies = new ArrayList<>();
-        for (var user : users) {
-            List<Rating> ratings = ratingDao.findByUser(user);
-            for (var rating : ratings) {
-                movies.add(rating.getMovie());
-            }
+        if (movie == null) {
+            throw new IllegalArgumentException("Given movie is null");
         }
-        return movies;
+        try {
+            Movie persistedMovie = movieDao.findById(movie.getId());
+
+            if (persistedMovie == null) {
+                throw new IllegalArgumentException("Movie does not exist in the database.");
+            }
+
+            return findMoviesWithSameViewers(persistedMovie);
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ServiceLayerException("Error while getting recommendations based on users.", e);
+        }
     }
 
     @Override
@@ -64,5 +69,23 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 
         return candidates;
+    }
+
+    private List<Movie> findMoviesWithSameViewers(Movie movie) {
+        List<User> users = ratingDao.findByMovie(movie).stream()
+                .map(Rating::getUser)
+                .collect(Collectors.toList());
+
+        List<Movie> movies = new ArrayList<>();
+        for (var user : users) {
+            List<Rating> ratings = ratingDao.findByUser(user);
+            for (var rating : ratings) {
+                var ratedMovie = rating.getMovie();
+                if (!movies.contains(ratedMovie) && ratedMovie != movie) {
+                    movies.add(rating.getMovie());
+                }
+            }
+        }
+        return movies;
     }
 }
