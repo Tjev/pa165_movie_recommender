@@ -2,7 +2,6 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.entity.Rating;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
