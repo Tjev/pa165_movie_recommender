@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-public class MovieDaoImplTest extends AbstractTestNGSpringContextTests {
+public class MovieDaoTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceUnit
     private EntityManagerFactory emf;

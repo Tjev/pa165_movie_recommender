@@ -20,7 +20,7 @@ import javax.validation.ConstraintViolationException;
  * @author Kristian Tkacik
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
+public class UserDaoTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceUnit
     private EntityManagerFactory emf;

@@ -29,7 +29,7 @@ import java.util.Set;
  * @author Jiri Papousek
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
+public class RatingDaoTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceUnit
     private EntityManagerFactory emf;

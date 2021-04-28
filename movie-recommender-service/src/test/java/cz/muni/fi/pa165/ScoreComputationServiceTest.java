@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
  *
  * @author Jiri Papousek
  */
-public class ScoreComputationServiceImplTest {
+public class ScoreComputationServiceTest {
 
     private static final Set<Genre> GENRES = new HashSet<>(Arrays.asList(Genre.ACTION));
 
@@ -58,7 +58,7 @@ public class ScoreComputationServiceImplTest {
         Rating rating1 = new Rating(movie, user1, 1, 2, 3, 4, 5);
         rating1.setId(1L);
         Rating rating2 = new Rating(movie, user2, 2, 3, 2, 2, 1);
-        rating1.setId(2L);
+        rating2.setId(2L);
 
         ratings = new ArrayList<>();
         ratings.add(rating1);

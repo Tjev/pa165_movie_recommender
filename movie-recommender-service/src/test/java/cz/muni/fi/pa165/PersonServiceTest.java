@@ -15,7 +15,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public class PersonServiceImplTest {
+public class PersonServiceTest {
 
     @Mock
     private PersonDao personDao;
