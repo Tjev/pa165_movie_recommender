@@ -16,14 +16,14 @@ public interface UserService {
      *
      * @param user - user to be saved
      */
-    void registerUser(User user, String password);
+    void register(User user, String password);
 
     /**
      * Retrieves a list of all users from the persistence layer.
      *
      * @return a list of all existing User entities
      */
-    List<User> getAllUsers();
+    List<User> findAll();
 
     /**
      * Retrieves a user by its ID from the persistence layer.
@@ -31,7 +31,7 @@ public interface UserService {
      * @param id - id of the user
      * @return user entity matching the id
      */
-    User findUserById(Long id);
+    User findById(Long id);
 
     /**
      * Retrieves a user with matching email from the persistence layer.
@@ -39,7 +39,7 @@ public interface UserService {
      * @param emailAddress - email address on which the user should be matched
      * @return user entity which matches the given email
      */
-    User findUserByEmailAddress(String emailAddress);
+    User findByEmailAddress(String emailAddress);
 
     /**
      * Retrieves a user with matching username from the persistence layer.
@@ -47,16 +47,16 @@ public interface UserService {
      * @param username - username on which the user should be matched
      * @return users entity which matches the given username
      */
-    User findUserByUsername(String username);
+    User findByUsername(String username);
 
     /**
-     * Attempts to authenticate a user by comparing the given password hash with the one stored for the given user.
+     * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
      *
      * @param user - user whose password is to be checked
-     * @param passwordHash - password hash to be compared against the stored one
+     * @param password - password to be hashed and compared against the stored hash
      * @return true if the password hashes match
      */
-    boolean authenticate(User user, String passwordHash);
+    boolean authenticate(User user, String password);
 
     /**
      * Checks whether given user has admin rights.
