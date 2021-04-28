@@ -54,18 +54,17 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void registerUser() {
+    public void register() {
         User user = new User();
-        String password = "123";
 
-        userService.registerUser(user, password);
+        userService.registerUser(user, PASSWORD1);
 
         verify(userDao, times(1)).create(user);
         verifyNoMoreInteractions(userDao);
     }
 
     @Test
-    public void getAllUsers() {
+    public void findAll() {
         when(userDao.findAll()).thenReturn(users);
 
         List<User> result = userService.getAllUsers();
@@ -77,7 +76,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void findUserById() {
+    public void findById() {
         when(userDao.findById(user1.getId())).thenReturn(user1);
 
         User result = userService.findUserById(user1.getId());
@@ -89,7 +88,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void findUserByEmailAdress() {
+    public void findByEmailAdress() {
         when(userDao.findByEmailAddress(user1.getEmailAddress())).thenReturn(user1);
 
         User result = userService.findUserByEmailAddress(user1.getEmailAddress());
@@ -101,7 +100,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void findUserByUsername() {
+    public void findByUsername() {
         when(userDao.findByUsername(user1.getUsername())).thenReturn(user1);
 
         User result = userService.findUserByUsername(user1.getUsername());
@@ -128,6 +127,63 @@ public class UserServiceImplTest {
 
         Assert.assertTrue(userService.isAdmin(user1));
         Assert.assertFalse(userService.isAdmin(user2));
+    }
+
+    @Test
+    public void registerNullUser() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerUser(null, PASSWORD1);
+        });
+    }
+
+    @Test
+    public void registerNullPassword() {
+        User user = new User("John", "john@email.com");
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerUser(user, null);
+        });
+    }
+
+    @Test
+    public void findByNullId() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserById(null);
+        });
+    }
+
+    @Test
+    public void findByNullEmailAddress() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserByEmailAddress(null);
+        });
+    }
+
+    @Test
+    public void findByNullUsername() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserByUsername(null);
+        });
+    }
+
+    @Test
+    public void authenticateNullUser() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.authenticate(null, PASSWORD1);
+        });
+    }
+
+    @Test
+    public void authenticateNullPassword() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.authenticate(user1, null);
+        });
+    }
+
+    @Test
+    public void isAdminNullUser() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.isAdmin(null);
+        });
     }
 
     @AfterClass
