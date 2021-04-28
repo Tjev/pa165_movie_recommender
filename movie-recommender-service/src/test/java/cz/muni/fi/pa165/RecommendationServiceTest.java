@@ -20,6 +20,11 @@ import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests for {@link RecommendationServiceImpl} methods
+ *
+ * @author Radoslav Chudovsky
+ */
 public class RecommendationServiceTest {
 
     @Mock
@@ -32,31 +37,34 @@ public class RecommendationServiceTest {
 
     private AutoCloseable closeable;
 
-    Movie m1 = setupMovie(1L, "1", Genre.ACTION);
-    Movie m2 = setupMovie(2L, "Pulp Fiction", Genre.ACTION, Genre.NOIR, Genre.COMEDY);
-    Movie m3 = setupMovie(3L, "Blade Runner", Genre.ACTION, Genre.SCIFI, Genre.NOIR);
-    Movie m4 = setupMovie(4L, "Paddington 2", Genre.FAMILY, Genre.COMEDY);
-    Movie m5 = setupMovie(5L, "5", Genre.DOCUMENTARY);
+    // Movies
+    private final Movie m1 = setupMovie(1L, "Golfinger", Genre.ACTION); // best Bond movie
+    private final Movie m2 = setupMovie(2L, "Pulp Fiction", Genre.ACTION, Genre.NOIR, Genre.COMEDY);
+    private final Movie m3 = setupMovie(3L, "Blade Runner", Genre.ACTION, Genre.SCIFI, Genre.NOIR);
+    private final Movie m4 = setupMovie(4L, "Paddington 2", Genre.FAMILY, Genre.COMEDY);
+    private final Movie m5 = setupMovie(5L, "Tiger King", Genre.DOCUMENTARY);
 
-    User u1 = setupUser("u1");
-    User u2 = setupUser("u2");
-    User u3 = setupUser("u3");
+    // Users
+    private final User u1 = setupUser("u1");
+    private final User u2 = setupUser("u2");
+    private final User u3 = setupUser("u3");
 
-    Rating m1u1Rating = setupRating(m1, u1);
-    Rating m1u2Rating = setupRating(m1, u2);
-    Rating m1u3Rating = setupRating(m1, u3);
+    // Ratings
+    private final Rating m1u1Rating = setupRating(m1, u1);
+    private final Rating m1u2Rating = setupRating(m1, u2);
+    private final Rating m1u3Rating = setupRating(m1, u3);
 
-    Rating m2u1Rating = setupRating(m2, u1);
-    Rating m2u2Rating = setupRating(m2, u2);
-    Rating m2u3Rating = setupRating(m2, u3);
+    private final Rating m2u1Rating = setupRating(m2, u1);
+    private final Rating m2u2Rating = setupRating(m2, u2);
+    private final Rating m2u3Rating = setupRating(m2, u3);
 
-    Rating m3u2Rating = setupRating(m3, u2);
-    Rating m3u3Rating = setupRating(m3, u3);
-    Rating m3u1Rating = setupRating(m3, u1);
+    private final Rating m3u1Rating = setupRating(m3, u1);
+    private final Rating m3u2Rating = setupRating(m3, u2);
+    private final Rating m3u3Rating = setupRating(m3, u3);
 
-    Rating m4u2Rating = setupRating(m4, u2);
+    private final Rating m4u2Rating = setupRating(m4, u2);
 
-    Rating m5u2Rating = setupRating(m5, u2);
+    private final Rating m5u2Rating = setupRating(m5, u2);
 
     @BeforeMethod
     public void setup() {
@@ -66,11 +74,11 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnOneUser() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3);
-        setupRatingDaoMocksByUser(u1, m1u1Rating, m2u1Rating, m3u1Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating);
-        setupRatingDaoMocksByMovie(m3, m3u1Rating);
+        setupMovieDaoMockFindById(m1, m2, m3);
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating, m2u1Rating, m3u1Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating);
+        setupRatingDaoMocksFindByMovie(m3, m3u1Rating);
 
         var recommends = recommendationService.getRecommendationsBasedOnUsers(m1);
 
@@ -80,12 +88,12 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnMultipleUsers() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3);
-        setupRatingDaoMocksByUser(u1, m1u1Rating, m2u1Rating);
-        setupRatingDaoMocksByUser(u2, m1u2Rating, m3u2Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating, m1u2Rating);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating);
-        setupRatingDaoMocksByMovie(m3, m3u2Rating);
+        setupMovieDaoMockFindById(m1, m2, m3);
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating, m2u1Rating);
+        setupRatingDaoMocksFindByUser(u2, m1u2Rating, m3u2Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating, m1u2Rating);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating);
+        setupRatingDaoMocksFindByMovie(m3, m3u2Rating);
 
         var recommends = recommendationService.getRecommendationsBasedOnUsers(m1);
 
@@ -95,12 +103,12 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnUsersDontContainGivenMovie() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3);
-        setupRatingDaoMocksByUser(u1, m1u1Rating, m2u1Rating, m3u1Rating);
-        setupRatingDaoMocksByUser(u2, m1u2Rating, m2u2Rating ,m3u2Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating, m1u2Rating);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating, m2u2Rating);
-        setupRatingDaoMocksByMovie(m3, m3u1Rating, m3u2Rating);
+        setupMovieDaoMockFindById(m1, m2, m3);
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating, m2u1Rating, m3u1Rating);
+        setupRatingDaoMocksFindByUser(u2, m1u2Rating, m2u2Rating ,m3u2Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating, m1u2Rating);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating, m2u2Rating);
+        setupRatingDaoMocksFindByMovie(m3, m3u1Rating, m3u2Rating);
 
         var movies = new ArrayList<>(Arrays.asList(m1, m2, m3));
 
@@ -113,13 +121,13 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnUsersDontContainDuplicates() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3);
-        setupRatingDaoMocksByUser(u1, m1u1Rating, m2u1Rating, m3u1Rating);
-        setupRatingDaoMocksByUser(u2, m1u2Rating, m2u2Rating ,m3u2Rating);
-        setupRatingDaoMocksByUser(u3, m1u3Rating, m2u3Rating ,m3u3Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating, m1u2Rating, m1u3Rating);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating, m2u2Rating, m2u3Rating);
-        setupRatingDaoMocksByMovie(m3, m3u1Rating, m3u2Rating, m3u3Rating);
+        setupMovieDaoMockFindById(m1, m2, m3);
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating, m2u1Rating, m3u1Rating);
+        setupRatingDaoMocksFindByUser(u2, m1u2Rating, m2u2Rating ,m3u2Rating);
+        setupRatingDaoMocksFindByUser(u3, m1u3Rating, m2u3Rating ,m3u3Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating, m1u2Rating, m1u3Rating);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating, m2u2Rating, m2u3Rating);
+        setupRatingDaoMocksFindByMovie(m3, m3u1Rating, m3u2Rating, m3u3Rating);
 
         var recommends = recommendationService.getRecommendationsBasedOnUsers(m1);
 
@@ -130,10 +138,10 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnUsersIfGivenMovieHasNoReviews() {
-        setupMovieDaoFindByIdMocks(m1, m2);
-        setupRatingDaoMocksByUser(u1, m2u1Rating);
-        setupRatingDaoMocksByMovie(m1);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating);
+        setupMovieDaoMockFindById(m1, m2);
+        setupRatingDaoMocksFindByUser(u1, m2u1Rating);
+        setupRatingDaoMocksFindByMovie(m1);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating);
 
         var recommends = recommendationService.getRecommendationsBasedOnUsers(m1);
 
@@ -142,13 +150,13 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnUsersWhoDidntRateOtherMovies() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3);
-        setupRatingDaoMocksByUser(u1, m1u1Rating);
-        setupRatingDaoMocksByUser(u2, m1u2Rating);
-        setupRatingDaoMocksByUser(u3, m1u3Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating, m1u2Rating, m1u3Rating);
-        setupRatingDaoMocksByMovie(m2);
-        setupRatingDaoMocksByMovie(m3);
+        setupMovieDaoMockFindById(m1, m2, m3);
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating);
+        setupRatingDaoMocksFindByUser(u2, m1u2Rating);
+        setupRatingDaoMocksFindByUser(u3, m1u3Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating, m1u2Rating, m1u3Rating);
+        setupRatingDaoMocksFindByMovie(m2);
+        setupRatingDaoMocksFindByMovie(m3);
 
         var recommends = recommendationService.getRecommendationsBasedOnUsers(m1);
 
@@ -157,10 +165,10 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnUsersCanHaveDifferentGenres() {
-        setupMovieDaoFindByIdMocks(m4, m5);
-        setupRatingDaoMocksByUser(u2, m4u2Rating, m5u2Rating);
-        setupRatingDaoMocksByMovie(m4, m4u2Rating);
-        setupRatingDaoMocksByMovie(m5, m5u2Rating);
+        setupMovieDaoMockFindById(m4, m5);
+        setupRatingDaoMocksFindByUser(u2, m4u2Rating, m5u2Rating);
+        setupRatingDaoMocksFindByMovie(m4, m4u2Rating);
+        setupRatingDaoMocksFindByMovie(m5, m5u2Rating);
 
         var recommends = recommendationService.getRecommendationsBasedOnUsers(m4);
 
@@ -169,18 +177,18 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnUsersExcludeMoviesWithNoMutualViewers() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3, m4, m5);
+        setupMovieDaoMockFindById(m1, m2, m3, m4, m5);
 
-        // Group 1
-        setupRatingDaoMocksByUser(u1, m1u1Rating, m2u2Rating, m3u2Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating);
-        setupRatingDaoMocksByMovie(m3, m3u1Rating);
+        // Isolated group of viewers 1
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating, m2u2Rating, m3u2Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating);
+        setupRatingDaoMocksFindByMovie(m3, m3u1Rating);
 
-        // Group 2
-        setupRatingDaoMocksByUser(u2, m4u2Rating, m5u2Rating);
-        setupRatingDaoMocksByMovie(m4, m4u2Rating);
-        setupRatingDaoMocksByMovie(m5, m5u2Rating);
+        // Isolated group of viewers 2
+        setupRatingDaoMocksFindByUser(u2, m4u2Rating, m5u2Rating);
+        setupRatingDaoMocksFindByMovie(m4, m4u2Rating);
+        setupRatingDaoMocksFindByMovie(m5, m5u2Rating);
 
         var recommendsForM1 = recommendationService.getRecommendationsBasedOnUsers(m1);
         Assert.assertEquals(recommendsForM1.size(), 2);
@@ -193,14 +201,15 @@ public class RecommendationServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void recommendationsBasedOnUsersWhenMovieIsNull() {
+    public void recommendationsBasedOnUsersWhenGivenMovieIsNull() {
         recommendationService.getRecommendationsBasedOnUsers(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void recommendationsBasedOnUsersWhenMovieDoesntExist() {
+    public void recommendationsBasedOnUsersWhenGivenMovieDoesntExist() {
         Movie nonExistingMovie = setupMovie(19L, "Impostor", Genre.MYSTERY);
-        when(movieDao.findById(nonExistingMovie.getId())).thenReturn(null);
+        when(movieDao.findById(nonExistingMovie.getId()))
+                .thenReturn(null);
 
         recommendationService.getRecommendationsBasedOnUsers(nonExistingMovie);
     }
@@ -208,15 +217,16 @@ public class RecommendationServiceTest {
     @Test(expectedExceptions = ServiceLayerException.class)
     public void recommendationsBasedOnUsersWithPersistenceException() {
         Movie movie = setupMovie(1L, "Exception", Genre.DRAMA);
-        when(movieDao.findById(movie.getId())).thenThrow(PersistenceException.class);
+        when(movieDao.findById(movie.getId()))
+                .thenThrow(PersistenceException.class);
 
         recommendationService.getRecommendationsBasedOnUsers(movie);
     }
 
     @Test
     public void recommendationsBasedOnOneGenre() {
-        setupMovieDaoFindByIdMocks(m1);
-        setupMovieDaoFindAllMocks(m1, m2, m3);
+        setupMovieDaoMockFindById(m1);
+        setupMovieDaoMockFindAll(m1, m2, m3);
 
         var recommends = recommendationService.getRecommendationsBasedOnGenres(m1);
 
@@ -226,8 +236,8 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnMultipleGenres() {
-        setupMovieDaoFindByIdMocks(m2);
-        setupMovieDaoFindAllMocks(m1, m2, m3, m4);
+        setupMovieDaoMockFindById(m2);
+        setupMovieDaoMockFindAll(m1, m2, m3, m4);
 
         var recommends = recommendationService.getRecommendationsBasedOnGenres(m2);
 
@@ -238,8 +248,8 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnGenresDontContainGivenMovie() {
-        setupMovieDaoFindByIdMocks(m1, m2, m3);
-        setupMovieDaoFindAllMocks(m1, m2, m3);
+        setupMovieDaoMockFindById(m1, m2, m3);
+        setupMovieDaoMockFindAll(m1, m2, m3);
 
         var movies = new ArrayList<>(Arrays.asList(m1, m2, m3));
 
@@ -252,8 +262,8 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnOneGenreDontContainDuplicates() {
-        setupMovieDaoFindByIdMocks(m1);
-        setupMovieDaoFindAllMocks(m1, m2, m3);
+        setupMovieDaoMockFindById(m1);
+        setupMovieDaoMockFindAll(m1, m2, m3);
 
         var recommends = recommendationService.getRecommendationsBasedOnGenres(m1);
 
@@ -264,8 +274,8 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnGenresDontContainOtherGenres() {
-        setupMovieDaoFindByIdMocks(m1);
-        setupMovieDaoFindAllMocks(m1, m2, m3, m4, m5);
+        setupMovieDaoMockFindById(m1);
+        setupMovieDaoMockFindAll(m1, m2, m3, m4, m5);
 
         var recommends = recommendationService.getRecommendationsBasedOnGenres(m1);
 
@@ -277,8 +287,8 @@ public class RecommendationServiceTest {
 
     @Test
     public void recommendationsBasedOnGenresWhenGivenMovieIsTheOnlyOneInTheGenre() {
-        setupMovieDaoFindByIdMocks(m5);
-        setupMovieDaoFindAllMocks(m1, m2, m3, m4, m5);
+        setupMovieDaoMockFindById(m5);
+        setupMovieDaoMockFindAll(m1, m2, m3, m4, m5);
 
         var recommends = recommendationService.getRecommendationsBasedOnGenres(m5);
 
@@ -286,18 +296,18 @@ public class RecommendationServiceTest {
     }
 
     @Test
-    public void recommendationsBasedOnGenresDontDependOnViewers() {
-        setupMovieDaoFindByIdMocks(m1);
-        setupMovieDaoFindAllMocks(m1, m2, m3);
+    public void recommendationsBasedOnGenresDontDependOnWhetherViewersAreMutual() {
+        setupMovieDaoMockFindById(m1);
+        setupMovieDaoMockFindAll(m1, m2, m3);
 
         // mutual viewer
-        setupRatingDaoMocksByUser(u1, m1u1Rating, m2u1Rating);
-        setupRatingDaoMocksByMovie(m1, m1u1Rating);
-        setupRatingDaoMocksByMovie(m2, m2u1Rating);
+        setupRatingDaoMocksFindByUser(u1, m1u1Rating, m2u1Rating);
+        setupRatingDaoMocksFindByMovie(m1, m1u1Rating);
+        setupRatingDaoMocksFindByMovie(m2, m2u1Rating);
 
-        //not mutual viewer
-        setupRatingDaoMocksByUser(u2, m3u2Rating);
-        setupRatingDaoMocksByMovie(m3, m3u2Rating);
+        //not a mutual viewer
+        setupRatingDaoMocksFindByUser(u2, m3u2Rating);
+        setupRatingDaoMocksFindByMovie(m3, m3u2Rating);
 
         var recommends = recommendationService.getRecommendationsBasedOnGenres(m1);
 
@@ -306,14 +316,15 @@ public class RecommendationServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void recommendationsBasedOnGenresWhenMovieIsNull() {
+    public void recommendationsBasedOnGenresWhenGivenMovieIsNull() {
         recommendationService.getRecommendationsBasedOnGenres(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void recommendationsBasedOnGenresWhenMovieDoesntExist() {
+    public void recommendationsBasedOnGenresWhenGivenMovieDoesntExist() {
         Movie nonExistingMovie = setupMovie(19L, "Impostor", Genre.MYSTERY);
-        when(movieDao.findById(nonExistingMovie.getId())).thenReturn(null);
+        when(movieDao.findById(nonExistingMovie.getId()))
+                .thenReturn(null);
 
         recommendationService.getRecommendationsBasedOnGenres(nonExistingMovie);
     }
@@ -321,7 +332,8 @@ public class RecommendationServiceTest {
     @Test(expectedExceptions = ServiceLayerException.class)
     public void recommendationsBasedOnGenresWithPersistenceException() {
         Movie movie = setupMovie(1L, "Exception", Genre.DRAMA);
-        when(movieDao.findById(movie.getId())).thenThrow(PersistenceException.class);
+        when(movieDao.findById(movie.getId()))
+                .thenThrow(PersistenceException.class);
 
         recommendationService.getRecommendationsBasedOnGenres(movie);
     }
@@ -357,24 +369,24 @@ public class RecommendationServiceTest {
         return new User(username, username + "@mail.com");
     }
 
-    private void setupMovieDaoFindByIdMocks(Movie... movies) {
+    private void setupMovieDaoMockFindById(Movie... movies) {
         for (var movie : movies) {
             when(movieDao.findById(movie.getId()))
                     .thenReturn(movie);
         }
     }
 
-    private void setupMovieDaoFindAllMocks(Movie... movies) {
+    private void setupMovieDaoMockFindAll(Movie... movies) {
         when(movieDao.findAll())
                 .thenReturn(new ArrayList<>(Arrays.asList(movies)));
     }
 
-    private void setupRatingDaoMocksByUser(User user, Rating... ratings) {
+    private void setupRatingDaoMocksFindByUser(User user, Rating... ratings) {
         when(ratingDao.findByUser(user))
                 .thenReturn(new ArrayList<>(Arrays.asList(ratings)));
     }
 
-    private void setupRatingDaoMocksByMovie(Movie movie, Rating... ratings) {
+    private void setupRatingDaoMocksFindByMovie(Movie movie, Rating... ratings) {
         when(ratingDao.findByMovie(movie))
                 .thenReturn(new ArrayList<>(Arrays.asList(ratings)));
     }
