@@ -33,13 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Movie parameter is null.");
         }
 
-        if (password == null) {
-            throw new IllegalArgumentException("Password parameter is null.");
-        }
-
-        if (password.isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be empty.");
-        }
+        validateStringParameter(password, "Password");
 
         String passwordHash = encoder.encode(password);
         user.setPasswordHash(passwordHash);
@@ -67,13 +61,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByEmailAddress(String emailAddress) {
-        if (emailAddress == null) {
-            throw new IllegalArgumentException("Email address parameter is null.");
-        }
+        validateStringParameter(emailAddress, "Email address");
 
-        if (emailAddress.isEmpty()) {
-            throw new IllegalArgumentException("Email address cannot be empty.");
-        }
         try {
             return userDao.findByEmailAddress(emailAddress);
         } catch (Exception e) {
@@ -83,13 +72,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUsername(String username) {
-        if (username == null) {
-            throw new IllegalArgumentException("Username parameter is null.");
-        }
+        validateStringParameter(username, "Username");
 
-        if (username.isEmpty()) {
-            throw new IllegalArgumentException("Username address cannot be empty.");
-        }
         try {
             return userDao.findByUsername(username);
         } catch (Exception e) {
@@ -99,6 +83,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean authenticate(User user, String password) {
+        if (user == null) {
+            throw new IllegalArgumentException("User parameter is null.");
+        }
+
+        validateStringParameter(password, "Password");
+
         User persistedUser = getPersistedUserById(user.getId());
         return encoder.matches(password, persistedUser.getPasswordHash());
     }
@@ -107,6 +97,16 @@ public class UserServiceImpl implements UserService {
     public boolean isAdmin(User user) {
         User persistedUser = getPersistedUserById(user.getId());
         return persistedUser.isAdmin();
+    }
+
+    private void validateStringParameter(String string, String paramName) {
+        if (string == null) {
+            throw new IllegalArgumentException((String.format("%s parameter is null.", paramName)));
+        }
+
+        if (string.isEmpty()) {
+            throw new IllegalArgumentException(String.format("%s cannot be empty.", paramName));
+        }
     }
 
     private User getPersistedUserById(Long id) {
