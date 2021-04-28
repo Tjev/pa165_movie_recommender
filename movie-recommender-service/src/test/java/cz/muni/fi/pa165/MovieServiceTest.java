@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -53,20 +52,21 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void createMovieTest() {
+    public void createMovie() {
         movieService.create(movie1);
         verify(movieDao, times(1)).create(movie1);
+        verifyNoMoreInteractions(movieDao);
     }
 
     @Test
-    void createNullMovieTest() {
+    void createNullMovie() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.create(null);
         });
     }
 
     @Test
-    void createThrowsServiceLayerExceptionTest() {
+    void createThrowsServiceLayerException() {
         doThrow(PersistenceException.class).when(movieDao).create(movie1);
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
@@ -75,13 +75,13 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void findAllTest() {
+    public void findAll() {
         when(movieDao.findAll()).thenReturn(movies);
         Assert.assertEquals(movieService.findAll(), movies);
     }
 
     @Test
-    public void findAllEmptyTest() {
+    public void findAllEmpty() {
         List<Movie> movies = new ArrayList<>();
         when(movieDao.findAll()).thenReturn(movies);
 
@@ -90,7 +90,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void findAllThrowsServiceLayerExceptionTest() {
+    public void findAllThrowsServiceLayerException() {
         when(movieDao.findAll()).thenThrow(PersistenceException.class);
         Assert.assertThrows(ServiceLayerException.class, () -> {
             movieService.findAll();
@@ -98,20 +98,20 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void findByIdTest() {
+    public void findById() {
         when(movieDao.findById(movie1.getId())).thenReturn(movie1);
         Assert.assertEquals(movie1, movieService.findById(movie1.getId()));
     }
 
     @Test
-    void findByIdNullTest() {
+    void findByIdNull() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.findById(null);
         });
     }
 
     @Test
-    void findByIdThrowsServiceLayerExceptionTest() {
+    void findByIdThrowsServiceLayerException() {
         when(movieDao.findById(movie1.getId())).thenThrow(PersistenceException.class);
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
@@ -120,27 +120,27 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void findByTitleTest() {
+    public void findByTitle() {
         when(movieDao.findByTitle(movie1.getTitle())).thenReturn(movies);
         Assert.assertEquals(movies, movieService.findByTitle(movie1.getTitle()));
     }
 
     @Test
-    public void findByTitleNullTest() {
+    public void findByTitleNull() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.findByTitle(null);
         });
     }
 
     @Test
-    public void findByTitleEmptyTest() {
+    public void findByTitleEmpty() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.findByTitle("");
         });
     }
 
     @Test
-    public void findByTitleThrowsServiceLayerExceptionTest() {
+    public void findByTitleThrowsServiceLayerException() {
         when(movieDao.findByTitle(movie1.getTitle())).thenThrow(PersistenceException.class);
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.findByTitle("");
@@ -148,23 +148,25 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void updateTest() {
+    public void update() {
         when(movieDao.findById(movie1.getId())).thenReturn(movie1);
         movie1.setTitle("New Title");
         movieService.update(movie1);
 
         verify(movieDao, times(1)).update(movie1);
+        verify(movieDao, times(1)).findById(movie1.getId());
+        verifyNoMoreInteractions(movieDao);
     }
 
     @Test
-    public void updateNullMovieTest() {
+    public void updateNullMovie() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.update(null);
         });
     }
 
     @Test
-    public void updateMovieNotInDatabaseTest() {
+    public void updateMovieNotInDatabase() {
         Movie movie = new Movie();
 
         Assert.assertThrows(IllegalArgumentException.class, () -> {
@@ -173,7 +175,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void updateThrowsServiceLayerExceptionTest() {
+    public void updateThrowsServiceLayerException() {
         doThrow(PersistenceException.class).when(movieDao).update(movie1);
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.update(movie1);
@@ -181,7 +183,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void removeTest() {
+    public void remove() {
         when(movieDao.findById(movie2.getId())).thenReturn(movie2);
         movieService.remove(movie2);
 
@@ -189,14 +191,14 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void removeNullMovieTest() {
+    public void removeNullMovie() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.remove(null);
         });
     }
 
     @Test
-    public void removeMovieNotInDatabaseTest() {
+    public void removeMovieNotInDatabase() {
         Movie movie = new Movie();
 
         Assert.assertThrows(IllegalArgumentException.class, () -> {
@@ -205,7 +207,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void removeThrowsServiceLayerExceptionTest() {
+    public void removeThrowsServiceLayerException() {
         doThrow(PersistenceException.class).when(movieDao).remove(movie1);
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             movieService.remove(movie1);
