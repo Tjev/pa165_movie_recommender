@@ -52,6 +52,9 @@ public class RatingDaoImplTest extends AbstractTestNGSpringContextTests {
         user1 = new User("novak", "novak@mail.com");
         user2 = new User("svoboda", "svoboda@mail.com");
 
+        user1.setPasswordHash("password1");
+        user2.setPasswordHash("password2");
+
         persistToDB(movie1);
         persistToDB(movie2);
         persistToDB(user1);
