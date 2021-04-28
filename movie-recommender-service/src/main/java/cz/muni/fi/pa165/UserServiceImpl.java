@@ -56,7 +56,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return getPersistedUserById(id);
+        if (id == null) {
+            throw new IllegalArgumentException("Id parameter is null.");
+        }
+        try {
+            return userDao.findById(id);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving persisted user by id.", e);
+        }
     }
 
     @Override
@@ -89,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
         validateStringParameter(password, "Password");
 
-        User persistedUser = getPersistedUserById(user.getId());
+        User persistedUser = findById(user.getId());
         return encoder.matches(password, persistedUser.getPasswordHash());
     }
 
@@ -99,7 +106,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("User parameter is null.");
         }
 
-        User persistedUser = getPersistedUserById(user.getId());
+        User persistedUser = findById(user.getId());
         return persistedUser.isAdmin();
     }
 
@@ -110,17 +117,6 @@ public class UserServiceImpl implements UserService {
 
         if (string.isEmpty()) {
             throw new IllegalArgumentException(String.format("%s cannot be empty.", paramName));
-        }
-    }
-
-    private User getPersistedUserById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id parameter is null.");
-        }
-        try {
-            return userDao.findById(id);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Error occurred while retrieving persisted user by id.", e);
         }
     }
 }
