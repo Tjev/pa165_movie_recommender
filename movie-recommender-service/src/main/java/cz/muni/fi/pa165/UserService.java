@@ -50,13 +50,13 @@ public interface UserService {
     User findUserByUsername(String username);
 
     /**
-     * Attempts to authenticate a user by comparing the given password hash with the one stored for the given user.
+     * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
      *
      * @param user - user whose password is to be checked
-     * @param passwordHash - password hash to be compared against the stored one
+     * @param password - password to be hashed and compared against the stored hash
      * @return true if the password hashes match
      */
-    boolean authenticate(User user, String passwordHash);
+    boolean authenticate(User user, String password);
 
     /**
      * Checks whether given user has admin rights.
