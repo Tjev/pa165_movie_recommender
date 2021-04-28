@@ -54,21 +54,41 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<Movie> getRecommendationsBasedOnGenres(Movie movie) {
-        Movie persistedMovie = movieDao.findById(movie.getId());
-
-        List<Movie> movies = movieDao.findAll();
-        Set<Genre> criteriaGenres = persistedMovie.getGenres();
-        List<Movie> candidates = new ArrayList<>();
-
-        for (Movie m : movies) {
-            Set<Genre> candidateGenres = new HashSet<>(m.getGenres());
-            candidateGenres.retainAll(criteriaGenres);
-            if (!candidateGenres.isEmpty()) {
-                candidates.add(m);
-            }
+        if (movie == null) {
+            throw new IllegalArgumentException("Given movie parameter is null.");
         }
 
-        return candidates;
+        try {
+            Movie persistedMovie = movieDao.findById(movie.getId());
+
+            if (persistedMovie == null) {
+                throw new IllegalArgumentException("Movie does not exist in the database.");
+            }
+
+            List<Movie> allMovies = movieDao.findAll();
+            Set<Genre> criteriaGenres = persistedMovie.getGenres();
+            List<Movie> recommendations = new ArrayList<>();
+
+            for (Movie candidateMovie : allMovies) {
+                if (candidateMovie == movie || recommendations.contains(candidateMovie)) {
+                    continue;
+                }
+
+                Set<Genre> candidateGenres = new HashSet<>(candidateMovie.getGenres());
+                candidateGenres.retainAll(criteriaGenres);
+                if (!candidateGenres.isEmpty()) {
+                    recommendations.add(candidateMovie);
+                }
+            }
+
+            return recommendations;
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error while getting recommendations based on genres.", e);
+        }
+
     }
 
     private List<Movie> findMoviesWithSameViewers(Movie movie) {
