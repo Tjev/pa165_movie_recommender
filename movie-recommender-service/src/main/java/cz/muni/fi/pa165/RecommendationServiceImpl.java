@@ -33,8 +33,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public List<Movie> getRecommendationsBasedOnUsers(Movie movie) {
         if (movie == null) {
-            throw new IllegalArgumentException("Given movie is null");
+            throw new IllegalArgumentException("Given movie parameter is null.");
         }
+
         try {
             Movie persistedMovie = movieDao.findById(movie.getId());
 
@@ -46,8 +47,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         } catch (IllegalArgumentException e) {
             throw e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ServiceLayerException("Error while getting recommendations based on users.", e);
         }
     }
@@ -65,23 +65,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 throw new IllegalArgumentException("Movie does not exist in the database.");
             }
 
-            List<Movie> allMovies = movieDao.findAll();
-            Set<Genre> criteriaGenres = persistedMovie.getGenres();
-            List<Movie> recommendations = new ArrayList<>();
-
-            for (Movie candidateMovie : allMovies) {
-                if (candidateMovie == movie || recommendations.contains(candidateMovie)) {
-                    continue;
-                }
-
-                Set<Genre> candidateGenres = new HashSet<>(candidateMovie.getGenres());
-                candidateGenres.retainAll(criteriaGenres);
-                if (!candidateGenres.isEmpty()) {
-                    recommendations.add(candidateMovie);
-                }
-            }
-
-            return recommendations;
+            return findMoviesWithSameGGenres(persistedMovie);
 
         } catch (IllegalArgumentException e) {
             throw e;
@@ -97,6 +81,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .collect(Collectors.toList());
 
         List<Movie> movies = new ArrayList<>();
+
         for (var user : users) {
             List<Rating> ratings = ratingDao.findByUser(user);
             for (var rating : ratings) {
@@ -107,5 +92,25 @@ public class RecommendationServiceImpl implements RecommendationService {
             }
         }
         return movies;
+    }
+
+    private List<Movie> findMoviesWithSameGGenres(Movie movie) {
+        List<Movie> allMovies = movieDao.findAll();
+        Set<Genre> criteriaGenres = movie.getGenres();
+        List<Movie> recommendations = new ArrayList<>();
+
+        for (Movie candidateMovie : allMovies) {
+            if (candidateMovie == movie || recommendations.contains(candidateMovie)) {
+                continue;
+            }
+
+            Set<Genre> candidateGenres = new HashSet<>(candidateMovie.getGenres());
+            candidateGenres.retainAll(criteriaGenres);
+            if (!candidateGenres.isEmpty()) {
+                recommendations.add(candidateMovie);
+            }
+        }
+
+        return recommendations;
     }
 }
