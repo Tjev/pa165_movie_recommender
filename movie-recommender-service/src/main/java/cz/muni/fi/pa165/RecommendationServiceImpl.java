@@ -65,7 +65,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 throw new IllegalArgumentException("Movie does not exist in the database.");
             }
 
-            return findMoviesWithSameGGenres(persistedMovie);
+            return findMoviesWithSameGenres(persistedMovie);
 
         } catch (IllegalArgumentException e) {
             throw e;
@@ -94,7 +94,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         return movies;
     }
 
-    private List<Movie> findMoviesWithSameGGenres(Movie movie) {
+    private List<Movie> findMoviesWithSameGenres(Movie movie) {
         List<Movie> allMovies = movieDao.findAll();
         Set<Genre> criteriaGenres = movie.getGenres();
         List<Movie> recommendations = new ArrayList<>();
