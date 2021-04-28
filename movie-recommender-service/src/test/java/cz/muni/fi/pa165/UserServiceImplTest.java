@@ -186,6 +186,35 @@ public class UserServiceImplTest {
         });
     }
 
+    @Test
+    public void registerEmptyPassword() {
+        User user = new User("John", "john@email.com");
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerUser(user, "");
+        });
+    }
+
+    @Test
+    public void findByEmptyEmailAddress() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserByEmailAddress("");
+        });
+    }
+
+    @Test
+    public void findByEmptyUsername() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.findUserByUsername("");
+        });
+    }
+
+    @Test
+    public void authenticateEmptyPassword() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.authenticate(user1, "");
+        });
+    }
+
     @AfterClass
     public void releaseMocks() throws Exception {
         closable.close();
