@@ -43,6 +43,7 @@ public class PersonServiceImplTest {
         personService.create(p1);
 
         verify(personDao, times(1)).create(p1);
+        verifyNoMoreInteractions(personDao);
     }
 
     @Test
@@ -54,6 +55,7 @@ public class PersonServiceImplTest {
 
         verify(personDao, times(1)).findAll();
         assertEquals(result, people);
+        verifyNoMoreInteractions(personDao);
     }
 
     @Test
@@ -62,7 +64,9 @@ public class PersonServiceImplTest {
 
         Person result = personService.findById(1L);
 
+        verify(personDao, times(1)).findById(1L);
         assertEquals(result, p1);
+        verifyNoMoreInteractions(personDao);
     }
 
     @Test
@@ -74,7 +78,9 @@ public class PersonServiceImplTest {
 
         List<Person> result = personService.findByName(name);
 
+        verify(personDao, times(1)).findByName(name);
         assertEquals(result, people);
+        verifyNoMoreInteractions(personDao);
     }
 
     @Test
@@ -84,6 +90,7 @@ public class PersonServiceImplTest {
         personService.update(p1);
 
         verify(personDao, times(1)).update(p1);
+        verifyNoMoreInteractions(personDao);
     }
 
     @Test
@@ -93,6 +100,7 @@ public class PersonServiceImplTest {
         personService.remove(p1);
 
         verify(personDao, times(1)).remove(p1);
+        verifyNoMoreInteractions(personDao);
     }
 
     @AfterMethod
