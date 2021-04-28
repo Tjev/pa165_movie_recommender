@@ -2,6 +2,7 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -11,12 +12,17 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-
+/**
+ * Tests for UserServiceImpl class.
+ *
+ * @author Radoslav Chudovsky, Jiri Papousek
+ */
 public class UserServiceImplTest {
 
     @Mock
@@ -212,6 +218,85 @@ public class UserServiceImplTest {
     public void authenticateEmptyPassword() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             userService.authenticate(user1, "");
+        });
+    }
+
+    @Test
+    public void registerPersistenceLayerFailed() {
+        User user = new User("John", "john@email.com");
+
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .create(user);
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.registerUser(user, PASSWORD1);
+        });
+    }
+
+    @Test
+    public void findAllPersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findAll();
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.getAllUsers();
+        });
+    }
+
+    @Test
+    public void findByIdPersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findById(user1.getId());
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.findUserById(user1.getId());
+        });
+    }
+
+    @Test
+    public void findByUsernamePersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findByUsername(user1.getUsername());
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.findUserByUsername(user1.getUsername());
+        });
+    }
+
+    @Test
+    public void findByEmailAddressPersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findByEmailAddress(user1.getEmailAddress());
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.findUserByEmailAddress(user1.getEmailAddress());
+        });
+    }
+
+    @Test
+    public void authenticatePersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findById(user1.getId());
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.authenticate(user1, PASSWORD1);
+        });
+    }
+
+    @Test
+    public void isAdminPersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findById(user1.getId());
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.isAdmin(user1);
         });
     }
 
