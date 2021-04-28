@@ -63,7 +63,7 @@ public class UserServiceTest {
     public void register() {
         User user = new User();
 
-        userService.registerUser(user, PASSWORD1);
+        userService.register(user, PASSWORD1);
 
         verify(userDao, times(1)).create(user);
         verifyNoMoreInteractions(userDao);
@@ -73,7 +73,7 @@ public class UserServiceTest {
     public void findAll() {
         when(userDao.findAll()).thenReturn(users);
 
-        List<User> result = userService.getAllUsers();
+        List<User> result = userService.findAll();
 
         verify(userDao, times(1)).findAll();
         verifyNoMoreInteractions(userDao);
@@ -85,7 +85,7 @@ public class UserServiceTest {
     public void findById() {
         when(userDao.findById(user1.getId())).thenReturn(user1);
 
-        User result = userService.findUserById(user1.getId());
+        User result = userService.findById(user1.getId());
 
         verify(userDao, times(1)).findById(user1.getId());
         verifyNoMoreInteractions(userDao);
@@ -97,7 +97,7 @@ public class UserServiceTest {
     public void findByEmailAdress() {
         when(userDao.findByEmailAddress(user1.getEmailAddress())).thenReturn(user1);
 
-        User result = userService.findUserByEmailAddress(user1.getEmailAddress());
+        User result = userService.findByEmailAddress(user1.getEmailAddress());
 
         verify(userDao, times(1)).findByEmailAddress(user1.getEmailAddress());
         verifyNoMoreInteractions(userDao);
@@ -109,7 +109,7 @@ public class UserServiceTest {
     public void findByUsername() {
         when(userDao.findByUsername(user1.getUsername())).thenReturn(user1);
 
-        User result = userService.findUserByUsername(user1.getUsername());
+        User result = userService.findByUsername(user1.getUsername());
 
         verify(userDao, times(1)).findByUsername(user1.getUsername());
         verifyNoMoreInteractions(userDao);
@@ -138,7 +138,7 @@ public class UserServiceTest {
     @Test
     public void registerNullUser() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(null, PASSWORD1);
+            userService.register(null, PASSWORD1);
         });
     }
 
@@ -146,28 +146,28 @@ public class UserServiceTest {
     public void registerNullPassword() {
         User user = new User("John", "john@email.com");
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(user, null);
+            userService.register(user, null);
         });
     }
 
     @Test
     public void findByNullId() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.findUserById(null);
+            userService.findById(null);
         });
     }
 
     @Test
     public void findByNullEmailAddress() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.findUserByEmailAddress(null);
+            userService.findByEmailAddress(null);
         });
     }
 
     @Test
     public void findByNullUsername() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.findUserByUsername(null);
+            userService.findByUsername(null);
         });
     }
 
@@ -196,21 +196,21 @@ public class UserServiceTest {
     public void registerEmptyPassword() {
         User user = new User("John", "john@email.com");
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(user, "");
+            userService.register(user, "");
         });
     }
 
     @Test
     public void findByEmptyEmailAddress() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.findUserByEmailAddress("");
+            userService.findByEmailAddress("");
         });
     }
 
     @Test
     public void findByEmptyUsername() {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
-            userService.findUserByUsername("");
+            userService.findByUsername("");
         });
     }
 
@@ -230,7 +230,7 @@ public class UserServiceTest {
                 .create(user);
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
-            userService.registerUser(user, PASSWORD1);
+            userService.register(user, PASSWORD1);
         });
     }
 
@@ -241,7 +241,7 @@ public class UserServiceTest {
                 .findAll();
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
-            userService.getAllUsers();
+            userService.findAll();
         });
     }
 
@@ -252,7 +252,7 @@ public class UserServiceTest {
                 .findById(user1.getId());
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
-            userService.findUserById(user1.getId());
+            userService.findById(user1.getId());
         });
     }
 
@@ -263,7 +263,7 @@ public class UserServiceTest {
                 .findByUsername(user1.getUsername());
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
-            userService.findUserByUsername(user1.getUsername());
+            userService.findByUsername(user1.getUsername());
         });
     }
 
@@ -274,7 +274,7 @@ public class UserServiceTest {
                 .findByEmailAddress(user1.getEmailAddress());
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
-            userService.findUserByEmailAddress(user1.getEmailAddress());
+            userService.findByEmailAddress(user1.getEmailAddress());
         });
     }
 
