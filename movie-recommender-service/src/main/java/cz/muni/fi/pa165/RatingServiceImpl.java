@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.RatingDao;
+import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
+import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,32 @@ public class RatingServiceImpl implements RatingService {
             return ratingDao.findById(id);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while retrieving rating by id.", e);
+        }
+    }
+
+    @Override
+    public List<Rating> findByMovie(Movie movie) {
+        if (movie == null) {
+            throw new IllegalArgumentException("Movie parameter is null.");
+        }
+
+        try {
+            return ratingDao.findByMovie(movie);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving rating by movie.", e);
+        }
+    }
+
+    @Override
+    public List<Rating> findByUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User parameter is null.");
+        }
+
+        try {
+            return ratingDao.findByUser(user);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving rating by user.", e);
         }
     }
 
