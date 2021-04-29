@@ -42,7 +42,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
         personDao.create(p);
 
-        Person found = getFromDB(p.getId());
+        Person found = em.find(Person.class, p.getId());
 
         Assert.assertEquals(found, p);
     }
@@ -66,15 +66,15 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void findAllTest() {
         Person firstP = new Person();
         firstP.setName("first person");
-        persistToDB(firstP);
+        em.persist(firstP);
 
         Person secondP = new Person();
         secondP.setName("second person");
-        persistToDB(secondP);
+        em.persist(secondP);
 
         Person thirdP = new Person();
         thirdP.setName("third person");
-        persistToDB(thirdP);
+        em.persist(thirdP);
 
         List<Person> found = personDao.findAll();
 
@@ -88,7 +88,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void findByIdTest() {
         Person p = new Person();
         p.setName("name");
-        persistToDB(p);
+        em.persist(p);
 
         Person found = personDao.findById(p.getId());
 
@@ -100,15 +100,15 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
         String name = "same";
         Person firstP = new Person();
         firstP.setName(name);
-        persistToDB(firstP);
+        em.persist(firstP);
 
         Person secondP = new Person();
         secondP.setName(name);
-        persistToDB(secondP);
+        em.persist(secondP);
 
         Person thirdP = new Person();
         thirdP.setName("different");
-        persistToDB(thirdP);
+        em.persist(thirdP);
 
         List<Person> found = personDao.findByName(name);
 
@@ -124,7 +124,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
         p.setName("name");
         p.setBio("bio");
         p.setDateOfBirth(LocalDate.of(1990, 4, 22));
-        persistToDB(p);
+        em.persist(p);
 
         p.setName("new name");
         p.setBio("new bio");
@@ -132,7 +132,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
         personDao.update(p);
 
-        Person found = getFromDB(p.getId());
+        Person found = em.find(Person.class, p.getId());
 
         Assert.assertEquals(found, p);
     }
@@ -141,19 +141,11 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void removeTest() {
         Person p = new Person();
         p.setName("name");
-        persistToDB(p);
+        em.persist(p);
 
         personDao.remove(p);
 
-        Assert.assertNull(getFromDB(p.getId()));
+        Assert.assertNull(em.find(Person.class, p.getId()));
     }
 
-    public void persistToDB(Object object) {
-        em.persist(object);
-    }
-
-    private Person getFromDB(long id) {
-        Person p = em.find(Person.class, id);
-        return p;
-    }
 }

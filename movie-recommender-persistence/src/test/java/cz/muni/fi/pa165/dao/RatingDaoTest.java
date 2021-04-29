@@ -58,10 +58,10 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         user1.setPasswordHash("password1");
         user2.setPasswordHash("password2");
 
-        persistToDB(movie1);
-        persistToDB(movie2);
-        persistToDB(user1);
-        persistToDB(user2);
+        em.persist(movie1);
+        em.persist(movie2);
+        em.persist(user1);
+        em.persist(user2);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
 
         dao.create(rating);
 
-        Assert.assertEquals(getFromDB(rating.getId()), rating);
+        Assert.assertEquals(em.find(Rating.class, rating.getId()), rating);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -107,9 +107,9 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         List<Rating> ratings = dao.findAll();
 
@@ -123,7 +123,7 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     void findByIdTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
-        persistToDB(rating);
+        em.persist(rating);
 
         Assert.assertEquals(dao.findById(rating.getId()), rating);
     }
@@ -134,9 +134,9 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         List<Rating> ratings = dao.findByMovie(movie1);
 
@@ -151,9 +151,9 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         List<Rating> ratings = dao.findByUser(user2);
 
@@ -166,13 +166,13 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     public void updateTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
-        persistToDB(rating);
+        em.persist(rating);
         rating.setMovie(movie2);
         rating.setUser(user2);
         rating.setOriginality(4);
         dao.update(rating);
 
-        Assert.assertEquals(getFromDB(rating.getId()), rating);
+        Assert.assertEquals(em.find(Rating.class, rating.getId()), rating);
     }
 
     @Test
@@ -181,23 +181,15 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         dao.remove(rating1);
 
-        Assert.assertNull(getFromDB(rating1.getId()));
-        Assert.assertEquals(getFromDB(rating2.getId()), rating2);
-        Assert.assertEquals(getFromDB(rating3.getId()), rating3);
+        Assert.assertNull(em.find(Rating.class, rating1.getId()));
+        Assert.assertEquals(em.find(Rating.class, rating2.getId()), rating2);
+        Assert.assertEquals(em.find(Rating.class, rating3.getId()), rating3);
     }
 
-    private void persistToDB(Object object) {
-        em.persist(object);
-    }
-
-    private Rating getFromDB(long id) {
-        Rating p = em.find(Rating.class, id);
-        return p;
-    }
 }
