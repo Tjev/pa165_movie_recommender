@@ -15,7 +15,7 @@ import java.util.List;
 public class RatingFacadeImpl implements RatingFacade {
 
     @Override
-    public Long create(RatingCreateDTO rating) {
+    public RatingDTO create(RatingCreateDTO rating) {
         return null;
     }
 

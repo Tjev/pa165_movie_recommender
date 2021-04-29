@@ -10,12 +10,12 @@ import java.util.List;
 public interface RatingFacade {
 
     /**
-     * Creates a rating and returns its id.
+     * Creates a rating.
      *
      * @param rating to be created
-     * @return id of the rating
+     * @return DTO of the created rating
      */
-    Long create(RatingCreateDTO rating);
+    RatingDTO create(RatingCreateDTO rating);
 
     /**
      * Update a rating.
