@@ -94,8 +94,6 @@ public class PersonDetailedDTO {
                 ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", bio='" + bio + '\'' +
-                ", directedMovies=" + directedMovies +
-                ", actsInMovies=" + actsInMovies +
                 '}';
     }
 }
