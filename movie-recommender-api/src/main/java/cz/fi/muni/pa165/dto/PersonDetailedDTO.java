@@ -2,18 +2,22 @@ package cz.fi.muni.pa165.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 /**
- * DTO for Person entity.
+ * DTO for Person entity with relationships to other DTOs.
  *
  * @author Jiri Papousek
  */
-public class PersonDto {
+public class PersonDetailedDTO {
 
     private Long id;
     private String name;
     private LocalDate dateOfBirth;
     private String bio;
+
+    private Set<MovieDTO> directedMovies;
+    private Set<MovieDTO> actsInMovies;
 
     public Long getId() {
         return id;
@@ -47,17 +51,33 @@ public class PersonDto {
         this.bio = bio;
     }
 
+    public Set<MovieDTO> getDirectedMovies() {
+        return directedMovies;
+    }
+
+    public void setDirectedMovies(Set<MovieDTO> directedMovies) {
+        this.directedMovies = directedMovies;
+    }
+
+    public Set<MovieDTO> getActsInMovies() {
+        return actsInMovies;
+    }
+
+    public void setActsInMovies(Set<MovieDTO> actsInMovies) {
+        this.actsInMovies = actsInMovies;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonDto)) return false;
+        if (!(o instanceof PersonDetailedDTO)) return false;
 
-        PersonDto personDto = (PersonDto) o;
+        PersonDetailedDTO that = (PersonDetailedDTO) o;
 
-        if (!getName().equals(personDto.getName())) return false;
-        if (getDateOfBirth() != null ? !getDateOfBirth().equals(personDto.getDateOfBirth()) : personDto.getDateOfBirth() != null)
+        if (!getName().equals(that.getName())) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(that.getDateOfBirth()) : that.getDateOfBirth() != null)
             return false;
-        return getBio() != null ? getBio().equals(personDto.getBio()) : personDto.getBio() == null;
+        return getBio() != null ? getBio().equals(that.getBio()) : that.getBio() == null;
     }
 
     @Override
@@ -69,7 +89,7 @@ public class PersonDto {
 
     @Override
     public String toString() {
-        return "PersonDto{" +
+        return "PersonDetailedDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +

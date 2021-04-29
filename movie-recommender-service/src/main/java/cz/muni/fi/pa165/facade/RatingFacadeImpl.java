@@ -1,9 +1,6 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.MovieDTO;
-import cz.fi.muni.pa165.dto.RatingCreateDTO;
-import cz.fi.muni.pa165.dto.RatingDTO;
-import cz.fi.muni.pa165.dto.UserDTO;
+import cz.fi.muni.pa165.dto.*;
 import cz.fi.muni.pa165.facade.RatingFacade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -15,6 +15,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>movie-recommender-persistence</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>

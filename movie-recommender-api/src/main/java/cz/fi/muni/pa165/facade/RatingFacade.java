@@ -1,9 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.MovieDTO;
-import cz.fi.muni.pa165.dto.RatingCreateDTO;
-import cz.fi.muni.pa165.dto.RatingDTO;
-import cz.fi.muni.pa165.dto.UserDTO;
+import cz.fi.muni.pa165.dto.*;
 
 import java.util.List;
 

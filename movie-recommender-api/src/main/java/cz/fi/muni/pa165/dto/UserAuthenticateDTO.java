@@ -29,4 +29,11 @@ public class UserAuthenticateDTO {
     {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "UserAuthenticateDTO{" +
+                "userId=" + userId +
+                '}';
+    }
 }

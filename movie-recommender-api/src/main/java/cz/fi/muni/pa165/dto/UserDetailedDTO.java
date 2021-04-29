@@ -8,13 +8,14 @@ import java.util.Objects;
  *
  * @author Tomas Jevocin
  */
-public class UserDTO {
+public class UserDetailedDTO {
 
     private Long id;
     private String username;
     private String passwordHash;
     private boolean admin;
     private String emailAddress;
+    private List<RatingDTO> ratings;
 
     public Long getId() {
         return id;
@@ -56,17 +57,25 @@ public class UserDTO {
         this.emailAddress = emailAddress;
     }
 
+    public List<RatingDTO> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<RatingDTO> ratings) {
+        this.ratings = ratings;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserDTO)) return false;
+        if (!(o instanceof UserDetailedDTO)) return false;
 
-        UserDTO userDTO = (UserDTO) o;
+        UserDetailedDTO userDetailedDTO = (UserDetailedDTO) o;
 
-        if (isAdmin() != userDTO.isAdmin()) return false;
-        if (!getUsername().equals(userDTO.getUsername())) return false;
-        if (!getPasswordHash().equals(userDTO.getPasswordHash())) return false;
-        return getEmailAddress().equals(userDTO.getEmailAddress());
+        if (isAdmin() != userDetailedDTO.isAdmin()) return false;
+        if (!getUsername().equals(userDetailedDTO.getUsername())) return false;
+        if (!getPasswordHash().equals(userDetailedDTO.getPasswordHash())) return false;
+        return getEmailAddress().equals(userDetailedDTO.getEmailAddress());
     }
 
     @Override
@@ -80,7 +89,7 @@ public class UserDTO {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UserDetailedDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", admin=" + admin +
