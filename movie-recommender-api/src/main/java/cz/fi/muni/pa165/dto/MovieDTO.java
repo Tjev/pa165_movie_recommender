@@ -1,11 +1,15 @@
 package cz.fi.muni.pa165.dto;
 
 import cz.muni.fi.pa165.entity.Genre;
+import cz.muni.fi.pa165.entity.Movie;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 /**
+ * DTO for Movie entity.
+ *
  * @author Radoslav Chudovsky
  */
 public class MovieDTO {
@@ -60,24 +64,23 @@ public class MovieDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Movie)) return false;
 
-        MovieDTO movieDTO = (MovieDTO) o;
+        Movie movie = (Movie) o;
 
-        if (title != null ? !title.equals(movieDTO.title) : movieDTO.title != null) return false;
-        if (bio != null ? !bio.equals(movieDTO.bio) : movieDTO.bio != null) return false;
-        if (releaseYear != null ? !releaseYear.equals(movieDTO.releaseYear) : movieDTO.releaseYear != null)
-            return false;
-        return genres != null ? genres.equals(movieDTO.genres) : movieDTO.genres == null;
+        if (!getTitle().equals(movie.getTitle())) return false;
+        if (getBio() != null ? !getBio().equals(movie.getBio()) : movie.getBio() != null) return false;
+        if (getReleaseYear() != null ? !getReleaseYear().equals(movie.getYear()) : movie.getYear() != null) return false;
+        return getGenres().equals(movie.getGenres());
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (bio != null ? bio.hashCode() : 0);
-        result = 31 * result + (releaseYear != null ? releaseYear.hashCode() : 0);
-        result = 31 * result + (genres != null ? genres.hashCode() : 0);
-        return result;
+        return Objects.hash(
+                getTitle(),
+                getBio(),
+                getReleaseYear(),
+                getGenres());
     }
 
     @Override
