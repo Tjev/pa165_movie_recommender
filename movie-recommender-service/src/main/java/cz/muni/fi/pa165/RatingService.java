@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165;
 
+import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
+import cz.muni.fi.pa165.entity.User;
 
 import java.util.List;
 
@@ -32,6 +34,22 @@ public interface RatingService {
      * @return rating matching the id
      */
     Rating findById(Long id);
+
+    /**
+     * Retrieves ratings for the movie from the persistence layer.
+     *
+     * @param movie for which ratings should be found
+     * @return list of ratings
+     */
+    List<Rating> findByMovie(Movie movie);
+
+    /**
+     * Retrieves ratings for the user from the persistence layer.
+     *
+     * @param user for which ratings should be found
+     * @return list of ratings
+     */
+    List<Rating> findByUser(User user);
 
     /**
      * Merges the rating by its ID with its current representation in the persistence layer.
