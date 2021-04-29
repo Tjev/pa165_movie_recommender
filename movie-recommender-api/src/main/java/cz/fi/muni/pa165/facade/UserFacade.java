@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.dto.UserDTO;
+import cz.fi.muni.pa165.dto.UserDetailedDTO;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface UserFacade {
      * @param id - id to be used as the key for retrieval
      * @return - user DTO matching the id
      */
-    UserDTO findById(Long id);
+    UserDetailedDTO findById(Long id);
 
     /**
      * Retrieves a user of the system with the matching email address.
@@ -42,7 +43,7 @@ public interface UserFacade {
      * @param emailAddress - email address to be used as the key for retrieval
      * @return - user DTO matching the email address
      */
-    UserDTO findByEmailAddress(String emailAddress);
+    UserDetailedDTO findByEmailAddress(String emailAddress);
 
     /**
      * Retrieves a user of the system with the matching username.
@@ -50,7 +51,7 @@ public interface UserFacade {
      * @param username - username to be used as the key for retrieval
      * @return - user DTO matching the username
      */
-    UserDTO findByUsername(String username);
+    UserDetailedDTO findByUsername(String username);
 
     /**
      * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
