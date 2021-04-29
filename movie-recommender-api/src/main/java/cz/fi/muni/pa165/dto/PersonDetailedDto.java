@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * DTO for Person entity with relationships to other DTOs.
@@ -15,8 +16,8 @@ public class PersonDetailedDTO {
     private LocalDate dateOfBirth;
     private String bio;
 
-    private List<MovieDto> directedMovies;
-    private List<MovieDto> actsInMovies;
+    private Set<MovieDTO> directedMovies;
+    private Set<MovieDTO> actsInMovies;
 
     public Long getId() {
         return id;
@@ -50,19 +51,19 @@ public class PersonDetailedDTO {
         this.bio = bio;
     }
 
-    public List<MovieDto> getDirectedMovies() {
+    public Set<MovieDTO> getDirectedMovies() {
         return directedMovies;
     }
 
-    public void setDirectedMovies(List<MovieDto> directedMovies) {
+    public void setDirectedMovies(Set<MovieDTO> directedMovies) {
         this.directedMovies = directedMovies;
     }
 
-    public List<MovieDto> getActsInMovies() {
+    public Set<MovieDTO> getActsInMovies() {
         return actsInMovies;
     }
 
-    public void setActsInMovies(List<MovieDto> actsInMovies) {
+    public void setActsInMovies(Set<MovieDTO> actsInMovies) {
         this.actsInMovies = actsInMovies;
     }
 
