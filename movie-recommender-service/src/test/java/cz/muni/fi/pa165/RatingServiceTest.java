@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.RatingDao;
+import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
@@ -13,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,16 +34,20 @@ public class RatingServiceTest {
 
     private AutoCloseable closeable;
 
-    private Movie movie;
-    private User user;
+    private Movie movie1;
+    private Movie movie2;
+    private User user1;
+    private User user2;
 
     @BeforeMethod
     public void setup() {
         closeable = MockitoAnnotations.openMocks(this);
         ratingService = new RatingServiceImpl(ratingDao);
 
-        movie = new Movie();
-        user = new User();
+        movie1 = setupMovie(1L, "Indiana Jones", Genre.ROMANCE);
+        movie2 = setupMovie(2L, "Titanic", Genre.ACTION);
+        user1 = setupUser("John");
+        user2 = setupUser("George");
     }
 
     @Test
@@ -74,8 +78,8 @@ public class RatingServiceTest {
 
     @Test
     public void findAllRatings() {
-        Rating r1 = setupRating(1L,1, 1, 1, 1, 1, movie, user);
-        Rating r2 = setupRating(2L,5, 5, 5, 5, 5, movie, user);
+        Rating r1 = setupRating(1L,1, 1, 1, 1, 1, movie1, user1);
+        Rating r2 = setupRating(2L,5, 5, 5, 5, 5, movie1, user1);
 
         List<Rating> ratings = new ArrayList<>(Arrays.asList(r1, r2));
         when(ratingDao.findAll()).thenReturn(ratings);
@@ -119,6 +123,64 @@ public class RatingServiceTest {
         when(ratingDao.findById(rating.getId())).thenThrow(PersistenceException.class);
 
         ratingService.findById(rating.getId());
+    }
+
+    @Test
+    public void findByUser() {
+        Rating r1 = setupRating(1L,1, 1, 1, 1, 1, movie1, user1);
+        Rating r2 = setupRating(2L,5, 5, 5, 5, 5, movie2, user1);
+
+        List<Rating> ratings = new ArrayList<>(Arrays.asList(r1, r2));
+        when(ratingDao.findByUser(user1)).thenReturn(ratings);
+
+        var foundRatings = ratingService.findByUser(user1);
+
+        verify(ratingDao, times(1)).findByUser(user1);
+        verifyNoMoreInteractions(ratingDao);
+        Assert.assertTrue(foundRatings.contains(r1));
+        Assert.assertTrue(foundRatings.contains(r2));
+        Assert.assertEquals(foundRatings.size(), 2);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findByNullUser() {
+        ratingService.findByUser(null);
+    }
+
+    @Test(expectedExceptions = ServiceLayerException.class)
+    public void findByUserPersistenceException() {
+        when(ratingService.findByUser(user1)).thenThrow(PersistenceException.class);
+
+        ratingService.findByUser(user1);
+    }
+
+    @Test
+    public void findByMovie() {
+        Rating r1 = setupRating(1L,1, 1, 1, 1, 1, movie1, user1);
+        Rating r2 = setupRating(2L,5, 5, 5, 5, 5, movie1, user2);
+
+        List<Rating> ratings = new ArrayList<>(Arrays.asList(r1, r2));
+        when(ratingDao.findByMovie(movie1)).thenReturn(ratings);
+
+        var foundRatings = ratingService.findByMovie(movie1);
+
+        verify(ratingDao, times(1)).findByMovie(movie1);
+        verifyNoMoreInteractions(ratingDao);
+        Assert.assertTrue(foundRatings.contains(r1));
+        Assert.assertTrue(foundRatings.contains(r2));
+        Assert.assertEquals(foundRatings.size(), 2);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findByNullMovie() {
+        ratingService.findByMovie(null);
+    }
+
+    @Test(expectedExceptions = ServiceLayerException.class)
+    public void findByMoviePersistenceException() {
+        when(ratingService.findByMovie(movie1)).thenThrow(PersistenceException.class);
+
+        ratingService.findByMovie(movie1);
     }
 
     @Test
@@ -200,6 +262,23 @@ public class RatingServiceTest {
         closeable.close();
     }
 
+    private Movie setupMovie(Long id, String title, Genre... genres) {
+        Movie movie = new Movie();
+
+        movie.setId(id);
+        movie.setTitle(title);
+
+        for (var genre : genres) {
+            movie.addGenre(genre);
+        }
+
+        return movie;
+    }
+
+    private User setupUser(String username) {
+        return new User(username, username + "@mail.com");
+    }
+
     private Rating setupRating(Long id, int originality, int soundtrack, int narrative,
                                int cinematography, int depth, Movie movie, User user) {
         Rating rating = new Rating(movie, user, originality, soundtrack, narrative, cinematography, depth);
@@ -209,6 +288,6 @@ public class RatingServiceTest {
     }
 
     private Rating setupPredefinedRating() {
-        return setupRating(1L, 1, 2, 3, 4, 5, movie, user);
+        return setupRating(1L, 1, 2, 3, 4, 5, movie1, user1);
     }
 }
