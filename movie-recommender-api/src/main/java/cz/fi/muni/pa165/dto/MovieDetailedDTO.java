@@ -82,14 +82,14 @@ public class MovieDetailedDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Movie)) return false;
+        if (!(o instanceof MovieDetailedDTO)) return false;
 
-        Movie movie = (Movie) o;
+        MovieDetailedDTO that = (MovieDetailedDTO) o;
 
-        if (!getTitle().equals(movie.getTitle())) return false;
-        if (getBio() != null ? !getBio().equals(movie.getBio()) : movie.getBio() != null) return false;
-        if (getReleaseYear() != null ? !getReleaseYear().equals(movie.getYear()) : movie.getYear() != null) return false;
-        return getGenres().equals(movie.getGenres());
+        if (!getTitle().equals(that.getTitle())) return false;
+        if (getBio() != null ? !getBio().equals(that.getBio()) : that.getBio() != null) return false;
+        if (!getReleaseYear().equals(that.getReleaseYear())) return false;
+        return getGenres().equals(that.getGenres());
     }
 
     @Override

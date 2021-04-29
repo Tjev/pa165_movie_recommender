@@ -1,8 +1,9 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.PersonCreateDto;
-import cz.fi.muni.pa165.dto.PersonDetailedDto;
-import cz.fi.muni.pa165.dto.PersonDto;
+import cz.fi.muni.pa165.dto.MovieDTO;
+import cz.fi.muni.pa165.dto.PersonCreateDTO;
+import cz.fi.muni.pa165.dto.PersonDetailedDTO;
+import cz.fi.muni.pa165.dto.PersonDTO;
 
 /**
  * Facade for interaction with person data (actors and directors).
@@ -17,7 +18,7 @@ public interface PersonFacade {
      * @param personCreateDto DTO with person data
      * @return DTO after creation operation
      */
-    PersonDetailedDto create(PersonCreateDto personCreateDto);
+    PersonDetailedDTO create(PersonCreateDTO personCreateDto);
 
     /**
      * Finds a person by id.
@@ -25,7 +26,7 @@ public interface PersonFacade {
      * @param id of the person in the data source
      * @return DTO with person data
      */
-    PersonDetailedDto findById(Long id);
+    PersonDetailedDTO findById(Long id);
 
     /**
      * Finds a person by its name.
@@ -33,7 +34,7 @@ public interface PersonFacade {
      * @param name of the person in the data source
      * @return DTO with person data
      */
-    PersonDetailedDto findByName(String name);
+    PersonDetailedDTO findByName(String name);
 
     /**
      * Updates the given person.
@@ -41,7 +42,7 @@ public interface PersonFacade {
      * @param personDetailedDto DTO with data for update in attributes
      * @return DTO with person data after update operation
      */
-    PersonDetailedDto update(PersonDetailedDto personDetailedDto);
+    PersonDetailedDTO update(PersonDetailedDTO personDetailedDto);
 
     /**
      * Adds a movie to person which he/she has directed.
@@ -50,7 +51,7 @@ public interface PersonFacade {
      * @param movie that has been directed
      * @return DTO with person data after update operation
      */
-    PersonDetailedDto addDirectedMovie(PersonDto personDto, MovieDto movie);
+    PersonDetailedDTO addDirectedMovie(PersonDTO personDto, MovieDTO movie);
 
     /**
      * Adds a movie to person in which he/she has acted.
@@ -59,12 +60,12 @@ public interface PersonFacade {
      * @param movie the person acted in
      * @return DTO with person data after update operation
      */
-    PersonDetailedDto addActsInMovie(PersonDto personDto, MovieDto movie);
+    PersonDetailedDTO addActsInMovie(PersonDTO personDto, MovieDTO movie);
 
     /**
      * Removes the given person
      *
      * @param personDto DTO of the person to be removed
      */
-    void remove(PersonDto personDto);
+    void remove(PersonDTO personDto);
 }

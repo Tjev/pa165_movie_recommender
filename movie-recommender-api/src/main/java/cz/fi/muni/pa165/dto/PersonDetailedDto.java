@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Jiri Papousek
  */
-public class PersonDetailedDto {
+public class PersonDetailedDTO {
 
     private Long id;
     private String name;
@@ -69,14 +69,14 @@ public class PersonDetailedDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonDto)) return false;
+        if (!(o instanceof PersonDetailedDTO)) return false;
 
-        PersonDto personDto = (PersonDto) o;
+        PersonDetailedDTO that = (PersonDetailedDTO) o;
 
-        if (!getName().equals(personDto.getName())) return false;
-        if (getDateOfBirth() != null ? !getDateOfBirth().equals(personDto.getDateOfBirth()) : personDto.getDateOfBirth() != null)
+        if (!getName().equals(that.getName())) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(that.getDateOfBirth()) : that.getDateOfBirth() != null)
             return false;
-        return getBio() != null ? getBio().equals(personDto.getBio()) : personDto.getBio() == null;
+        return getBio() != null ? getBio().equals(that.getBio()) : that.getBio() == null;
     }
 
     @Override
@@ -88,11 +88,13 @@ public class PersonDetailedDto {
 
     @Override
     public String toString() {
-        return "PersonDto{" +
+        return "PersonDetailedDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", bio='" + bio + '\'' +
+                ", directedMovies=" + directedMovies +
+                ", actsInMovies=" + actsInMovies +
                 '}';
     }
 }

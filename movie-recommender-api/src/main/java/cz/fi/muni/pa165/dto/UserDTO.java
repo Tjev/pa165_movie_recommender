@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.dto;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -84,14 +85,15 @@ public class UserDTO {
                 isAdmin(),
                 getEmailAddress());
     }
+
     @Override
     public String toString() {
         return "UserDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
                 ", admin=" + admin +
                 ", emailAddress='" + emailAddress + '\'' +
+                ", ratings=" + ratings +
                 '}';
     }
 }

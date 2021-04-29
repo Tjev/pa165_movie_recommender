@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Jiri Papousek
  */
-public class PersonCreateDto {
+public class PersonCreateDTO {
 
     private String name;
     private LocalDate dateOfBirth;
@@ -41,14 +41,14 @@ public class PersonCreateDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonDto)) return false;
+        if (!(o instanceof PersonCreateDTO)) return false;
 
-        PersonDto personDto = (PersonDto) o;
+        PersonCreateDTO that = (PersonCreateDTO) o;
 
-        if (!getName().equals(personDto.getName())) return false;
-        if (getDateOfBirth() != null ? !getDateOfBirth().equals(personDto.getDateOfBirth()) : personDto.getDateOfBirth() != null)
+        if (!getName().equals(that.getName())) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(that.getDateOfBirth()) : that.getDateOfBirth() != null)
             return false;
-        return getBio() != null ? getBio().equals(personDto.getBio()) : personDto.getBio() == null;
+        return getBio() != null ? getBio().equals(that.getBio()) : that.getBio() == null;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PersonCreateDto {
 
     @Override
     public String toString() {
-        return "PersonDto{" +
+        return "PersonCreateDTO{" +
                 "name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", bio='" + bio + '\'' +
