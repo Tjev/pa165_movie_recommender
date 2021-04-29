@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Rating facade implementation.
+ *
+ * @author Kristian Tkacik
+ */
 @Service
 @Transactional
 public class RatingFacadeImpl implements RatingFacade {
@@ -25,7 +30,7 @@ public class RatingFacadeImpl implements RatingFacade {
     }
 
     @Override
-    public void delete(Long id) {
+    public void remove(Long id) {
 
     }
 

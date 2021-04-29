@@ -2,6 +2,11 @@ package cz.fi.muni.pa165.dto;
 
 import java.util.Objects;
 
+/**
+ * DTO for Rating entity.
+ *
+ * @author Kristian Tkacik
+ */
 public class RatingDTO {
 
     private Long id;

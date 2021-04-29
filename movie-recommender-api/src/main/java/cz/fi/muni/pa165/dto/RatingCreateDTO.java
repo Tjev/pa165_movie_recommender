@@ -4,6 +4,11 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Objects;
 
+/**
+ * DTO for rating creation.
+ *
+ * @author Kristian Tkacik
+ */
 public class RatingCreateDTO {
 
     @Min(value = 1, message = "Minimum rating value is 1")

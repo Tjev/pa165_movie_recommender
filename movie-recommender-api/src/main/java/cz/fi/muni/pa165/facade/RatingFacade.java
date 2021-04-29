@@ -7,6 +7,11 @@ import cz.fi.muni.pa165.dto.UserDTO;
 
 import java.util.List;
 
+/**
+ * Facade for interaction with rating data.
+ *
+ * @author Kristian Tkacik
+ */
 public interface RatingFacade {
 
     /**
@@ -30,7 +35,7 @@ public interface RatingFacade {
      *
      * @param id of the rating to be deleted.
      */
-    void delete(Long id);
+    void remove(Long id);
 
     /**
      * Finds rating with the given id.
