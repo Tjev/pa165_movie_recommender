@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,38 +32,85 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<Movie> getRecommendationsBasedOnUsers(Movie movie) {
-        Movie persistedMovie = movieDao.findById(movie.getId());
+        if (movie == null) {
+            throw new IllegalArgumentException("Given movie parameter is null.");
+        }
 
-        List<User> users = ratingDao.findByMovie(persistedMovie).stream()
+        try {
+            Movie persistedMovie = movieDao.findById(movie.getId());
+
+            if (persistedMovie == null) {
+                throw new IllegalArgumentException("Movie does not exist in the database.");
+            }
+
+            return findMoviesWithSameViewers(persistedMovie);
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error while getting recommendations based on users.", e);
+        }
+    }
+
+    @Override
+    public List<Movie> getRecommendationsBasedOnGenres(Movie movie) {
+        if (movie == null) {
+            throw new IllegalArgumentException("Given movie parameter is null.");
+        }
+
+        try {
+            Movie persistedMovie = movieDao.findById(movie.getId());
+
+            if (persistedMovie == null) {
+                throw new IllegalArgumentException("Movie does not exist in the database.");
+            }
+
+            return findMoviesWithSameGenres(persistedMovie);
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error while getting recommendations based on genres.", e);
+        }
+
+    }
+
+    private List<Movie> findMoviesWithSameViewers(Movie movie) {
+        List<User> users = ratingDao.findByMovie(movie).stream()
                 .map(Rating::getUser)
                 .collect(Collectors.toList());
 
         List<Movie> movies = new ArrayList<>();
+
         for (var user : users) {
             List<Rating> ratings = ratingDao.findByUser(user);
             for (var rating : ratings) {
-                movies.add(rating.getMovie());
+                var ratedMovie = rating.getMovie();
+                if (!movies.contains(ratedMovie) && ratedMovie != movie) {
+                    movies.add(rating.getMovie());
+                }
             }
         }
         return movies;
     }
 
-    @Override
-    public List<Movie> getRecommendationsBasedOnGenres(Movie movie) {
-        Movie persistedMovie = movieDao.findById(movie.getId());
+    private List<Movie> findMoviesWithSameGenres(Movie movie) {
+        List<Movie> allMovies = movieDao.findAll();
+        Set<Genre> criteriaGenres = movie.getGenres();
+        List<Movie> recommendations = new ArrayList<>();
 
-        List<Movie> movies = movieDao.findAll();
-        Set<Genre> criteriaGenres = persistedMovie.getGenres();
-        List<Movie> candidates = new ArrayList<>();
+        for (Movie candidateMovie : allMovies) {
+            if (candidateMovie == movie || recommendations.contains(candidateMovie)) {
+                continue;
+            }
 
-        for (Movie m : movies) {
-            Set<Genre> candidateGenres = new HashSet<>(m.getGenres());
+            Set<Genre> candidateGenres = new HashSet<>(candidateMovie.getGenres());
             candidateGenres.retainAll(criteriaGenres);
             if (!candidateGenres.isEmpty()) {
-                candidates.add(m);
+                recommendations.add(candidateMovie);
             }
         }
 
-        return candidates;
+        return recommendations;
     }
 }
