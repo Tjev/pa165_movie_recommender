@@ -6,16 +6,17 @@ import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 
-import javax.persistence.PersistenceException;
+import javax.persistence.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -29,10 +30,12 @@ import java.util.Set;
  * @author Jiri Papousek
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class RatingDaoTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     private RatingDao dao;
@@ -68,14 +71,6 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         dao.create(rating);
 
         Assert.assertEquals(getFromDB(rating.getId()), rating);
-    }
-
-    @Test(expectedExceptions = PersistenceException.class)
-    public void createDuplicateTest() {
-        Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
-
-        dao.create(rating);
-        dao.create(rating);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -198,46 +193,11 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     private void persistToDB(Object object) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(object);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.persist(object);
     }
 
     private Rating getFromDB(long id) {
-        Rating p;
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            p = em.find(Rating.class, id);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        Rating p = em.find(Rating.class, id);
         return p;
-    }
-
-    @AfterMethod
-    public void afterTest() {
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-
-        em.createQuery("DELETE FROM Rating").executeUpdate();
-        em.createQuery("DELETE FROM Movie").executeUpdate();
-        em.createQuery("DELETE FROM User").executeUpdate();
-
-        em.getTransaction().commit();
-        em.close();
     }
 }

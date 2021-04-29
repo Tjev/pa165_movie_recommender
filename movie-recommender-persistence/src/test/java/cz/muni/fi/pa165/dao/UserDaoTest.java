@@ -4,14 +4,14 @@ import cz.muni.fi.pa165.PersistenceApplicationContext;
 import cz.muni.fi.pa165.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
 /**
@@ -20,10 +20,12 @@ import javax.validation.ConstraintViolationException;
  * @author Kristian Tkacik
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class UserDaoTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     private UserDao userDao;
@@ -39,19 +41,8 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         u1.setPasswordHash("password1");
         u2.setPasswordHash("password2");
 
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-
-            em.getTransaction().begin();
-            em.persist(u1);
-            em.persist(u2);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.persist(u1);
+        em.persist(u2);
     }
 
     @Test
@@ -62,30 +53,9 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
 
         userDao.create(u);
 
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
+        User foundUser = em.find(User.class, u.getId());
 
-            em.getTransaction().begin();
-            User foundUser = em.find(User.class, u.getId());
-            em.getTransaction().commit();
-
-            Assert.assertEquals(foundUser, u);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    @Test(expectedExceptions = PersistenceException.class)
-    public void createDuplicateTest() {
-        User u = new User("Cameron", "diaz@mail.com");
-        u.setAdmin(false);
-        u.setPasswordHash("password");
-
-        userDao.create(u);
-        userDao.create(u);
+        Assert.assertEquals(foundUser, u);
     }
 
     @Test(expectedExceptions = PersistenceException.class)
@@ -178,22 +148,11 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         userDao.update(u1);
         userDao.update(u2);
 
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
+        User foundUser1 = em.find(User.class, u1.getId());
+        User foundUser2 = em.find(User.class, u2.getId());
 
-            em.getTransaction().begin();
-            User foundUser1 = em.find(User.class, u1.getId());
-            User foundUser2 = em.find(User.class, u2.getId());
-            em.getTransaction().commit();
-
-            Assert.assertEquals(foundUser1, u1);
-            Assert.assertEquals(foundUser2, u2);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        Assert.assertEquals(foundUser1, u1);
+        Assert.assertEquals(foundUser2, u2);
     }
 
     @Test
@@ -201,37 +160,10 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         userDao.remove(u1);
         userDao.remove(u2);
 
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
+        User foundUser1 = em.find(User.class, u1.getId());
+        User foundUser2 = em.find(User.class, u2.getId());
 
-            em.getTransaction().begin();
-            User foundUser1 = em.find(User.class, u1.getId());
-            User foundUser2 = em.find(User.class, u2.getId());
-            em.getTransaction().commit();
-
-            Assert.assertNull(foundUser1);
-            Assert.assertNull(foundUser2);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    @AfterMethod
-    public void cleanup() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-
-            em.getTransaction().begin();
-            em.createQuery("DELETE FROM User").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        Assert.assertNull(foundUser1);
+        Assert.assertNull(foundUser2);
     }
 }

@@ -5,7 +5,9 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -13,7 +15,9 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -22,10 +26,12 @@ import java.util.List;
 import java.util.Set;
 
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class MovieDaoTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
 
     private static final Set<Genre> genres = new HashSet<>(Arrays.asList(Genre.ACTION));
 
@@ -43,19 +49,9 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
         suspiria = new Movie("Suspiria", null, LocalDate.of(1977, 2, 1), genres, null);
         suspiriaRemake = new Movie("Suspiria", null, LocalDate.of(2018, 11, 2), genres, null);
 
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            em.persist(titanic);
-            em.persist(suspiria);
-            em.persist(suspiriaRemake);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.persist(titanic);
+        em.persist(suspiria);
+        em.persist(suspiriaRemake);
     }
 
     @Test
@@ -65,19 +61,9 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
 
         movieDao.create(braveheart);
 
-        EntityManager em = emf.createEntityManager();
+        Movie result = em.find(Movie.class, braveheart.getId());
 
-        try {
-            em.getTransaction().begin();
-            Movie result = em.find(Movie.class, braveheart.getId());
-            em.getTransaction().commit();
-
-            Assert.assertEquals(braveheart, result);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        Assert.assertEquals(braveheart, result);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -145,27 +131,15 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
         Movie braveheart = new Movie("Braveheart", null, LocalDate.of(1995, 5, 19), genres, null);
         String bio = "It has Mel Gibson in it...";
 
-        EntityManager em = emf.createEntityManager();
+        em.persist(braveheart);
 
-        try {
-            em.getTransaction().begin();
-            em.persist(braveheart);
-            em.getTransaction().commit();
+        braveheart.setBio(bio);
 
-            braveheart.setBio(bio);
+        movieDao.update(braveheart);
 
-            movieDao.update(braveheart);
+        Movie result = em.find(Movie.class, braveheart.getId());
 
-            em.getTransaction().begin();
-            Movie result = em.find(Movie.class, braveheart.getId());
-            em.getTransaction().commit();
-
-            Assert.assertEquals(bio, result.getBio());
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        Assert.assertEquals(bio, result.getBio());
     }
 
     @Test
@@ -173,36 +147,10 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
 
         movieDao.remove(suspiria);
 
-        EntityManager em = emf.createEntityManager();
+        List<Movie> result = em.createQuery("select m from Movie m", Movie.class).getResultList();
 
-        try {
-            em.getTransaction().begin();
-            List<Movie> result = em.createQuery("select m from Movie m", Movie.class).getResultList();
-            em.getTransaction().commit();
-
-            Assert.assertFalse(result.contains(suspiria));
-            Assert.assertTrue(result.contains(titanic));
-            Assert.assertTrue(result.contains(suspiriaRemake));
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    @AfterMethod
-    private void tearDown() {
-
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            em.createQuery("DELETE FROM Movie").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        Assert.assertFalse(result.contains(suspiria));
+        Assert.assertTrue(result.contains(titanic));
+        Assert.assertTrue(result.contains(suspiriaRemake));
     }
 }
