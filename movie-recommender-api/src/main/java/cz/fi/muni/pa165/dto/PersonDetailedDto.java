@@ -4,16 +4,19 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * DTO for Person entity.
+ * DTO for Person entity with relationships to other DTOs.
  *
  * @author Jiri Papousek
  */
-public class PersonDto {
+public class PersonDetailedDto {
 
     private Long id;
     private String name;
     private LocalDate dateOfBirth;
     private String bio;
+
+    private List<MovieDto> directedMovies;
+    private List<MovieDto> actsInMovies;
 
     public Long getId() {
         return id;
@@ -45,6 +48,22 @@ public class PersonDto {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public List<MovieDto> getDirectedMovies() {
+        return directedMovies;
+    }
+
+    public void setDirectedMovies(List<MovieDto> directedMovies) {
+        this.directedMovies = directedMovies;
+    }
+
+    public List<MovieDto> getActsInMovies() {
+        return actsInMovies;
+    }
+
+    public void setActsInMovies(List<MovieDto> actsInMovies) {
+        this.actsInMovies = actsInMovies;
     }
 
     @Override
