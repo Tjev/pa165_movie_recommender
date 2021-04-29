@@ -6,10 +6,14 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -31,25 +35,42 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<Movie> getRecommendationsBasedOnUsers(Movie movie) {
-        Movie persistedMovie = movieDao.findById(movie.getId());
+        Movie persistedMovie = getPersistedMovie(movie);
 
-        List<User> users = ratingDao.findByMovie(persistedMovie).stream()
-                .map(Rating::getUser)
+        List<User> users;
+
+        try {
+            users = ratingDao.findByMovie(persistedMovie).stream()
+                    .map(Rating::getUser)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving ratings for the movie.", e);
+        }
+
+        List<Movie> candidates = new ArrayList<>();
+
+        try {
+            for (var user : users) {
+                List<Rating> ratings = ratingDao.findByUser(user);
+                for (var rating : ratings) {
+                    candidates.add(rating.getMovie());
+                }
+            }
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while retrieving ratings for all users.", e);
+        }
+
+        candidates = candidates.stream()
+                .distinct()
                 .collect(Collectors.toList());
 
-        List<Movie> movies = new ArrayList<>();
-        for (var user : users) {
-            List<Rating> ratings = ratingDao.findByUser(user);
-            for (var rating : ratings) {
-                movies.add(rating.getMovie());
-            }
-        }
-        return movies;
+        candidates.remove(movie);
+        return candidates;
     }
 
     @Override
     public List<Movie> getRecommendationsBasedOnGenres(Movie movie) {
-        Movie persistedMovie = movieDao.findById(movie.getId());
+        Movie persistedMovie = getPersistedMovie(movie);
 
         List<Movie> movies = movieDao.findAll();
         Set<Genre> criteriaGenres = persistedMovie.getGenres();
@@ -63,6 +84,28 @@ public class RecommendationServiceImpl implements RecommendationService {
             }
         }
 
+        candidates = candidates.stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        candidates.remove(movie);
         return candidates;
+    }
+
+    private Movie getPersistedMovie(Movie movie) {
+        if (movie == null) {
+            throw new IllegalArgumentException("Movie is null.");
+        }
+        Movie persistedMovie;
+        try {
+            persistedMovie = movieDao.findById(movie.getId());
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occured while finding movie by its id.", e);
+        }
+
+        if (persistedMovie == null) {
+            throw new IllegalArgumentException("Movie is not in the database.");
+        }
+        return persistedMovie;
     }
 }
