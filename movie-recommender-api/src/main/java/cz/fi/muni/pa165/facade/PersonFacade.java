@@ -43,6 +43,24 @@ public interface PersonFacade {
     PersonDto update(PersonDto personDto);
 
     /**
+     * Adds a movie to person which he/she has directed.
+     *
+     * @param personDto DTO of person that has directed the movie
+     * @param movie that has been directed
+     * @return DTO with person data after update operation
+     */
+    PersonDto addDirectedMovie(PersonDto personDto, MovieDto movie);
+
+    /**
+     * Adds a movie to person in which he/she has acted.
+     *
+     * @param personDto DTO of person that has acted in the movie
+     * @param movie the person acted in
+     * @return DTO with person data after update operation
+     */
+    PersonDto addActsInMovie(PersonDto personDto, MovieDto movie);
+
+    /**
      * Removes the given person
      *
      * @param personDto DTO of the person to be removed
