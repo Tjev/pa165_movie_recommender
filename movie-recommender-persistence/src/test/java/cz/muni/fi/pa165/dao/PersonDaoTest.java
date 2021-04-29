@@ -4,15 +4,15 @@ import cz.muni.fi.pa165.PersistenceApplicationContext;
 import cz.muni.fi.pa165.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,13 +23,15 @@ import java.util.List;
  * @author Radoslav Chudovsky
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private PersonDao personDao;
 
-    @PersistenceUnit
-    EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
 
     @Test
     public void createTest() {
@@ -40,20 +42,9 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
         personDao.create(p);
 
-        Person found = getFromDB(p.getId());
+        Person found = em.find(Person.class, p.getId());
 
         Assert.assertEquals(found, p);
-    }
-
-    @Test(expectedExceptions = PersistenceException.class)
-    public void createDuplicateTest() {
-        Person p = new Person();
-        p.setName("name");
-        p.setBio("bio");
-        p.setDateOfBirth(LocalDate.of(1990, 4, 22));
-
-        personDao.create(p);
-        personDao.create(p);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -75,15 +66,15 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void findAllTest() {
         Person firstP = new Person();
         firstP.setName("first person");
-        persistToDB(firstP);
+        em.persist(firstP);
 
         Person secondP = new Person();
         secondP.setName("second person");
-        persistToDB(secondP);
+        em.persist(secondP);
 
         Person thirdP = new Person();
         thirdP.setName("third person");
-        persistToDB(thirdP);
+        em.persist(thirdP);
 
         List<Person> found = personDao.findAll();
 
@@ -97,7 +88,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void findByIdTest() {
         Person p = new Person();
         p.setName("name");
-        persistToDB(p);
+        em.persist(p);
 
         Person found = personDao.findById(p.getId());
 
@@ -109,15 +100,15 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
         String name = "same";
         Person firstP = new Person();
         firstP.setName(name);
-        persistToDB(firstP);
+        em.persist(firstP);
 
         Person secondP = new Person();
         secondP.setName(name);
-        persistToDB(secondP);
+        em.persist(secondP);
 
         Person thirdP = new Person();
         thirdP.setName("different");
-        persistToDB(thirdP);
+        em.persist(thirdP);
 
         List<Person> found = personDao.findByName(name);
 
@@ -133,7 +124,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
         p.setName("name");
         p.setBio("bio");
         p.setDateOfBirth(LocalDate.of(1990, 4, 22));
-        persistToDB(p);
+        em.persist(p);
 
         p.setName("new name");
         p.setBio("new bio");
@@ -141,7 +132,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
         personDao.update(p);
 
-        Person found = getFromDB(p.getId());
+        Person found = em.find(Person.class, p.getId());
 
         Assert.assertEquals(found, p);
     }
@@ -150,55 +141,11 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     public void removeTest() {
         Person p = new Person();
         p.setName("name");
-        persistToDB(p);
+        em.persist(p);
 
         personDao.remove(p);
 
-        Assert.assertNull(getFromDB(p.getId()));
+        Assert.assertNull(em.find(Person.class, p.getId()));
     }
 
-    @AfterMethod
-    public void afterTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("DELETE FROM Person").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    private void persistToDB(Object object) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(object);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    private Person getFromDB(long id) {
-        Person p;
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            p = em.find(Person.class, id);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-        return p;
-    }
 }

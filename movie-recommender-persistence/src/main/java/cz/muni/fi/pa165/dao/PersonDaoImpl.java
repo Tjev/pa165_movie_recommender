@@ -14,7 +14,6 @@ import java.util.List;
  * @author Jiri Papousek
  */
 @Repository
-@Transactional
 public class PersonDaoImpl implements PersonDao {
 
     @PersistenceContext

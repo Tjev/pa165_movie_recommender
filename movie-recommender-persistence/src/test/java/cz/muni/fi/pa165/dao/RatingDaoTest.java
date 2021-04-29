@@ -6,16 +6,17 @@ import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 
-import javax.persistence.PersistenceException;
+import javax.persistence.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -29,10 +30,12 @@ import java.util.Set;
  * @author Jiri Papousek
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class RatingDaoTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     private RatingDao dao;
@@ -55,10 +58,10 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         user1.setPasswordHash("password1");
         user2.setPasswordHash("password2");
 
-        persistToDB(movie1);
-        persistToDB(movie2);
-        persistToDB(user1);
-        persistToDB(user2);
+        em.persist(movie1);
+        em.persist(movie2);
+        em.persist(user1);
+        em.persist(user2);
     }
 
     @Test
@@ -67,15 +70,7 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
 
         dao.create(rating);
 
-        Assert.assertEquals(getFromDB(rating.getId()), rating);
-    }
-
-    @Test(expectedExceptions = PersistenceException.class)
-    public void createDuplicateTest() {
-        Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
-
-        dao.create(rating);
-        dao.create(rating);
+        Assert.assertEquals(em.find(Rating.class, rating.getId()), rating);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -112,9 +107,9 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         List<Rating> ratings = dao.findAll();
 
@@ -128,7 +123,7 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     void findByIdTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
-        persistToDB(rating);
+        em.persist(rating);
 
         Assert.assertEquals(dao.findById(rating.getId()), rating);
     }
@@ -139,9 +134,9 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         List<Rating> ratings = dao.findByMovie(movie1);
 
@@ -156,9 +151,9 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         List<Rating> ratings = dao.findByUser(user2);
 
@@ -171,13 +166,13 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     public void updateTest() {
         Rating rating = new Rating(movie1, user1, 1, 2, 3, 4, 5);
 
-        persistToDB(rating);
+        em.persist(rating);
         rating.setMovie(movie2);
         rating.setUser(user2);
         rating.setOriginality(4);
         dao.update(rating);
 
-        Assert.assertEquals(getFromDB(rating.getId()), rating);
+        Assert.assertEquals(em.find(Rating.class, rating.getId()), rating);
     }
 
     @Test
@@ -186,58 +181,15 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
         Rating rating2 = new Rating(movie1, user2, 2, 3, 2, 3, 2);
         Rating rating3 = new Rating(movie2, user2, 5, 3, 4, 2, 1);
 
-        persistToDB(rating1);
-        persistToDB(rating2);
-        persistToDB(rating3);
+        em.persist(rating1);
+        em.persist(rating2);
+        em.persist(rating3);
 
         dao.remove(rating1);
 
-        Assert.assertNull(getFromDB(rating1.getId()));
-        Assert.assertEquals(getFromDB(rating2.getId()), rating2);
-        Assert.assertEquals(getFromDB(rating3.getId()), rating3);
+        Assert.assertNull(em.find(Rating.class, rating1.getId()));
+        Assert.assertEquals(em.find(Rating.class, rating2.getId()), rating2);
+        Assert.assertEquals(em.find(Rating.class, rating3.getId()), rating3);
     }
 
-    private void persistToDB(Object object) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(object);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    private Rating getFromDB(long id) {
-        Rating p;
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            p = em.find(Rating.class, id);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-        return p;
-    }
-
-    @AfterMethod
-    public void afterTest() {
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-
-        em.createQuery("DELETE FROM Rating").executeUpdate();
-        em.createQuery("DELETE FROM Movie").executeUpdate();
-        em.createQuery("DELETE FROM User").executeUpdate();
-
-        em.getTransaction().commit();
-        em.close();
-    }
 }

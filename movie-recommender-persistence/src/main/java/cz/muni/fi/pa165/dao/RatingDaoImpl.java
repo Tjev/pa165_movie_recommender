@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  * @author Kristian Tkacik
  */
 @Repository
-@Transactional
 public class RatingDaoImpl implements RatingDao {
 
     @PersistenceContext
