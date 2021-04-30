@@ -8,7 +8,7 @@ import cz.muni.fi.pa165.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,7 +26,7 @@ public class UserFacadeImpl implements UserFacade {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @Autowired
+    @Inject
     public UserFacadeImpl(UserMapper userMapper, UserService userService) {
         this.userService = userService;
         this.userMapper = userMapper;

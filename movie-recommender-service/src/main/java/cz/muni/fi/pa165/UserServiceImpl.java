@@ -3,7 +3,7 @@ package cz.muni.fi.pa165;
 import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final PasswordEncoder encoder = new Argon2PasswordEncoder();
 
-    @Autowired
+    @Inject
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }

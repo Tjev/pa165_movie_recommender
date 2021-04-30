@@ -13,7 +13,7 @@ import cz.muni.fi.pa165.entity.Person;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.MovieMapper;
 import cz.muni.fi.pa165.mapper.PersonMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,7 +39,7 @@ public class MovieFacadeImpl implements MovieFacade {
 
     private final PersonMapper personMapper;
 
-    @Autowired
+    @Inject
     public MovieFacadeImpl(MovieService movieService, RecommendationService recommendationService,
                            ScoreComputationService scoreService, MovieMapper movieMapper, PersonMapper personMapper) {
         this.movieService = movieService;

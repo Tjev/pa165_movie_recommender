@@ -11,7 +11,7 @@ import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.RatingMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +34,7 @@ public class RatingFacadeImpl implements RatingFacade {
     private final ScoreComputationService scoreComputationService;
     private final RatingMapper ratingMapper;
 
-    @Autowired
+    @Inject
     public RatingFacadeImpl(RatingService ratingService, UserService userService, MovieService movieService,
                             ScoreComputationService scoreComputationService, RatingMapper ratingMapper) {
         this.ratingService = ratingService;

@@ -5,11 +5,10 @@ import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.function.ToIntFunction;
 
@@ -25,7 +24,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
 
     private final MovieDao movieDao;
 
-    @Autowired
+    @Inject
     public ScoreComputationServiceImpl(RatingDao ratingDao, MovieDao movieDao) {
         this.ratingDao = ratingDao;
         this.movieDao = movieDao;

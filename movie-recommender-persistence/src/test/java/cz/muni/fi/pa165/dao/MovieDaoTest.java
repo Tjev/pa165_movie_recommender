@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.PersistenceApplicationContext;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -36,7 +36,7 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
     Movie suspiria;
     Movie suspiriaRemake;
 
-    @Autowired
+    @Inject
     private MovieDao movieDao;
 
     @BeforeMethod
