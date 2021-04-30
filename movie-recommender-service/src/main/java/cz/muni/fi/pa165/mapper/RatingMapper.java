@@ -14,9 +14,9 @@ import org.mapstruct.Mapper;
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE, componentModel = "spring")
 public interface RatingMapper {
 
-    RatingDTO ratingDTOToRating(Rating rating);
-    Rating ratingToRatingDTO(RatingDTO ratingDTO);
+    RatingDTO ratingToRatingDTO(Rating rating);
+    Rating ratingDTOToRating(RatingDTO ratingDTO);
 
-    RatingCreateDTO ratingCreateDTOToRating(Rating rating);
-    Rating ratingToRatingCreateDTO(RatingCreateDTO ratingCreateDTO);
+    RatingCreateDTO ratingToRatingCreateDTO(Rating rating);
+    Rating ratingCreateDTOToRating(RatingCreateDTO ratingCreateDTO);
 }
