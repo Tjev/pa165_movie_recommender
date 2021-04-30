@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void disableUser(User user) {
+    public void disable(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User parameter is null.");
         }

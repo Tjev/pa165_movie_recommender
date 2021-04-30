@@ -72,7 +72,7 @@ public interface UserService {
      *
      * @param user - user to be disabled
      */
-    void disableUser(User user);
+    void disable(User user);
 
     /**
      * Checks whether the given user account is disabled.
