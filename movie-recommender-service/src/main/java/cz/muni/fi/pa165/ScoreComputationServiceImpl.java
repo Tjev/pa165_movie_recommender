@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.dao.MovieDao;
 import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 

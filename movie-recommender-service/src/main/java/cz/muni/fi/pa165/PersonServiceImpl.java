@@ -2,7 +2,7 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.PersonDao;
 import cz.muni.fi.pa165.entity.Person;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 

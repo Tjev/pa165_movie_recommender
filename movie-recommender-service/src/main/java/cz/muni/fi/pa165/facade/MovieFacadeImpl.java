@@ -9,7 +9,7 @@ import cz.muni.fi.pa165.RecommendationService;
 import cz.muni.fi.pa165.ScoreComputationService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.MovieMapper;
 import cz.muni.fi.pa165.mapper.PersonMapper;
 import javax.inject.Inject;

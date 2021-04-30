@@ -11,7 +11,7 @@ import cz.muni.fi.pa165.UserService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.RatingMapper;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;

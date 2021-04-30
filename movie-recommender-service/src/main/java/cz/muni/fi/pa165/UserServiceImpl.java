@@ -2,7 +2,7 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
