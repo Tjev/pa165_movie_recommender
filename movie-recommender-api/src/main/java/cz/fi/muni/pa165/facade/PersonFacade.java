@@ -5,6 +5,8 @@ import cz.fi.muni.pa165.dto.PersonCreateDTO;
 import cz.fi.muni.pa165.dto.PersonDetailedDTO;
 import cz.fi.muni.pa165.dto.PersonDTO;
 
+import java.util.List;
+
 /**
  * Facade for interaction with person data (actors and directors).
  *
@@ -32,9 +34,9 @@ public interface PersonFacade {
      * Finds a person by its name.
      *
      * @param name of the person in the data source
-     * @return DTO with person data
+     * @return list of DTOs with person data
      */
-    PersonDetailedDTO findByName(String name);
+    List<PersonDetailedDTO> findByName(String name);
 
     /**
      * Updates the given person.
@@ -48,19 +50,19 @@ public interface PersonFacade {
      * Adds a movie to person which he/she has directed.
      *
      * @param personDto DTO of person that has directed the movie
-     * @param movie that has been directed
+     * @param movieDto that has been directed
      * @return DTO with person data after update operation
      */
-    PersonDetailedDTO addDirectedMovie(PersonDTO personDto, MovieDTO movie);
+    PersonDetailedDTO addDirectedMovie(PersonDTO personDto, MovieDTO movieDto);
 
     /**
      * Adds a movie to person in which he/she has acted.
      *
      * @param personDto DTO of person that has acted in the movie
-     * @param movie the person acted in
+     * @param movieDto the person acted in
      * @return DTO with person data after update operation
      */
-    PersonDetailedDTO addActsInMovie(PersonDTO personDto, MovieDTO movie);
+    PersonDetailedDTO addActsInMovie(PersonDTO personDto, MovieDTO movieDto);
 
     /**
      * Removes the given person
