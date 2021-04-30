@@ -137,5 +137,5 @@ public interface MovieFacade {
      * @param n max number of movie recommendations that will be returned
      * @return list of max n recommended movies
      */
-    Optional<List<MovieDTO>> getRecommendations(MovieDTO movieDTO, Integer n);
+    Optional<List<MovieDetailedDTO>> getRecommendations(MovieDTO movieDTO, Integer n);
 }
