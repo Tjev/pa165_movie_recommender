@@ -15,10 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of PersonFacade.
+ *
+ * @author Jiri Papousek
+ */
 @Service
 @Transactional
 public class PersonFacadeImpl implements PersonFacade {
@@ -37,80 +42,80 @@ public class PersonFacadeImpl implements PersonFacade {
     }
 
     @Override
-    public PersonDetailedDTO create(PersonCreateDTO personCreateDTO) {
+    public Optional<PersonDetailedDTO> create(PersonCreateDTO personCreateDTO) {
         try {
             Person person = personMapper.personCreateDTOToPerson(personCreateDTO);
             person = personService.create(person);
-            return personMapper.personToPersonDetailedDTO(person);
+            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
-    public PersonDetailedDTO findById(Long id) {
+    public Optional<PersonDetailedDTO> findById(Long id) {
         try {
             Person person = personService.findById(id);
-            return personMapper.personToPersonDetailedDTO(person);
+            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
-    public List<PersonDetailedDTO> findByName(String name) {
+    public Optional<List<PersonDetailedDTO>> findByName(String name) {
         try {
             List<Person> persons = personService.findByName(name);
-            return persons.stream()
+            return Optional.ofNullable(persons.stream()
                     .map(personMapper::personToPersonDetailedDTO)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()));
         } catch (ServiceLayerException e) {
-            return Collections.EMPTY_LIST;
+            return Optional.empty();
         }
 
     }
 
     @Override
-    public PersonDetailedDTO update(PersonDetailedDTO personDetailedDTO) {
+    public Optional<PersonDetailedDTO> update(PersonDetailedDTO personDetailedDTO) {
         try {
             Person person = personMapper.personDetailedDTOToPerson(personDetailedDTO);
             person = personService.update(person);
-            return personMapper.personToPersonDetailedDTO(person);
+            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
         }  catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
-    public PersonDetailedDTO addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+    public Optional<PersonDetailedDTO> addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO) {
         try {
             Person person = personMapper.personDTOToPerson(personDTO);
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             person.addDirectedMovie(movie);
             person = personService.update(person);
-            return personMapper.personToPersonDetailedDTO(person);
+            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
 
     }
 
     @Override
-    public PersonDetailedDTO addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+    public Optional<PersonDetailedDTO> addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO) {
         try {
             Person person = personMapper.personDTOToPerson(personDTO);
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             person.addActsInMovie(movie);
             person = personService.update(person);
-            return personMapper.personToPersonDetailedDTO(person);
+            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
 
     }
 
     @Override
-    public boolean remove(PersonDTO personDTO) {
+    public Boolean remove(PersonDTO personDTO) {
         try {
             Person person = personMapper.personDTOToPerson(personDTO);
             personService.remove(person);
