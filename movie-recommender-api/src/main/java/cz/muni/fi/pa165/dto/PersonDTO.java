@@ -1,18 +1,27 @@
-package cz.fi.muni.pa165.dto;
+package cz.muni.fi.pa165.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * DTO for Person entity (for creation purposes).
+ * DTO for Person entity.
  *
  * @author Jiri Papousek
  */
-public class PersonCreateDTO {
+public class PersonDTO {
 
+    private Long id;
     private String name;
     private LocalDate dateOfBirth;
     private String bio;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -41,14 +50,14 @@ public class PersonCreateDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonCreateDTO)) return false;
+        if (!(o instanceof PersonDTO)) return false;
 
-        PersonCreateDTO that = (PersonCreateDTO) o;
+        PersonDTO personDTO = (PersonDTO) o;
 
-        if (!getName().equals(that.getName())) return false;
-        if (getDateOfBirth() != null ? !getDateOfBirth().equals(that.getDateOfBirth()) : that.getDateOfBirth() != null)
+        if (!getName().equals(personDTO.getName())) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(personDTO.getDateOfBirth()) : personDTO.getDateOfBirth() != null)
             return false;
-        return getBio() != null ? getBio().equals(that.getBio()) : that.getBio() == null;
+        return getBio() != null ? getBio().equals(personDTO.getBio()) : personDTO.getBio() == null;
     }
 
     @Override
@@ -60,8 +69,9 @@ public class PersonCreateDTO {
 
     @Override
     public String toString() {
-        return "PersonCreateDTO{" +
-                "name='" + name + '\'' +
+        return "PersonDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", bio='" + bio + '\'' +
                 '}';

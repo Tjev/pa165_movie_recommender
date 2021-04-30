@@ -8,7 +8,7 @@ import cz.muni.fi.pa165.entity.User;
 
 import javax.persistence.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -37,7 +37,7 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
+    @Inject
     private RatingDao dao;
 
     private Movie movie1;

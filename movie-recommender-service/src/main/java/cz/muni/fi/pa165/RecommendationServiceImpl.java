@@ -6,8 +6,8 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
-import org.springframework.beans.factory.annotation.Autowired;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,7 +24,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final MovieDao movieDao;
     private final RatingDao ratingDao;
 
-    @Autowired
+    @Inject
     public RecommendationServiceImpl(MovieDao movieDao, RatingDao ratingDao) {
         this.movieDao = movieDao;
         this.ratingDao = ratingDao;

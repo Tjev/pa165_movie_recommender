@@ -1,33 +1,24 @@
-package cz.fi.muni.pa165.dto;
+package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.entity.Genre;
-import cz.muni.fi.pa165.entity.Movie;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * DTO for Movie entity.
+ * DTO for Movie entity (for creation purposes).
  *
  * @author Radoslav Chudovsky
  */
-public class MovieDTO {
+public class MovieCreateDTO {
 
-    private Long id;
     private String title;
     private String bio;
     private LocalDate releaseYear;
     private Set<Genre> genres;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private byte[] graphics;
 
     public String getTitle() {
         return title;
@@ -61,17 +52,25 @@ public class MovieDTO {
         this.genres = genres;
     }
 
+    public byte[] getGraphics() {
+        return graphics;
+    }
+
+    public void setGraphics(byte[] graphics) {
+        this.graphics = graphics;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MovieDTO)) return false;
+        if (!(o instanceof MovieCreateDTO)) return false;
 
-        MovieDTO movieDTO = (MovieDTO) o;
+        MovieCreateDTO that = (MovieCreateDTO) o;
 
-        if (!getTitle().equals(movieDTO.getTitle())) return false;
-        if (getBio() != null ? !getBio().equals(movieDTO.getBio()) : movieDTO.getBio() != null) return false;
-        if (!getReleaseYear().equals(movieDTO.getReleaseYear())) return false;
-        return getGenres().equals(movieDTO.getGenres());
+        if (!getTitle().equals(that.getTitle())) return false;
+        if (getBio() != null ? !getBio().equals(that.getBio()) : that.getBio() != null) return false;
+        if (!getReleaseYear().equals(that.getReleaseYear())) return false;
+        return getGenres().equals(that.getGenres());
     }
 
     @Override
@@ -85,12 +84,12 @@ public class MovieDTO {
 
     @Override
     public String toString() {
-        return "MovieDTO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+        return "MovieCreateDTO{" +
+                "title='" + title + '\'' +
                 ", bio='" + bio + '\'' +
                 ", releaseYear=" + releaseYear +
                 ", genres=" + genres +
+                ", graphics=" + Arrays.toString(graphics) +
                 '}';
     }
 }

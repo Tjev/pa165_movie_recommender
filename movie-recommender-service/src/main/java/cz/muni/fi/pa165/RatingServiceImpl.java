@@ -4,9 +4,10 @@ import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
-import org.springframework.beans.factory.annotation.Autowired;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import org.springframework.stereotype.Service;
+import javax.inject.Inject;
+
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class RatingServiceImpl implements RatingService {
 
     private final RatingDao ratingDao;
 
-    @Autowired
+    @Inject
     public RatingServiceImpl(RatingDao ratingDao) {
         this.ratingDao = ratingDao;
     }

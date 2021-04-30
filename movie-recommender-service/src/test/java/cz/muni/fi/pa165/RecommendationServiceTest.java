@@ -6,7 +6,7 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
@@ -38,7 +38,7 @@ public class RecommendationServiceTest {
     private AutoCloseable closeable;
 
     // Movies
-    private final Movie m1 = setupMovie(1L, "Golfinger", Genre.ACTION); // best Bond movie
+    private final Movie m1 = setupMovie(1L, "Goldfinger", Genre.ACTION); // best Bond movie
     private final Movie m2 = setupMovie(2L, "Pulp Fiction", Genre.ACTION, Genre.NOIR, Genre.COMEDY);
     private final Movie m3 = setupMovie(3L, "Blade Runner", Genre.ACTION, Genre.SCIFI, Genre.NOIR);
     private final Movie m4 = setupMovie(4L, "Paddington 2", Genre.FAMILY, Genre.COMEDY);

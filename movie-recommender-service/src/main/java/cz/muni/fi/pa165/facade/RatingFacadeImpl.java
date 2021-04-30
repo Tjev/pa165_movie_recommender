@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.facade.RatingFacade;
+import cz.muni.fi.pa165.dto.MovieDTO;
+import cz.muni.fi.pa165.dto.RatingCreateDTO;
+import cz.muni.fi.pa165.dto.RatingDTO;
+import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.MovieService;
 import cz.muni.fi.pa165.RatingService;
 import cz.muni.fi.pa165.ScoreComputationService;
@@ -9,9 +11,9 @@ import cz.muni.fi.pa165.UserService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.RatingMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +36,7 @@ public class RatingFacadeImpl implements RatingFacade {
     private final ScoreComputationService scoreComputationService;
     private final RatingMapper ratingMapper;
 
-    @Autowired
+    @Inject
     public RatingFacadeImpl(RatingService ratingService, UserService userService, MovieService movieService,
                             ScoreComputationService scoreComputationService, RatingMapper ratingMapper) {
         this.ratingService = ratingService;

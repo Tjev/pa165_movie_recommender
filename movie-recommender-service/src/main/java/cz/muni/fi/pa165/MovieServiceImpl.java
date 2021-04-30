@@ -2,8 +2,8 @@ package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.MovieDao;
 import cz.muni.fi.pa165.entity.Movie;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
-import org.springframework.beans.factory.annotation.Autowired;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieDao movieDao;
 
-    @Autowired
+    @Inject
     public MovieServiceImpl(MovieDao movieDao) {
         this.movieDao = movieDao;
     }
