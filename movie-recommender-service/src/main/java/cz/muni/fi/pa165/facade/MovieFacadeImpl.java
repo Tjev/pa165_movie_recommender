@@ -17,8 +17,11 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
+ * Implementation of MovieFacade.
+ *
  * @author Radoslav Chudovsky
  */
 @Service
@@ -39,7 +42,7 @@ public class MovieFacadeImpl implements MovieFacade {
     }
 
     @Override
-    public MovieDetailedDTO create(MovieCreateDTO movieCreateDTO) {
+    public Optional<MovieDetailedDTO> create(MovieCreateDTO movieCreateDTO) {
         if (movieCreateDTO == null) {
             throw new IllegalArgumentException("MovieCreateDTO parameter is null.");
         }
@@ -47,38 +50,34 @@ public class MovieFacadeImpl implements MovieFacade {
         try {
             Movie movie = movieMapper.movieCreateDTOToMovie(movieCreateDTO);
             Movie created = movieService.create(movie);
-            return movieMapper.movieToMovieDetailedDTO(created);
+            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(created));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
-    public MovieDetailedDTO findById(Long id) {
+    public Optional<MovieDetailedDTO> findById(Long id) {
         try {
             Movie movie = movieService.findById(id);
-            if (movie == null) {
-                return null;
-            }
-            return movieMapper.movieToMovieDetailedDTO(movie);
+            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(movie));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
     public List<MovieDetailedDTO> findByTitle(String title) {
         try {
-            var movies = movieService.findByTitle(title);
+            List<Movie> movies = movieService.findByTitle(title);
             return movieMapper.movieListToMovieDetailedDTOList(movies);
         } catch (ServiceLayerException e) {
             return Collections.emptyList();
         }
-
     }
 
     @Override
-    public MovieDetailedDTO update(MovieDetailedDTO movieDetailedDTO) {
+    public Optional<MovieDetailedDTO> update(MovieDetailedDTO movieDetailedDTO) {
         if (movieDetailedDTO == null) {
             throw new IllegalArgumentException("MovieDetailedDTO parameter is null.");
         }
@@ -86,14 +85,14 @@ public class MovieFacadeImpl implements MovieFacade {
         try {
             Movie movie = movieMapper.movieDetailedDTOToMovie(movieDetailedDTO);
             Movie updated = movieService.update(movie);
-            return movieMapper.movieToMovieDetailedDTO(updated);
+            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(updated));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
-    public MovieDetailedDTO addActor(MovieDTO movieDTO, PersonDTO personDTO) {
+    public Optional<MovieDetailedDTO> addActor(MovieDTO movieDTO, PersonDTO personDTO) {
         if (movieDTO == null) {
             throw new IllegalArgumentException("MovieDTO parameter is null.");
         }
@@ -109,14 +108,14 @@ public class MovieFacadeImpl implements MovieFacade {
             movie.addActor(actor);
             Movie updated = movieService.update(movie);
 
-            return movieMapper.movieToMovieDetailedDTO(updated);
+            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(updated));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
-    public MovieDetailedDTO addDirector(MovieDTO movieDTO, PersonDTO personDTO) {
+    public Optional<MovieDetailedDTO> addDirector(MovieDTO movieDTO, PersonDTO personDTO) {
         if (movieDTO == null) {
             throw new IllegalArgumentException("MovieDTO parameter is null.");
         }
@@ -132,9 +131,9 @@ public class MovieFacadeImpl implements MovieFacade {
             movie.addDirector(director);
             Movie updated = movieService.update(movie);
 
-            return movieMapper.movieToMovieDetailedDTO(updated);
+            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(updated));
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
     }
 

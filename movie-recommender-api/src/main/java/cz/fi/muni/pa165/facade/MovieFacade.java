@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.facade;
 import cz.fi.muni.pa165.dto.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Facade for interaction with movie data.
@@ -17,7 +18,7 @@ public interface MovieFacade {
      * @param movieCreateDTO DTO with movie data
      * @return detailed DTO of created Movie
      */
-    MovieDetailedDTO create(MovieCreateDTO movieCreateDTO);
+    Optional<MovieDetailedDTO> create(MovieCreateDTO movieCreateDTO);
 
     /**
      * Finds movie by id.
@@ -25,7 +26,7 @@ public interface MovieFacade {
      * @param id id of the movie in the data source
      * @return detailed DTO with movie data
      */
-    MovieDetailedDTO findById(Long id);
+    Optional<MovieDetailedDTO> findById(Long id);
 
     /**
      * Finds list of movies with the given title.
@@ -41,7 +42,7 @@ public interface MovieFacade {
      * @param movieDetailedDTO detailed DTO of the movie with updated attributes
      * @return detailed DTO of the updated movie
      */
-    MovieDetailedDTO update(MovieDetailedDTO movieDetailedDTO);
+    Optional<MovieDetailedDTO> update(MovieDetailedDTO movieDetailedDTO);
 
     /**
      * Adds given actor to the given movie.
@@ -50,7 +51,7 @@ public interface MovieFacade {
      * @param personDTO DTO of the actor
      * @return detailed DTO of the updated movie
      */
-    MovieDetailedDTO addActor(MovieDTO movieDTO, PersonDTO personDTO);
+    Optional<MovieDetailedDTO> addActor(MovieDTO movieDTO, PersonDTO personDTO);
 
     /**
      * Adds director to the given movie.
@@ -59,7 +60,7 @@ public interface MovieFacade {
      * @param personDTO DTO of the director
      * @return detailed DTO of the updated movie
      */
-    MovieDetailedDTO addDirector(MovieDTO movieDTO, PersonDTO personDTO);
+    Optional<MovieDetailedDTO> addDirector(MovieDTO movieDTO, PersonDTO personDTO);
 
     /**
      * Removes the given movie.
