@@ -55,11 +55,4 @@ public interface UserDao {
      * @param user - user to be updated
      */
     void update(User user);
-
-    /**
-     * Removes user from the data source.
-     *
-     * @param user - user to be removed
-     */
-    void remove(User user);
 }

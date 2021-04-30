@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165;
 
+import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.User;
 
 import java.util.List;
@@ -65,4 +66,26 @@ public interface UserService {
      * @return true if user is admin
      */
     boolean isAdmin(User user);
+
+    /**
+     * Disables the user account for given user entity.
+     *
+     * @param user - user to be disabled
+     */
+    void disable(User user);
+
+    /**
+     * Checks whether the given user account is disabled.
+     *
+     * @param user - user to be checked
+     * @return true if user is disabled
+     */
+    boolean isDisabled(User user);
+
+    /**
+     * Updates corresponding user entity in the persistence layer.
+     *
+     * @param user - user to be updated
+     */
+    void update(User user);
 }

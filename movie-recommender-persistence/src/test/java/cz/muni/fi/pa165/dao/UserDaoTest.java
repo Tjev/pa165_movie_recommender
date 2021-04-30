@@ -154,16 +154,4 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(foundUser1, u1);
         Assert.assertEquals(foundUser2, u2);
     }
-
-    @Test
-    public void removeTest() {
-        userDao.remove(u1);
-        userDao.remove(u2);
-
-        User foundUser1 = em.find(User.class, u1.getId());
-        User foundUser2 = em.find(User.class, u2.getId());
-
-        Assert.assertNull(foundUser1);
-        Assert.assertNull(foundUser2);
-    }
 }
