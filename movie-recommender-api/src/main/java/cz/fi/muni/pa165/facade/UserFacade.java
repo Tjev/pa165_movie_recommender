@@ -4,6 +4,8 @@ import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.dto.UserDTO;
 import cz.fi.muni.pa165.dto.UserDetailedDTO;
 
+import java.util.Optional;
+
 /**
  * Facade for interaction with the User service.
  *
@@ -18,7 +20,7 @@ public interface UserFacade {
      * @param password - password to be hashed and stored for the user
      * @return - DTO representation of the registered user
      */
-    UserDetailedDTO register(UserDTO userDTO, String password);
+    Optional<UserDetailedDTO> register(UserDTO userDTO, String password);
 
     /**
      * Retrieves a user of the system with the matching id.
@@ -26,7 +28,7 @@ public interface UserFacade {
      * @param id - id to be used as the key for retrieval
      * @return - user DTO matching the id
      */
-    UserDetailedDTO findById(Long id);
+    Optional<UserDetailedDTO> findById(Long id);
 
     /**
      * Retrieves a user of the system with the matching email address.
@@ -34,7 +36,7 @@ public interface UserFacade {
      * @param emailAddress - email address to be used as the key for retrieval
      * @return - user DTO matching the email address
      */
-    UserDetailedDTO findByEmailAddress(String emailAddress);
+    Optional<UserDetailedDTO> findByEmailAddress(String emailAddress);
 
     /**
      * Retrieves a user of the system with the matching username.
@@ -42,7 +44,7 @@ public interface UserFacade {
      * @param username - username to be used as the key for retrieval
      * @return - user DTO matching the username
      */
-    UserDetailedDTO findByUsername(String username);
+    Optional<UserDetailedDTO> findByUsername(String username);
 
     /**
      * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
@@ -50,7 +52,7 @@ public interface UserFacade {
      * @param userAuthenticateDTO - user whose password is to be checked
      * @return true if the password hashes match
      */
-    boolean authenticate(UserAuthenticateDTO userAuthenticateDTO);
+    Boolean authenticate(UserAuthenticateDTO userAuthenticateDTO);
 
     /**
      * Check if the given user is admin.
@@ -58,9 +60,9 @@ public interface UserFacade {
      * @param userDTO - user to be checked for admin privileges
      * @return true if user is admin
      */
-    Boolean isAdmin(UserDTO userDTO);
+    Optional<Boolean> isAdmin(UserDTO userDTO);
 
-    boolean disable(UserDTO userDTO);
+    Boolean disable(UserDTO userDTO);
 
     /**
      * Updates the given user.
@@ -68,5 +70,5 @@ public interface UserFacade {
      * @param userDetailedDTO - user DTO with data for update in attributes
      * @return DTO with user data after the update operation
      */
-    UserDetailedDTO update(UserDetailedDTO userDetailedDTO);
+    Optional<UserDetailedDTO> update(UserDetailedDTO userDetailedDTO);
 }

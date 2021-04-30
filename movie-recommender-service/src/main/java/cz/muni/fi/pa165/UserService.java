@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165;
 
-import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.User;
 
 import java.util.List;
@@ -58,7 +57,7 @@ public interface UserService {
      * @param password - password to be hashed and compared against the stored hash
      * @return true if the password hashes match
      */
-    boolean authenticate(User user, String password);
+    Boolean authenticate(User user, String password);
 
     /**
      * Checks whether given user has admin rights.
@@ -66,7 +65,7 @@ public interface UserService {
      * @param user - user to be checked
      * @return true if user is admin
      */
-    boolean isAdmin(User user);
+    Boolean isAdmin(User user);
 
     /**
      * Disables the user account for given user entity.
@@ -82,7 +81,7 @@ public interface UserService {
      * @param user - user to be checked
      * @return true if user is disabled
      */
-    boolean isDisabled(User user);
+    Boolean isDisabled(User user);
 
     /**
      * Updates corresponding user entity in the persistence layer.

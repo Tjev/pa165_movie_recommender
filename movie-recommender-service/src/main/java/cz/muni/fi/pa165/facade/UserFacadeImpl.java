@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,91 +28,103 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDetailedDTO register(UserDTO userDTO, String password) {
+    public Optional<UserDetailedDTO> register(UserDTO userDTO, String password) {
         User user = userMapper.userDTOToUser(userDTO);
 
         User registeredUser;
         try {
             registeredUser = userService.register(user, password);
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
 
-        return userMapper.userToUserDetailedDTO(registeredUser);
+        return Optional.of(userMapper.userToUserDetailedDTO(registeredUser));
     }
 
     @Override
-    public UserDetailedDTO findById(Long id) {
+    public Optional<UserDetailedDTO> findById(Long id) {
         User user;
         try {
             user = userService.findById(id);
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
 
-        return userMapper.userToUserDetailedDTO(user);
+        return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
 
     @Override
-    public UserDetailedDTO findByEmailAddress(String emailAddress) {
+    public Optional<UserDetailedDTO> findByEmailAddress(String emailAddress) {
         User user;
         try {
             user = userService.findByEmailAddress(emailAddress);
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
-        return userMapper.userToUserDetailedDTO(user);
+        return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
 
     @Override
-    public UserDetailedDTO findByUsername(String username) {
+    public Optional<UserDetailedDTO> findByUsername(String username) {
         User user;
         try {
             user = userService.findByUsername(username);
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
-        return userMapper.userToUserDetailedDTO(user);
+
+        return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
 
     @Override
-    public boolean authenticate(UserAuthenticateDTO userAuthenticateDTO) {
+    public Boolean authenticate(UserAuthenticateDTO userAuthenticateDTO) {
         User user;
         try {
             user = userService.findById(userAuthenticateDTO.getUserId());
         } catch (ServiceLayerException e) {
             return false;
         }
+
         return userService.authenticate(user, userAuthenticateDTO.getPassword());
     }
 
     @Override
-    public Boolean isAdmin(UserDTO userDTO) {
-        User user;
+    public Optional<Boolean> isAdmin(UserDTO userDTO) {
+        User user = userMapper.userDTOToUser(userDTO);
+
+        boolean isAdmin;
         try {
-            user = userMapper.userDTOToUser(userDTO);
+            isAdmin = userService.isAdmin(user);
         } catch (ServiceLayerException e) {
-            return null;
+            return Optional.empty();
         }
-        return userService.isAdmin(user);
+
+        return Optional.of(isAdmin);
     }
 
     @Override
-    public boolean disable(UserDTO userDTO) {
+    public Boolean disable(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
+
         try {
             userService.disable(user);
         } catch (ServiceLayerException e) {
             return false;
         }
+
         return true;
     }
 
-
     @Override
-    public UserDetailedDTO update(UserDetailedDTO userDetailedDTO) {
+    public Optional<UserDetailedDTO> update(UserDetailedDTO userDetailedDTO) {
         User user = userMapper.userDetailedDTOToUser(userDetailedDTO);
-        User updatedUser = userService.update(user);
-        return userMapper.userToUserDetailedDTO(updatedUser);
+
+        User updatedUser;
+        try {
+            updatedUser = userService.update(user);
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+        return Optional.of(userMapper.userToUserDetailedDTO(updatedUser));
     }
 }
