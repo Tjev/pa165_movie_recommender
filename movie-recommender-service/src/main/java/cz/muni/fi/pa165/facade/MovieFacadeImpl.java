@@ -6,6 +6,8 @@ import cz.fi.muni.pa165.dto.MovieDetailedDTO;
 import cz.fi.muni.pa165.dto.PersonDTO;
 import cz.fi.muni.pa165.facade.MovieFacade;
 import cz.muni.fi.pa165.MovieService;
+import cz.muni.fi.pa165.RecommendationService;
+import cz.muni.fi.pa165.ScoreComputationService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
@@ -15,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementation of MovieFacade.
+ * Implementation of {@link MovieFacade}.
  *
  * @author Radoslav Chudovsky
  */
@@ -29,23 +34,26 @@ public class MovieFacadeImpl implements MovieFacade {
 
     private final MovieService movieService;
 
+    private final RecommendationService recommendationService;
+
+    private final ScoreComputationService scoreService;
+
     private final MovieMapper movieMapper;
 
     private final PersonMapper personMapper;
 
     @Autowired
-    public MovieFacadeImpl(MovieService movieService, MovieMapper movieMapper, PersonMapper personMapper) {
+    public MovieFacadeImpl(MovieService movieService, RecommendationService recommendationService,
+                           ScoreComputationService scoreService, MovieMapper movieMapper, PersonMapper personMapper) {
         this.movieService = movieService;
+        this.recommendationService = recommendationService;
+        this.scoreService = scoreService;
         this.movieMapper = movieMapper;
         this.personMapper = personMapper;
     }
 
     @Override
     public Optional<MovieDetailedDTO> create(MovieCreateDTO movieCreateDTO) {
-        if (movieCreateDTO == null) {
-            throw new IllegalArgumentException("MovieCreateDTO parameter is null.");
-        }
-
         try {
             Movie movie = movieMapper.movieCreateDTOToMovie(movieCreateDTO);
             Movie created = movieService.create(movie);
@@ -77,10 +85,6 @@ public class MovieFacadeImpl implements MovieFacade {
 
     @Override
     public Optional<MovieDetailedDTO> update(MovieDetailedDTO movieDetailedDTO) {
-        if (movieDetailedDTO == null) {
-            throw new IllegalArgumentException("MovieDetailedDTO parameter is null.");
-        }
-
         try {
             Movie movie = movieMapper.movieDetailedDTOToMovie(movieDetailedDTO);
             Movie updated = movieService.update(movie);
@@ -138,10 +142,6 @@ public class MovieFacadeImpl implements MovieFacade {
 
     @Override
     public Boolean remove(MovieDTO movieDTO) {
-        if (movieDTO == null) {
-            throw new IllegalArgumentException("MovieDTO parameter is null.");
-        }
-
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             movieService.remove(movie);
@@ -149,5 +149,118 @@ public class MovieFacadeImpl implements MovieFacade {
         } catch (ServiceLayerException e) {
             return false;
         }
+    }
+
+    @Override
+    public Optional<BigDecimal> getOverallScore(MovieDTO movieDTO) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            return Optional.of(scoreService.getOverallScoreForMovie(movie));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<BigDecimal> getOriginalityScore(MovieDTO movieDTO) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            return Optional.of(scoreService.getOriginalityScoreForMovie(movie));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<BigDecimal> getSoundtrackScore(MovieDTO movieDTO) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            return Optional.of(scoreService.getSoundtrackScoreForMovie(movie));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<BigDecimal> getNarrativeScore(MovieDTO movieDTO) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            return Optional.of(scoreService.getNarrativeScoreForMovie(movie));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<BigDecimal> getCinematographyScore(MovieDTO movieDTO) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            return Optional.of(scoreService.getCinematographyScoreForMovie(movie));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<BigDecimal> getDepthScore(MovieDTO movieDTO) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            return Optional.of(scoreService.getDepthScoreForMovie(movie));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<List<MovieDetailedDTO>> getRecommendations(MovieDTO movieDTO, Integer n) {
+        try {
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            var moviesSimilarGenres = recommendationService.getRecommendationsBasedOnGenres(movie);
+            var moviesSimilarViewers = recommendationService.getRecommendationsBasedOnUsers(movie);
+
+            List<Movie> recommendations = getSortedIntersection(moviesSimilarGenres, moviesSimilarViewers);
+
+            if (recommendations.size() < n) {
+                recommendations.addAll(getSortedDisjunctiveUnion(moviesSimilarGenres, moviesSimilarViewers));
+            }
+
+            if (recommendations.size() > n) {
+                recommendations = recommendations.subList(0, n);
+            }
+
+            var recommendationsDTO = movieMapper.movieListToMovieDetailedDTOList(recommendations);
+            return Optional.ofNullable(recommendationsDTO);
+
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    private List<Movie> getSortedIntersection(List<Movie> l1, List<Movie> l2) {
+        List<Movie> intersection = new ArrayList<>(l1);
+
+        intersection.retainAll(l2);
+
+        intersection.sort(
+                Comparator.comparing(scoreService::getOverallScoreForMovie)
+        );
+
+        return intersection;
+    }
+
+    private List<Movie> getSortedDisjunctiveUnion(List<Movie> l1, List<Movie> l2) {
+        List<Movie> disjunctiveUnion = new ArrayList<>(l1);
+
+        List<Movie> intersection = new ArrayList<>(l1);
+
+        intersection.retainAll(l2);
+        disjunctiveUnion.addAll(l2);
+        disjunctiveUnion.retainAll(intersection);
+
+        disjunctiveUnion.sort(
+                Comparator.comparing(scoreService::getOverallScoreForMovie)
+        );
+
+        return disjunctiveUnion;
     }
 }
