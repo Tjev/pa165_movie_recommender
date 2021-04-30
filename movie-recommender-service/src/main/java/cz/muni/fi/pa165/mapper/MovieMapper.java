@@ -7,6 +7,8 @@ import cz.muni.fi.pa165.entity.Movie;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 /**
  * Mapper for {@link Movie} entity and its DTOs.
  *
@@ -23,4 +25,6 @@ public interface MovieMapper {
 
     MovieCreateDTO movieToMovieCreateDTO(Movie movie);
     Movie movieCreateDTOToMovie (MovieCreateDTO movieCreateDTO);
+
+    List<MovieDetailedDTO> movieListToMovieDetailedDTOList(List<Movie> movies);
 }
