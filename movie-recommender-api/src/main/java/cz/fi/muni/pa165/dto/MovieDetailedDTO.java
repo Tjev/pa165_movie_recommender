@@ -22,6 +22,7 @@ public class MovieDetailedDTO {
 
     private Set<PersonDTO> directors;
     private Set<PersonDTO> actors;
+    private Set<RatingDTO> ratings;
 
     public Long getId() {
         return id;
@@ -77,6 +78,14 @@ public class MovieDetailedDTO {
 
     public void setActors(Set<PersonDTO> actors) {
         this.actors = actors;
+    }
+
+    public Set<RatingDTO> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<RatingDTO> ratings) {
+        this.ratings = ratings;
     }
 
     @Override
