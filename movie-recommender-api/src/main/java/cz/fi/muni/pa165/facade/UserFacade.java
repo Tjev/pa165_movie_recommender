@@ -4,8 +4,6 @@ import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.dto.UserDTO;
 import cz.fi.muni.pa165.dto.UserDetailedDTO;
 
-import java.util.List;
-
 /**
  * Facade for interaction with the User service.
  *
@@ -16,18 +14,11 @@ public interface UserFacade {
     /**
      * Registers the user into the system.
      *
-     * @param user - user to be registered
+     * @param userDTO - user to be registered
      * @param password - password to be hashed and stored for the user
      * @return - DTO representation of the registered user
      */
-    UserDTO register(UserDTO user, String password);
-
-    /**
-     * Retrieves all registered system users.
-     *
-     * @return list of DTOs representing registered users
-     */
-    List<UserDTO> findAll();
+    UserDetailedDTO register(UserDTO userDTO, String password);
 
     /**
      * Retrieves a user of the system with the matching id.
@@ -56,24 +47,26 @@ public interface UserFacade {
     /**
      * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
      *
-     * @param user - user whose password is to be checked
+     * @param userAuthenticateDTO - user whose password is to be checked
      * @return true if the password hashes match
      */
-    boolean authenticate(UserAuthenticateDTO user);
+    boolean authenticate(UserAuthenticateDTO userAuthenticateDTO);
 
     /**
      * Check if the given user is admin.
      *
-     * @param user - user to be checked for admin privileges
+     * @param userDTO - user to be checked for admin privileges
      * @return true if user is admin
      */
-    boolean isAdmin(UserDTO user);
+    Boolean isAdmin(UserDTO userDTO);
+
+    boolean disable(UserDTO userDTO);
 
     /**
      * Updates the given user.
      *
-     * @param user - user DTO with data for update in attributes
+     * @param userDetailedDTO - user DTO with data for update in attributes
      * @return DTO with user data after the update operation
      */
-    UserDetailedDTO update(UserDetailedDTO user);
+    UserDetailedDTO update(UserDetailedDTO userDetailedDTO);
 }
