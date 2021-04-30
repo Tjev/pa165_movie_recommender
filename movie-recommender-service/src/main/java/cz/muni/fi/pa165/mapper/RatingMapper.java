@@ -6,6 +6,8 @@ import cz.muni.fi.pa165.entity.Rating;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 /**
  * Mapper for Rating entity.
  *
@@ -19,4 +21,6 @@ public interface RatingMapper {
 
     RatingCreateDTO ratingToRatingCreateDTO(Rating rating);
     Rating ratingCreateDTOToRating(RatingCreateDTO ratingCreateDTO);
+
+    List<RatingDTO> mapRatingsToRatingDTOs(List<Rating> ratings);
 }
