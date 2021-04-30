@@ -94,9 +94,9 @@ public class RatingCreateDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RatingDTO)) return false;
+        if (!(o instanceof RatingCreateDTO)) return false;
 
-        RatingDTO rating = (RatingDTO) o;
+        RatingCreateDTO rating = (RatingCreateDTO) o;
 
         if (!getMovie().equals(rating.getMovie())) return false;
         if (!getUser().equals(rating.getUser())) return false;
