@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean authenticate(User user, String password) {
+    public Boolean authenticate(User user, String password) {
         if (user == null) {
             throw new IllegalArgumentException("User parameter is null.");
         }
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isAdmin(User user) {
+    public Boolean isAdmin(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User parameter is null.");
         }
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isDisabled(User user) {
+    public Boolean isDisabled(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User parameter is null.");
         }

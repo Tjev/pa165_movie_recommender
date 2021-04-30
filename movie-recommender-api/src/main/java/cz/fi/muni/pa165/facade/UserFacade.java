@@ -4,7 +4,7 @@ import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.dto.UserDTO;
 import cz.fi.muni.pa165.dto.UserDetailedDTO;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Facade for interaction with the User service.
@@ -16,18 +16,11 @@ public interface UserFacade {
     /**
      * Registers the user into the system.
      *
-     * @param user - user to be registered
+     * @param userDTO - user to be registered
      * @param password - password to be hashed and stored for the user
      * @return - DTO representation of the registered user
      */
-    UserDTO register(UserDTO user, String password);
-
-    /**
-     * Retrieves all registered system users.
-     *
-     * @return list of DTOs representing registered users
-     */
-    List<UserDTO> findAll();
+    Optional<UserDetailedDTO> register(UserDTO userDTO, String password);
 
     /**
      * Retrieves a user of the system with the matching id.
@@ -35,7 +28,7 @@ public interface UserFacade {
      * @param id - id to be used as the key for retrieval
      * @return - user DTO matching the id
      */
-    UserDetailedDTO findById(Long id);
+    Optional<UserDetailedDTO> findById(Long id);
 
     /**
      * Retrieves a user of the system with the matching email address.
@@ -43,7 +36,7 @@ public interface UserFacade {
      * @param emailAddress - email address to be used as the key for retrieval
      * @return - user DTO matching the email address
      */
-    UserDetailedDTO findByEmailAddress(String emailAddress);
+    Optional<UserDetailedDTO> findByEmailAddress(String emailAddress);
 
     /**
      * Retrieves a user of the system with the matching username.
@@ -51,29 +44,31 @@ public interface UserFacade {
      * @param username - username to be used as the key for retrieval
      * @return - user DTO matching the username
      */
-    UserDetailedDTO findByUsername(String username);
+    Optional<UserDetailedDTO> findByUsername(String username);
 
     /**
      * Attempts to authenticate a user by hashing and comparing the given password with the one stored for the given user.
      *
-     * @param user - user whose password is to be checked
+     * @param userAuthenticateDTO - user whose password is to be checked
      * @return true if the password hashes match
      */
-    boolean authenticate(UserAuthenticateDTO user);
+    Optional<Boolean> authenticate(UserAuthenticateDTO userAuthenticateDTO);
 
     /**
      * Check if the given user is admin.
      *
-     * @param user - user to be checked for admin privileges
+     * @param userDTO - user to be checked for admin privileges
      * @return true if user is admin
      */
-    boolean isAdmin(UserDTO user);
+    Optional<Boolean> isAdmin(UserDTO userDTO);
+
+    Boolean disable(UserDTO userDTO);
 
     /**
      * Updates the given user.
      *
-     * @param user - user DTO with data for update in attributes
+     * @param userDetailedDTO - user DTO with data for update in attributes
      * @return DTO with user data after the update operation
      */
-    UserDetailedDTO update(UserDetailedDTO user);
+    Optional<UserDetailedDTO> update(UserDetailedDTO userDetailedDTO);
 }
