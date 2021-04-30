@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.UserDao;
-import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.mockito.Mock;
