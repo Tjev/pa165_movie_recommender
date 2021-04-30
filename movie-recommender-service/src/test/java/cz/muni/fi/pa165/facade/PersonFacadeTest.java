@@ -92,7 +92,7 @@ public class PersonFacadeTest {
 
     @Test
     public void create() {
-        when(personMapper.personCreateDTOToPerson(any())).thenReturn(person);
+        when(personMapper.personCreateDTOToPerson(any(PersonCreateDTO.class))).thenReturn(person);
         personFacade.create(personCreateDTO);
 
         verify(personService, times(1)).create(any(Person.class));
@@ -101,7 +101,8 @@ public class PersonFacadeTest {
 
     @Test
     public void findById() {
-        when(personMapper.personToPersonDetailedDTO(any())).thenReturn(personDetailedDTO);
+        when(personMapper.personToPersonDetailedDTO(any(Person.class))).thenReturn(personDetailedDTO);
+        when(personService.findById(any(Long.class))).thenReturn(person);
         Optional<PersonDetailedDTO> personDetailedDTO = personFacade.findById(1L);
 
         Assert.assertTrue(personDetailedDTO.isPresent());
@@ -112,10 +113,10 @@ public class PersonFacadeTest {
 
     @Test
     public void findByName() {
-        when(personMapper.personToPersonDetailedDTO(any())).thenReturn(personDetailedDTO);
+        when(personMapper.personToPersonDetailedDTO(any(Person.class))).thenReturn(personDetailedDTO);
         List<Person> expected = new ArrayList<>(Arrays.asList(person));
 
-        when(personService.findByName(any())).thenReturn(expected);
+        when(personService.findByName(any(String.class))).thenReturn(expected);
         Optional<List<PersonDetailedDTO>> result = personFacade.findByName("Brad");
 
         Assert.assertTrue(result.isPresent());
