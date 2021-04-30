@@ -17,8 +17,9 @@ public interface RatingService {
      * Saves Rating into the persistence layer.
      *
      * @param rating to be saved
+     * @return rating after creation operation
      */
-    void create(Rating rating);
+    Rating create(Rating rating);
 
     /**
      * Retrieves a list of ratings from the persistence layer.
@@ -55,8 +56,9 @@ public interface RatingService {
      * Merges the rating by its ID with its current representation in the persistence layer.
      *
      * @param rating to be merged
+     * @return rating after update operation
      */
-    void update(Rating rating);
+    Rating update(Rating rating);
 
     /**
      * Removes the rating from the persistence layer.

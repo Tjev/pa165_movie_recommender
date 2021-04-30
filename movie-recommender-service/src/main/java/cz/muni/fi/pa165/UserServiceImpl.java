@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(User user, String password) {
+    public User register(User user, String password) {
         if (user == null) {
             throw new IllegalArgumentException("Movie parameter is null.");
         }
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setPasswordHash(passwordHash);
 
         try {
-            userDao.create(user);
+            return userDao.create(user);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while creating User.", e);
         }
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void disable(User user) {
+    public User disable(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User parameter is null.");
         }
@@ -122,6 +122,11 @@ public class UserServiceImpl implements UserService {
         }
 
         persistedUser.setDisabled(true);
+        try {
+            return userDao.update(persistedUser);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while updating user.", e);
+        }
     }
 
     @Override
@@ -135,7 +140,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
+    public User update(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User parameter is null.");
         }
@@ -146,7 +151,7 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            userDao.update(user);
+            return userDao.update(user);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while updating user", e);
         }

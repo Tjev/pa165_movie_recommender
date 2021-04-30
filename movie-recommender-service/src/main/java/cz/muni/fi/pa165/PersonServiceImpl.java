@@ -24,13 +24,13 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void create(Person person) {
+    public Person create(Person person) {
         if (person == null) {
             throw new IllegalArgumentException("Person parameter is null.");
         }
 
         try {
-            personDao.create(person);
+            return personDao.create(person);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while creating Person.", e);
         }
@@ -76,7 +76,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void update(Person person) {
+    public Person update(Person person) {
         if (person == null) {
             throw new IllegalArgumentException("Person parameter is null.");
         }
@@ -88,7 +88,7 @@ public class PersonServiceImpl implements PersonService {
         }
 
         try {
-            personDao.update(person);
+            return personDao.update(person);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while updating Person.", e);
         }

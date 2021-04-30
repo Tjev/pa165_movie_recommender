@@ -16,8 +16,9 @@ public interface UserService {
      * Passes the user to be saved into the persistence layer.
      *
      * @param user - user to be saved
+     * @return user after registration
      */
-    void register(User user, String password);
+    User register(User user, String password);
 
     /**
      * Retrieves a list of all users from the persistence layer.
@@ -71,8 +72,9 @@ public interface UserService {
      * Disables the user account for given user entity.
      *
      * @param user - user to be disabled
+     * @return disabled user
      */
-    void disable(User user);
+    User disable(User user);
 
     /**
      * Checks whether the given user account is disabled.
@@ -86,6 +88,7 @@ public interface UserService {
      * Updates corresponding user entity in the persistence layer.
      *
      * @param user - user to be updated
+     * @return person after update operation
      */
-    void update(User user);
+    User update(User user);
 }

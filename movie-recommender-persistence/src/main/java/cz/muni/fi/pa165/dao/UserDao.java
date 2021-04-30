@@ -15,8 +15,9 @@ public interface UserDao {
      * Saves user into the data source.
      *
      * @param user - user to be saved
+     * @return user after creation operation
      */
-    void create(User user);
+    User create(User user);
 
     /**
      * Retrieves a list of all users from the data source.
@@ -53,6 +54,7 @@ public interface UserDao {
      * Merges user by its ID with its current representation in the data source.
      *
      * @param user - user to be updated
+     * @return user after update operation
      */
-    void update(User user);
+    User update(User user);
 }
