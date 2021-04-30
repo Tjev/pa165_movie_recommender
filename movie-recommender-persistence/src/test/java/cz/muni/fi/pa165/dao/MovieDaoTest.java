@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.PersistenceApplicationContext;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -17,10 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
@@ -36,7 +33,7 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
     Movie suspiria;
     Movie suspiriaRemake;
 
-    @Autowired
+    @Inject
     private MovieDao movieDao;
 
     @BeforeMethod
@@ -72,6 +69,22 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
+    public void nullGenresTest() {
+
+        Movie movie = new Movie("Matrix", null, LocalDate.of(2000, 1, 1), null, null);
+
+        movieDao.create(movie);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void emptyGenresTest() {
+
+        Movie movie = new Movie("Matrix", null, LocalDate.of(2000, 1, 1), Collections.emptySet(), null);
+
+        movieDao.create(movie);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void emptyTitleTest() {
 
         Movie movie = new Movie("", null, LocalDate.of(2000, 1, 1), genres, null);
@@ -92,9 +105,10 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
 
         List<Movie> result = movieDao.findAll();
 
-        assert (result.contains(titanic));
-        assert (result.contains(suspiria));
-        assert (result.contains(suspiriaRemake));
+        Assert.assertTrue(result.contains(titanic));
+        Assert.assertTrue(result.contains(suspiria));
+        Assert.assertTrue(result.contains(suspiriaRemake));
+        Assert.assertEquals(result.size(), 3);
     }
 
     @Test
@@ -111,6 +125,7 @@ public class MovieDaoTest extends AbstractTestNGSpringContextTests {
         List<Movie> result = movieDao.findByTitle(titanic.getTitle());
 
         Assert.assertTrue(result.contains(titanic));
+        Assert.assertEquals(result.size(), 1);
     }
 
     @Test

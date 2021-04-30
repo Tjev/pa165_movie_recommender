@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.PersistenceApplicationContext;
 import cz.muni.fi.pa165.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -27,7 +27,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     private User u1;

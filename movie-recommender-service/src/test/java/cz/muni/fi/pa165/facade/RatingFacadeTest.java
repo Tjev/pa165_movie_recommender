@@ -1,10 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.MovieDTO;
-import cz.fi.muni.pa165.dto.RatingCreateDTO;
-import cz.fi.muni.pa165.dto.RatingDTO;
-import cz.fi.muni.pa165.dto.UserDTO;
-import cz.fi.muni.pa165.facade.RatingFacade;
+import cz.muni.fi.pa165.dto.MovieDTO;
+import cz.muni.fi.pa165.dto.RatingCreateDTO;
+import cz.muni.fi.pa165.dto.RatingDTO;
+import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.MovieService;
 import cz.muni.fi.pa165.RatingService;
 import cz.muni.fi.pa165.ScoreComputationService;
@@ -19,7 +18,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 

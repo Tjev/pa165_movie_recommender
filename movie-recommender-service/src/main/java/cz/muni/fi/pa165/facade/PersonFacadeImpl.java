@@ -1,17 +1,16 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.MovieDTO;
-import cz.fi.muni.pa165.dto.PersonCreateDTO;
-import cz.fi.muni.pa165.dto.PersonDTO;
-import cz.fi.muni.pa165.dto.PersonDetailedDTO;
-import cz.fi.muni.pa165.facade.PersonFacade;
+import cz.muni.fi.pa165.dto.MovieDTO;
+import cz.muni.fi.pa165.dto.PersonCreateDTO;
+import cz.muni.fi.pa165.dto.PersonDTO;
+import cz.muni.fi.pa165.dto.PersonDetailedDTO;
 import cz.muni.fi.pa165.PersonService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
-import cz.muni.fi.pa165.exceptions.ServiceLayerException;
+import cz.muni.fi.pa165.exception.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.MovieMapper;
 import cz.muni.fi.pa165.mapper.PersonMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,7 +33,7 @@ public class PersonFacadeImpl implements PersonFacade {
 
     private final PersonService personService;
 
-    @Autowired
+    @Inject
     public PersonFacadeImpl(PersonMapper personMapper, MovieMapper movieMapper, PersonService personService) {
         this.personMapper = personMapper;
         this.movieMapper = movieMapper;

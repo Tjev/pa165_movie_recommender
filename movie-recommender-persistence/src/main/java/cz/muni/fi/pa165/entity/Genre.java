@@ -1,5 +1,10 @@
 package cz.muni.fi.pa165.entity;
 
+/**
+ * Enumeration for genres.
+ *
+ * @author Radoslav Chudovsky
+ */
 public enum Genre {
     ACTION,
     ADULT,
