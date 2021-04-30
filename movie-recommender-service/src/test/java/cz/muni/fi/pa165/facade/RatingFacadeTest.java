@@ -9,7 +9,6 @@ import cz.muni.fi.pa165.MovieService;
 import cz.muni.fi.pa165.RatingService;
 import cz.muni.fi.pa165.ScoreComputationService;
 import cz.muni.fi.pa165.UserService;
-import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
@@ -22,12 +21,16 @@ import org.testng.annotations.Test;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for {@link RatingFacadeImpl}.
+ *
+ * @author Radoslav Chudovsky
+ */
 @Transactional
 public class RatingFacadeTest {
 
@@ -50,17 +53,11 @@ public class RatingFacadeTest {
 
     private AutoCloseable closeable;
 
-    private User user;
-    private Movie movie;
-
     @BeforeMethod
     public void setup() {
         closeable = MockitoAnnotations.openMocks(this);
         ratingFacade = new RatingFacadeImpl(ratingService, userService, movieService,
                 scoreComputationService, ratingMapper);
-
-        setupUser();
-        setupMovie();
 
         when(ratingMapper.ratingCreateDTOToRating(any(RatingCreateDTO.class)))
                 .thenReturn(new Rating());
@@ -68,17 +65,6 @@ public class RatingFacadeTest {
                 .thenReturn(new Rating());
         when(ratingMapper.ratingToRatingDTO(any(Rating.class)))
                 .thenReturn(new RatingDTO());
-    }
-
-    private void setupUser() {
-        user = new User("user", "user@mail.com");
-    }
-
-    private void setupMovie() {
-        movie = new Movie();
-        movie.setTitle("title");
-        movie.addGenre(Genre.THRILLER);
-        movie.setYear(LocalDate.of(2000, 1, 1));
     }
 
     @AfterMethod
@@ -89,10 +75,6 @@ public class RatingFacadeTest {
     @Test
     public void create() {
         RatingCreateDTO ratingCreateDTO = new RatingCreateDTO();
-        ratingCreateDTO.setCinematography(3);
-        Rating createdRating = new Rating();
-        createdRating.setCinematography(3);
-
         when(ratingService.create(any(Rating.class))).thenReturn(new Rating());
 
         ratingFacade.create(ratingCreateDTO);
@@ -100,6 +82,7 @@ public class RatingFacadeTest {
         verify(ratingService, times(1)).create(any(Rating.class));
         verify(ratingMapper, times(1)).ratingCreateDTOToRating(any(RatingCreateDTO.class));
         verify(ratingMapper, times(1)).ratingToRatingDTO(any(Rating.class));
+        verifyNoMoreInteractions(ratingService, ratingMapper);
     }
 
     @Test
@@ -112,6 +95,7 @@ public class RatingFacadeTest {
         verify(ratingService, times(1)).update(any(Rating.class));
         verify(ratingMapper, times(1)).ratingDTOToRating(any(RatingDTO.class));
         verify(ratingMapper, times(1)).ratingToRatingDTO(any(Rating.class));
+        verifyNoMoreInteractions(ratingService, ratingMapper);
     }
 
     @Test
@@ -121,6 +105,7 @@ public class RatingFacadeTest {
 
         verify(ratingService, times(1)).remove(any(Rating.class));
         verify(ratingMapper, times(1)).ratingDTOToRating(any(RatingDTO.class));
+        verifyNoMoreInteractions(ratingService, ratingMapper);
     }
 
     @Test
@@ -131,6 +116,7 @@ public class RatingFacadeTest {
 
         verify(ratingService, times(1)).findById(anyLong());
         verify(ratingMapper, times(1)).ratingToRatingDTO(any(Rating.class));
+        verifyNoMoreInteractions(ratingService, ratingMapper);
     }
 
     @Test
@@ -145,6 +131,7 @@ public class RatingFacadeTest {
         verify(ratingService, times(1)).findByMovie(any(Movie.class));
         verify(movieService, times(1)).findById(anyLong());
         verify(ratingMapper, times(1)).mapRatingsToRatingDTOs(any(ArrayList.class));
+        verifyNoMoreInteractions(ratingService, ratingMapper, movieService);
     }
 
     @Test
@@ -159,6 +146,7 @@ public class RatingFacadeTest {
         verify(ratingService, times(1)).findByUser(any(User.class));
         verify(userService, times(1)).findById(anyLong());
         verify(ratingMapper, times(1)).mapRatingsToRatingDTOs(any(ArrayList.class));
+        verifyNoMoreInteractions(ratingService, ratingMapper, userService);
     }
 
     @Test
@@ -171,6 +159,6 @@ public class RatingFacadeTest {
         verify(scoreComputationService, times(1))
                 .getOverallScoreForRating(any(Rating.class));
         verify(ratingMapper, times(1)).ratingDTOToRating(any(RatingDTO.class));
-
+        verifyNoMoreInteractions(ratingService, ratingMapper, scoreComputationService);
     }
 }
