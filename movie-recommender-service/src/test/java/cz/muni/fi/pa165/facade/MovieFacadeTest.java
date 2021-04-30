@@ -22,6 +22,11 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for MovieFacade implementation.
+ *
+ * @author Jiri Papousek
+ */
 public class MovieFacadeTest {
 
     private AutoCloseable closeable;
