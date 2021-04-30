@@ -34,7 +34,7 @@ public interface MovieFacade {
      * @param title title of the movie in the data source
      * @return list od detailed DTOs with given title
      */
-    List<MovieDetailedDTO> findByTitle(String title);
+    Optional<List<MovieDetailedDTO>> findByTitle(String title);
 
     /**
      * Updates the given Movie in the data source.
@@ -67,5 +67,5 @@ public interface MovieFacade {
      *
      * @param movieDTO DTO of the movie to be removed
      */
-    boolean remove(MovieDTO movieDTO);
+    Boolean remove(MovieDTO movieDTO);
 }

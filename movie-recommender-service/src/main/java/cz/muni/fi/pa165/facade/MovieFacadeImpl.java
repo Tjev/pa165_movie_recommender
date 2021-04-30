@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,12 +66,12 @@ public class MovieFacadeImpl implements MovieFacade {
     }
 
     @Override
-    public List<MovieDetailedDTO> findByTitle(String title) {
+    public Optional<List<MovieDetailedDTO>> findByTitle(String title) {
         try {
             List<Movie> movies = movieService.findByTitle(title);
-            return movieMapper.movieListToMovieDetailedDTOList(movies);
+            return Optional.ofNullable(movieMapper.movieListToMovieDetailedDTOList(movies));
         } catch (ServiceLayerException e) {
-            return Collections.emptyList();
+            return Optional.empty();
         }
     }
 
@@ -138,7 +137,7 @@ public class MovieFacadeImpl implements MovieFacade {
     }
 
     @Override
-    public boolean remove(MovieDTO movieDTO) {
+    public Boolean remove(MovieDTO movieDTO) {
         if (movieDTO == null) {
             throw new IllegalArgumentException("MovieDTO parameter is null.");
         }
