@@ -78,7 +78,6 @@ public class MovieFacadeTest {
 
     @Test
     public void create() {
-
         MovieCreateDTO inputDTO = new MovieCreateDTO();
         inputDTO.setTitle(m1.getTitle());
         when(movieMapper.movieCreateDTOToMovie(inputDTO)).thenReturn(m1);
@@ -98,7 +97,6 @@ public class MovieFacadeTest {
 
     @Test
     public void findById() {
-
         MovieDetailedDTO outputDTO = new MovieDetailedDTO();
         outputDTO.setTitle(m1.getTitle());
         outputDTO.setId(1L);
@@ -114,7 +112,6 @@ public class MovieFacadeTest {
 
     @Test
     public void findByTitle() {
-
         MovieDetailedDTO outputDTO = new MovieDetailedDTO();
         outputDTO.setTitle(m1.getTitle());
         outputDTO.setId(1L);
@@ -130,7 +127,6 @@ public class MovieFacadeTest {
 
     @Test
     public void update() {
-
         MovieDetailedDTO DTO = new MovieDetailedDTO();
         DTO.setTitle(m1.getTitle());
         DTO.setId(1L);
@@ -201,7 +197,6 @@ public class MovieFacadeTest {
 
     @Test
     public void remove() {
-
         MovieDTO DTO = new MovieDTO();
         DTO.setTitle(m1.getTitle());
         DTO.setId(1L);

@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Implementation of {@link MovieFacade}.
@@ -237,9 +234,13 @@ public class MovieFacadeImpl implements MovieFacade {
     }
 
     private List<Movie> getSortedIntersection(List<Movie> l1, List<Movie> l2) {
-        List<Movie> intersection = new ArrayList<>(l1);
+        List<Movie> intersection = new ArrayList<>();
 
-        intersection.retainAll(l2);
+        for (var movie : l1) {
+            if (l2.contains(movie)) {
+                intersection.add(movie);
+            }
+        }
 
         intersection.sort(
                 Comparator.comparing(scoreService::getOverallScoreForMovie)
@@ -249,14 +250,14 @@ public class MovieFacadeImpl implements MovieFacade {
     }
 
     private List<Movie> getSortedDisjunctiveUnion(List<Movie> l1, List<Movie> l2) {
-        List<Movie> disjunctiveUnion = new ArrayList<>(l1);
+        Set<Movie> set = new HashSet<>();
 
-        List<Movie> intersection = new ArrayList<>(l1);
+        set.addAll(l1);
+        set.addAll(l2);
 
-        intersection.retainAll(l2);
-        disjunctiveUnion.addAll(l2);
-        disjunctiveUnion.retainAll(intersection);
+        set.removeAll(getSortedIntersection(l1, l2));
 
+        List<Movie> disjunctiveUnion = new ArrayList<>(set);
         disjunctiveUnion.sort(
                 Comparator.comparing(scoreService::getOverallScoreForMovie)
         );
