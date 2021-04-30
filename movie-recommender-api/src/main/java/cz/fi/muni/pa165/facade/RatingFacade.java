@@ -1,7 +1,9 @@
 package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.*;
+import cz.muni.fi.pa165.entity.Rating;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,4 +61,13 @@ public interface RatingFacade {
      * @return list of DTOs of the found ratings
      */
     Optional<List<RatingDTO>> findByUser(UserDTO userDTO);
+
+    /**
+     * Gets overall score for the given rating computed as average
+     * from its sub-scores.
+     *
+     * @param ratingDTO of rating to compute overall score for
+     * @return the overall score for the rating
+     */
+    Optional<BigDecimal> getOverallScore(RatingDTO ratingDTO);
 }

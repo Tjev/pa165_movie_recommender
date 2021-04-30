@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.dto.*;
 import cz.fi.muni.pa165.facade.RatingFacade;
 import cz.muni.fi.pa165.MovieService;
 import cz.muni.fi.pa165.RatingService;
+import cz.muni.fi.pa165.ScoreComputationService;
 import cz.muni.fi.pa165.UserService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,18 +29,18 @@ import java.util.Optional;
 public class RatingFacadeImpl implements RatingFacade {
 
     private final RatingService ratingService;
-
     private final UserService userService;
-
     private final MovieService movieService;
-
+    private final ScoreComputationService scoreComputationService;
     private final RatingMapper ratingMapper;
 
     @Autowired
-    public RatingFacadeImpl(RatingService ratingService, UserService userService, MovieService movieService, RatingMapper ratingMapper) {
+    public RatingFacadeImpl(RatingService ratingService, UserService userService, MovieService movieService,
+                            ScoreComputationService scoreComputationService, RatingMapper ratingMapper) {
         this.ratingService = ratingService;
         this.userService = userService;
         this.movieService = movieService;
+        this.scoreComputationService = scoreComputationService;
         this.ratingMapper = ratingMapper;
     }
 
@@ -102,6 +104,16 @@ public class RatingFacadeImpl implements RatingFacade {
             User user = userService.findById(userDTO.getId());
             List<Rating> ratings = ratingService.findByUser(user);
             return Optional.of(ratingMapper.mapRatingsToRatingDTOs(ratings));
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<BigDecimal> getOverallScore(RatingDTO ratingDTO) {
+        try {
+            Rating rating = ratingMapper.ratingDTOToRating(ratingDTO);
+            return Optional.of(scoreComputationService.getOverallScoreForRating(rating));
         } catch (ServiceLayerException e) {
             return Optional.empty();
         }
