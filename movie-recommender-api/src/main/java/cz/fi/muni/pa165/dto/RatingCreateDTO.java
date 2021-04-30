@@ -122,7 +122,9 @@ public class RatingCreateDTO {
     @Override
     public String toString() {
         return "RatingCreateDTO{" +
-                "originality=" + originality +
+                "user=" + user +
+                ", movie=" + movie +
+                ", originality=" + originality +
                 ", soundtrack=" + soundtrack +
                 ", narrative=" + narrative +
                 ", cinematography=" + cinematography +
