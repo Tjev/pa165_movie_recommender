@@ -68,4 +68,12 @@ public interface UserFacade {
      * @return true if user is admin
      */
     boolean isAdmin(UserDTO user);
+
+    /**
+     * Updates the given user.
+     *
+     * @param user - user DTO with data for update in attributes
+     * @return DTO with user data after the update operation
+     */
+    UserDetailedDTO update(UserDetailedDTO user);
 }

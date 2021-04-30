@@ -134,6 +134,24 @@ public class UserServiceImpl implements UserService {
         return persistedUser.isDisabled();
     }
 
+    @Override
+    public void update(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User parameter is null.");
+        }
+
+        User persistedUser = findById(user.getId());
+        if (persistedUser == null) {
+            throw new IllegalArgumentException("User is not in the database.");
+        }
+
+        try {
+            userDao.update(user);
+        } catch (Exception e) {
+            throw new ServiceLayerException("Error occurred while updating user", e);
+        }
+    }
+
     private void validateStringParameter(String string, String paramName) {
         if (string == null) {
             throw new IllegalArgumentException((String.format("%s parameter is null.", paramName)));

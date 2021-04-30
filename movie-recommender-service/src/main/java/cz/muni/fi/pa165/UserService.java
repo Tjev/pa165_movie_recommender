@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165;
 
+import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.User;
 
 import java.util.List;
@@ -80,4 +81,11 @@ public interface UserService {
      * @return true if user is disabled
      */
     boolean isDisabled(User user);
+
+    /**
+     * Updates corresponding user entity in the persistence layer.
+     *
+     * @param user - user to be updated
+     */
+    void update(User user);
 }
