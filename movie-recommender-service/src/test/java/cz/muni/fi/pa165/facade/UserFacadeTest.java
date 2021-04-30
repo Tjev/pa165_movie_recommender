@@ -75,81 +75,95 @@ public class UserFacadeTest {
 
     @Test
     public void register() {
-        when(userMapper.userDTOToUser(any())).thenReturn(user);
+        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userMapper.userToUserDetailedDTO(any())).thenReturn(userDetailedDTO);
         userFacade.register(userDTO, "password1");
 
         Assert.assertEquals(userDTO.getId(), user.getId());
         verify(userService, times(1)).register(any(User.class), any(String.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void findById() {
-        when(userMapper.userToUserDetailedDTO(any())).thenReturn(userDetailedDTO);
+        when(userMapper.userToUserDetailedDTO(any(User.class))).thenReturn(userDetailedDTO);
+        when(userService.findById(any(Long.class))).thenReturn(user);
         Optional<UserDetailedDTO> userDetailedDTO = userFacade.findById(1L);
 
         Assert.assertTrue(userDetailedDTO.isPresent());
         Assert.assertEquals(userDetailedDTO.get().getId(), user.getId());
         verify(userService, times(1)).findById(any(Long.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void findByEmailAddress() {
-        when(userMapper.userToUserDetailedDTO(any())).thenReturn(userDetailedDTO);
+        when(userMapper.userToUserDetailedDTO(any(User.class))).thenReturn(userDetailedDTO);
+        when(userService.findByEmailAddress(any(String.class))).thenReturn(user);
         Optional<UserDetailedDTO> userDetailedDTO = userFacade.findByEmailAddress("john@email.com");
 
         Assert.assertTrue(userDetailedDTO.isPresent());
         Assert.assertEquals(userDetailedDTO.get().getEmailAddress(), user.getEmailAddress());
         verify(userService, times(1)).findByEmailAddress(any(String.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
-    public void findByUse() {
-        when(userMapper.userToUserDetailedDTO(any())).thenReturn(userDetailedDTO);
+    public void findByUsername() {
+        when(userMapper.userToUserDetailedDTO(any(User.class))).thenReturn(userDetailedDTO);
+        when(userService.findByUsername(any(String.class))).thenReturn(user);
         Optional<UserDetailedDTO> userDetailedDTO = userFacade.findByUsername("John");
 
         Assert.assertTrue(userDetailedDTO.isPresent());
         Assert.assertEquals(userDetailedDTO.get().getUsername(), user.getUsername());
         verify(userService, times(1)).findByUsername(any(String.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void authenticate() {
-        when(userService.findById(any())).thenReturn(user);
+        when(userService.findById(any(Long.class))).thenReturn(user);
         when(userService.authenticate(any(User.class), any(String.class))).thenReturn(true);
+
         Optional<Boolean> answer = userFacade.authenticate(userAuthenticateDTO);
 
         Assert.assertTrue(answer.isPresent());
         Assert.assertTrue(answer.get());
         verify(userService, times(1)).authenticate(any(User.class), any(String.class));
+        verify(userService, times(1)).findById(any(Long.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void isAdmin() {
-        when(userMapper.userDTOToUser(any())).thenReturn(user);
+        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userService.isAdmin(any(User.class))).thenReturn(true);
         Optional<Boolean> answer = userFacade.isAdmin(userDTO);
 
         Assert.assertTrue(answer.isPresent());
         Assert.assertTrue(answer.get());
         verify(userService, times(1)).isAdmin(any(User.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void disable() {
-        when(userMapper.userDTOToUser(any())).thenReturn(user);
+        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         userFacade.disable(userDTO);
 
         verify(userService, times(1)).disable(any(User.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @Test
     public void update() {
-        when(userMapper.userDetailedDTOToUser(any())).thenReturn(user);
-        when(userMapper.userToUserDetailedDTO(any())).thenReturn(userDetailedDTO);
+        when(userMapper.userDetailedDTOToUser(any(UserDetailedDTO.class))).thenReturn(user);
+        when(userMapper.userToUserDetailedDTO(any(User.class))).thenReturn(userDetailedDTO);
+        when(userService.update(any(User.class))).thenReturn(user);
         userFacade.update(userDetailedDTO);
 
         verify(userService, times(1)).update(any(User.class));
+        verifyNoMoreInteractions(userService);
     }
 
     @AfterClass
