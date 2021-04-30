@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.*;
-import cz.muni.fi.pa165.entity.Rating;
 
 import java.math.BigDecimal;
 import java.util.List;
