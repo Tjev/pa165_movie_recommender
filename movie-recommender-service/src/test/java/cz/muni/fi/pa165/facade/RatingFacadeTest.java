@@ -31,7 +31,6 @@ import static org.mockito.Mockito.*;
  *
  * @author Radoslav Chudovsky
  */
-@Transactional
 public class RatingFacadeTest {
 
     @Mock
