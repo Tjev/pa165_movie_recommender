@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165;
 
 import cz.muni.fi.pa165.dao.UserDao;
+import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import org.mockito.Mock;
@@ -52,6 +53,7 @@ public class UserServiceTest {
 
         user2 = new User("George", "george@email.com");
         user2.setId(2L);
+        user2.setDisabled(true);
         user2.setPasswordHash(encoder.encode(PASSWORD2));
 
         users = new ArrayList<>();
@@ -133,6 +135,38 @@ public class UserServiceTest {
 
         Assert.assertTrue(userService.isAdmin(user1));
         Assert.assertFalse(userService.isAdmin(user2));
+    }
+
+    @Test
+    public void disable() {
+        when(userDao.findById(user1.getId())).thenReturn(user1);
+
+        userService.disable(user1);
+
+        verify(userDao, times(1)).findById(anyLong());
+        verify(userDao, times(1)).update(any());
+        verifyNoMoreInteractions(userDao);
+    }
+
+    @Test
+    public void update() {
+        when(userDao.findById(user1.getId())).thenReturn(user1);
+
+        user1.setEmailAddress("john_new@mail.com");
+        userService.update(user1);
+
+        verify(userDao, times(1)).findById(anyLong());
+        verify(userDao, times(1)).update(any());
+        verifyNoMoreInteractions(userDao);
+    }
+
+    @Test
+    public void isDisabled() {
+        when(userDao.findById(user1.getId())).thenReturn(user1);
+        when(userDao.findById(user2.getId())).thenReturn(user2);
+
+        Assert.assertFalse(userService.isDisabled(user1));
+        Assert.assertTrue(userService.isDisabled(user2));
     }
 
     @Test
@@ -297,6 +331,96 @@ public class UserServiceTest {
 
         Assert.assertThrows(ServiceLayerException.class, () -> {
             userService.isAdmin(user1);
+        });
+    }
+
+    @Test
+    public void isDisabledNullUser() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.isDisabled(null);
+        });
+    }
+
+    @Test
+    public void disableNullUser() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.disable(null);
+        });
+    }
+
+    @Test
+    public void updateNullUser() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.update(null);
+        });
+    }
+
+    @Test
+    public void isDisabledPersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .findById(user1.getId());
+
+        Assert.assertThrows(ServiceLayerException.class, () -> {
+            userService.isDisabled(user1);
+        });
+    }
+
+    @Test
+    public void disablePersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .update(user1);
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.disable(user1);
+        });
+    }
+
+    @Test
+    public void updatePersistenceLayerFailed() {
+        doThrow(PersistenceException.class)
+                .when(userDao)
+                .update(user1);
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.update(user1);
+        });
+    }
+
+    @Test
+    public void isAdminUserNotInDatabase() {
+        User user = new User("John", "john@mail.com");
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.isAdmin(user);
+        });
+    }
+
+    @Test
+    public void isDisabledUserNotInDatabase() {
+        User user = new User("John", "john@mail.com");
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.isDisabled(user);
+        });
+    }
+
+    @Test
+    public void disableUserNotInDatabase() {
+        User user = new User("John", "john@mail.com");
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.disable(user);
+        });
+    }
+
+    @Test
+    public void updateUserNotInDatabase() {
+        User user = new User("John", "john@mail.com");
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            userService.update(user);
         });
     }
 

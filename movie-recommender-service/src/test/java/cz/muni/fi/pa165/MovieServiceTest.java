@@ -20,6 +20,11 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for MovieService.
+ *
+ * @author Kristian Tkacik
+ */
 public class MovieServiceTest {
 
     @Mock
