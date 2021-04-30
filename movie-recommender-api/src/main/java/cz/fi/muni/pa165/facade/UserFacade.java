@@ -52,7 +52,7 @@ public interface UserFacade {
      * @param userAuthenticateDTO - user whose password is to be checked
      * @return true if the password hashes match
      */
-    Boolean authenticate(UserAuthenticateDTO userAuthenticateDTO);
+    Optional<Boolean> authenticate(UserAuthenticateDTO userAuthenticateDTO);
 
     /**
      * Check if the given user is admin.
