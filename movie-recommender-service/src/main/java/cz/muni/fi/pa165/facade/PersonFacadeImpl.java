@@ -88,6 +88,12 @@ public class PersonFacadeImpl implements PersonFacade {
 
     @Override
     public Optional<PersonDetailedDTO> addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+        if (personDTO == null) {
+            throw new IllegalArgumentException("PersonDTO is null.");
+        }
+        if (movieDTO == null) {
+            throw new IllegalArgumentException("MovieDTO is null");
+        }
         try {
             Person person = personMapper.personDTOToPerson(personDTO);
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
@@ -102,6 +108,12 @@ public class PersonFacadeImpl implements PersonFacade {
 
     @Override
     public Optional<PersonDetailedDTO> addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+        if (personDTO == null) {
+            throw new IllegalArgumentException("PersonDTO is null.");
+        }
+        if (movieDTO == null) {
+            throw new IllegalArgumentException("MovieDTO is null");
+        }
         try {
             Person person = personMapper.personDTOToPerson(personDTO);
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
