@@ -62,18 +62,9 @@ public interface MovieFacade {
     MovieDetailedDTO addDirector(MovieDTO movieDTO, PersonDTO personDTO);
 
     /**
-     * Adds given rating to the given movie.
-     *
-     * @param movieDTO DTO of a movie that was rated
-     * @param ratingDTO DTO of the rating
-     * @return detailed DTO of the updated movie
-     */
-    MovieDetailedDTO addRating(MovieDTO movieDTO, RatingDTO ratingDTO);
-
-    /**
      * Removes the given movie.
      *
      * @param movieDTO DTO of the movie to be removed
      */
-    void remove(MovieDTO movieDTO);
+    boolean remove(MovieDTO movieDTO);
 }
