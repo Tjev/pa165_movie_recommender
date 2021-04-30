@@ -1,7 +1,6 @@
-package cz.fi.muni.pa165.dto;
+package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.entity.Genre;
-import cz.muni.fi.pa165.entity.Movie;
 
 import java.time.LocalDate;
 import java.util.Objects;

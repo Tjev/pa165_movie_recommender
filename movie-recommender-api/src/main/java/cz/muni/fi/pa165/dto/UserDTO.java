@@ -1,6 +1,5 @@
-package cz.fi.muni.pa165.dto;
+package cz.muni.fi.pa165.dto;
 
-import java.util.List;
 import java.util.Objects;
 
 /**

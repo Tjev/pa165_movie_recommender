@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.facade.MovieFacade;
+import cz.muni.fi.pa165.dto.MovieCreateDTO;
+import cz.muni.fi.pa165.dto.MovieDTO;
+import cz.muni.fi.pa165.dto.MovieDetailedDTO;
+import cz.muni.fi.pa165.dto.PersonDTO;
 import cz.muni.fi.pa165.MovieService;
 import cz.muni.fi.pa165.RecommendationService;
 import cz.muni.fi.pa165.ScoreComputationService;

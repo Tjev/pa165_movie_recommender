@@ -1,4 +1,4 @@
-package cz.fi.muni.pa165.dto;
+package cz.muni.fi.pa165.dto;
 
 /**
  * DTO class representing authentication of User entities.

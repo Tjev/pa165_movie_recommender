@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.mapper;
 
-import cz.fi.muni.pa165.dto.PersonCreateDTO;
-import cz.fi.muni.pa165.dto.PersonDTO;
-import cz.fi.muni.pa165.dto.PersonDetailedDTO;
+import cz.muni.fi.pa165.dto.PersonCreateDTO;
+import cz.muni.fi.pa165.dto.PersonDTO;
+import cz.muni.fi.pa165.dto.PersonDetailedDTO;
 import cz.muni.fi.pa165.entity.Person;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;

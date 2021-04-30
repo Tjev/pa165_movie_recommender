@@ -1,9 +1,9 @@
-package cz.fi.muni.pa165.facade;
+package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.MovieDTO;
-import cz.fi.muni.pa165.dto.PersonCreateDTO;
-import cz.fi.muni.pa165.dto.PersonDetailedDTO;
-import cz.fi.muni.pa165.dto.PersonDTO;
+import cz.muni.fi.pa165.dto.MovieDTO;
+import cz.muni.fi.pa165.dto.PersonCreateDTO;
+import cz.muni.fi.pa165.dto.PersonDetailedDTO;
+import cz.muni.fi.pa165.dto.PersonDTO;
 
 import java.util.List;
 import java.util.Optional;

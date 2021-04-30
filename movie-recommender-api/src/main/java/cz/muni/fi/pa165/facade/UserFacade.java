@@ -1,8 +1,8 @@
-package cz.fi.muni.pa165.facade;
+package cz.muni.fi.pa165.facade;
 
-import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
-import cz.fi.muni.pa165.dto.UserDTO;
-import cz.fi.muni.pa165.dto.UserDetailedDTO;
+import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
+import cz.muni.fi.pa165.dto.UserDTO;
+import cz.muni.fi.pa165.dto.UserDetailedDTO;
 
 import java.util.Optional;
 
