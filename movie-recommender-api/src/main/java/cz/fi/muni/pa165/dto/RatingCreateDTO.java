@@ -11,6 +11,10 @@ import java.util.Objects;
  */
 public class RatingCreateDTO {
 
+    private UserDTO user;
+
+    private MovieDTO movie;
+
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int originality;
@@ -30,6 +34,22 @@ public class RatingCreateDTO {
     @Min(value = 1, message = "Minimum rating value is 1")
     @Max(value = 5, message = "Maximum rating value is 5")
     private int depth;
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
+
+    public MovieDTO getMovie() {
+        return movie;
+    }
+
+    public void setMovie(MovieDTO movie) {
+        this.movie = movie;
+    }
 
     public int getOriginality() {
         return originality;
@@ -78,6 +98,8 @@ public class RatingCreateDTO {
 
         RatingCreateDTO rating = (RatingCreateDTO) o;
 
+        if (!getMovie().equals(rating.getMovie())) return false;
+        if (!getUser().equals(rating.getUser())) return false;
         if (getCinematography() != rating.getCinematography()) return false;
         if (getDepth() != rating.getDepth()) return false;
         if (getNarrative() != rating.getNarrative()) return false;
@@ -88,6 +110,8 @@ public class RatingCreateDTO {
     @Override
     public int hashCode() {
         return Objects.hash(
+                getMovie(),
+                getUser(),
                 getOriginality(),
                 getSoundtrack(),
                 getNarrative(),
@@ -98,7 +122,9 @@ public class RatingCreateDTO {
     @Override
     public String toString() {
         return "RatingCreateDTO{" +
-                "originality=" + originality +
+                "user=" + user +
+                ", movie=" + movie +
+                ", originality=" + originality +
                 ", soundtrack=" + soundtrack +
                 ", narrative=" + narrative +
                 ", cinematography=" + cinematography +
