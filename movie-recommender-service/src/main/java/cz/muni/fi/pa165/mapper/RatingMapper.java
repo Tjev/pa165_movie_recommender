@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.mapper;
 
-import cz.fi.muni.pa165.dto.RatingCreateDTO;
 import cz.fi.muni.pa165.dto.RatingDTO;
 import cz.muni.fi.pa165.entity.Rating;
 import org.mapstruct.CollectionMappingStrategy;
@@ -16,7 +15,4 @@ public interface RatingMapper {
 
     RatingDTO ratingToRatingDTO(Rating rating);
     Rating ratingDTOToRating(RatingDTO ratingDTO);
-
-    RatingCreateDTO ratingToRatingCreateDTO(Rating rating);
-    Rating ratingCreateDTOToRating(RatingCreateDTO ratingCreateDTO);
 }
