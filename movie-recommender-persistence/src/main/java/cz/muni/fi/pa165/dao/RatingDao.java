@@ -18,8 +18,9 @@ public interface RatingDao {
      * Saves Rating into the data source.
      *
      * @param rating to be saved
+     * @return rating after creation operation
      */
-    void create(Rating rating);
+    Rating create(Rating rating);
 
     /**
      * Retrieves a list of ratings from the data source.
@@ -56,8 +57,9 @@ public interface RatingDao {
      * Merges the rating by its ID with its current representation in the data source.
      *
      * @param rating to be merged
+     * @return rating after update operation
      */
-    void update(Rating rating);
+    Rating update(Rating rating);
 
     /**
      * Removes the rating from the data source.

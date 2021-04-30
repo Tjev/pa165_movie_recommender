@@ -15,8 +15,9 @@ public interface MovieService {
      * Saves movie entity into the data source
      *
      * @param movie movie to be saved
+     * @return movie after creation operation
      */
-    void create(Movie movie);
+    Movie create(Movie movie);
 
     /**
      * Retrieves a list of all movies from the
@@ -50,8 +51,9 @@ public interface MovieService {
      * representation in the data source
      *
      * @param movie movie to be merged
+     * @return movie after update operation
      */
-    void update(Movie movie);
+    Movie update(Movie movie);
 
     /**
      * Removes movie from the data source

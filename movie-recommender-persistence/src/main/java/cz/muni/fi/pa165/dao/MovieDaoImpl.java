@@ -21,8 +21,9 @@ public class MovieDaoImpl implements MovieDao {
     private EntityManager em;
 
     @Override
-    public void create(Movie movie) {
+    public Movie create(Movie movie) {
         em.persist(movie);
+        return movie;
     }
 
     @Override
@@ -43,8 +44,9 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public void update(Movie movie) {
+    public Movie update(Movie movie) {
         em.merge(movie);
+        return movie;
     }
 
     @Override

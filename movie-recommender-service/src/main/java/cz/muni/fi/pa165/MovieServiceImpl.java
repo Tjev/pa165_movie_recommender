@@ -26,13 +26,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void create(Movie movie) {
+    public Movie create(Movie movie) {
         if (movie == null) {
             throw new IllegalArgumentException("Movie parameter is null.");
         }
 
         try {
-            movieDao.create(movie);
+            return movieDao.create(movie);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while creating Movie.", e);
         }
@@ -78,7 +78,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void update(Movie movie) {
+    public Movie update(Movie movie) {
         if (movie == null) {
             throw new IllegalArgumentException("Movie parameter is null");
         }
@@ -89,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
         }
 
         try {
-            movieDao.update(movie);
+            return movieDao.update(movie);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while updating movie", e);
         }

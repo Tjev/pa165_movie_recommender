@@ -24,8 +24,9 @@ public class RatingDaoImpl implements RatingDao {
     private EntityManager em;
 
     @Override
-    public void create(Rating rating) {
+    public Rating create(Rating rating) {
         em.persist(rating);
+        return rating;
     }
 
     @Override
@@ -53,8 +54,9 @@ public class RatingDaoImpl implements RatingDao {
     }
 
     @Override
-    public void update(Rating rating) {
+    public Rating update(Rating rating) {
         em.merge(rating);
+        return rating;
     }
 
     @Override

@@ -15,8 +15,9 @@ public interface PersonDao {
      * Saves person into the data source.
      *
      * @param person to be saved
+     * @return person after creation operation
      */
-    void create(Person person);
+    Person create(Person person);
 
     /**
      * Retrieves a list of all persons from the data source.
@@ -45,8 +46,9 @@ public interface PersonDao {
      * Merges the person by its ID with its current representation in the data source.
      *
      * @param person to be merged
+     * @return person after update operation
      */
-    void update(Person person);
+    Person update(Person person);
 
     /**
      * Removes the person from the data source.

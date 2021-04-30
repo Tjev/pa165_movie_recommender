@@ -28,13 +28,13 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public void create(Rating rating) {
+    public Rating create(Rating rating) {
         if (rating == null) {
             throw new IllegalArgumentException("Rating parameter is null.");
         }
 
         try {
-            ratingDao.create(rating);
+            return ratingDao.create(rating);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while creating Rating.", e);
         }
@@ -89,7 +89,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public void update(Rating rating) {
+    public Rating update(Rating rating) {
         if (rating == null) {
             throw new IllegalArgumentException("Rating parameter is null");
         }
@@ -100,7 +100,7 @@ public class RatingServiceImpl implements RatingService {
         }
 
         try {
-            ratingDao.update(rating);
+            return ratingDao.update(rating);
         } catch (Exception e) {
             throw new ServiceLayerException("Error occurred while updating rating", e);
         }

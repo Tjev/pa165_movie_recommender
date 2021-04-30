@@ -20,8 +20,9 @@ public class PersonDaoImpl implements PersonDao {
     EntityManager em;
 
     @Override
-    public void create(Person person) {
+    public Person create(Person person) {
         em.persist(person);
+        return person;
     }
 
     @Override
@@ -42,8 +43,9 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void update(Person person) {
+    public Person update(Person person) {
         em.merge(person);
+        return person;
     }
 
     @Override

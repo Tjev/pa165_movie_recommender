@@ -20,8 +20,9 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
         em.persist(user);
+        return user;
     }
 
     @Override
@@ -49,7 +50,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(User user) {
+    public User update(User user) {
         em.merge(user);
+        return user;
     }
 }
