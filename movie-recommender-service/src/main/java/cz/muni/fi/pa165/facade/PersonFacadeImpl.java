@@ -8,12 +8,14 @@ import cz.fi.muni.pa165.facade.PersonFacade;
 import cz.muni.fi.pa165.PersonService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
+import cz.muni.fi.pa165.exceptions.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.MovieMapper;
 import cz.muni.fi.pa165.mapper.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,54 +37,86 @@ public class PersonFacadeImpl implements PersonFacade {
     }
 
     @Override
-    public PersonDetailedDTO create(PersonCreateDTO personCreateDto) {
-        Person person = personMapper.personCreateDTOToPerson(personCreateDto);
-        person = personService.create(person);
-        return personMapper.personToPersonDetailedDTO(person);
+    public PersonDetailedDTO create(PersonCreateDTO personCreateDTO) {
+        try {
+            Person person = personMapper.personCreateDTOToPerson(personCreateDTO);
+            person = personService.create(person);
+            return personMapper.personToPersonDetailedDTO(person);
+        } catch (ServiceLayerException e) {
+            return null;
+        }
     }
 
     @Override
     public PersonDetailedDTO findById(Long id) {
-        Person person = personService.findById(id);
-        return personMapper.personToPersonDetailedDTO(person);
+        try {
+            Person person = personService.findById(id);
+            return personMapper.personToPersonDetailedDTO(person);
+        } catch (ServiceLayerException e) {
+            return null;
+        }
     }
 
     @Override
     public List<PersonDetailedDTO> findByName(String name) {
-        List<Person> persons = personService.findByName(name);
-        return persons.stream()
-                .map(personMapper::personToPersonDetailedDTO)
-                .collect(Collectors.toList());
+        try {
+            List<Person> persons = personService.findByName(name);
+            return persons.stream()
+                    .map(personMapper::personToPersonDetailedDTO)
+                    .collect(Collectors.toList());
+        } catch (ServiceLayerException e) {
+            return Collections.EMPTY_LIST;
+        }
+
     }
 
     @Override
-    public PersonDetailedDTO update(PersonDetailedDTO personDetailedDto) {
-        Person person = personMapper.personDetailedDTOToPerson(personDetailedDto);
-        person = personService.update(person);
-        return personMapper.personToPersonDetailedDTO(person);
+    public PersonDetailedDTO update(PersonDetailedDTO personDetailedDTO) {
+        try {
+            Person person = personMapper.personDetailedDTOToPerson(personDetailedDTO);
+            person = personService.update(person);
+            return personMapper.personToPersonDetailedDTO(person);
+        }  catch (ServiceLayerException e) {
+            return null;
+        }
     }
 
     @Override
-    public PersonDetailedDTO addDirectedMovie(PersonDTO personDto, MovieDTO movieDto) {
-        Person person = personMapper.personDTOToPerson(personDto);
-        Movie movie = movieMapper.movieDTOToMovie(movieDto);
-        person.addDirectedMovie(movie);
-        person = personService.update(person);
-        return personMapper.personToPersonDetailedDTO(person);
+    public PersonDetailedDTO addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+        try {
+            Person person = personMapper.personDTOToPerson(personDTO);
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            person.addDirectedMovie(movie);
+            person = personService.update(person);
+            return personMapper.personToPersonDetailedDTO(person);
+        } catch (ServiceLayerException e) {
+            return null;
+        }
+
     }
 
     @Override
-    public PersonDetailedDTO addActsInMovie(PersonDTO personDto, MovieDTO movieDto) {
-        Person person = personMapper.personDTOToPerson(personDto);
-        Movie movie = movieMapper.movieDTOToMovie(movieDto);
-        person.addActsInMovie(movie);
-        person = personService.update(person);
-        return personMapper.personToPersonDetailedDTO(person);
+    public PersonDetailedDTO addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+        try {
+            Person person = personMapper.personDTOToPerson(personDTO);
+            Movie movie = movieMapper.movieDTOToMovie(movieDTO);
+            person.addActsInMovie(movie);
+            person = personService.update(person);
+            return personMapper.personToPersonDetailedDTO(person);
+        } catch (ServiceLayerException e) {
+            return null;
+        }
+
     }
 
     @Override
-    public void remove(PersonDTO personDto) {
-        Person person = personMapper.personDTOToPerson(personDto);
-        personService.remove(person);
+    public boolean remove(PersonDTO personDTO) {
+        try {
+            Person person = personMapper.personDTOToPerson(personDTO);
+            personService.remove(person);
+            return true;
+        } catch (ServiceLayerException e) {
+            return false;
+        }
     }
 }

@@ -17,10 +17,10 @@ public interface PersonFacade {
     /**
      * Creates a new person.
      *
-     * @param personCreateDto DTO with person data
+     * @param personCreateDTO DTO with person data
      * @return DTO after creation operation
      */
-    PersonDetailedDTO create(PersonCreateDTO personCreateDto);
+    PersonDetailedDTO create(PersonCreateDTO personCreateDTO);
 
     /**
      * Finds a person by id.
@@ -41,33 +41,34 @@ public interface PersonFacade {
     /**
      * Updates the given person.
      *
-     * @param personDetailedDto DTO with data for update in attributes
+     * @param personDetailedDTO DTO with data for update in attributes
      * @return DTO with person data after update operation
      */
-    PersonDetailedDTO update(PersonDetailedDTO personDetailedDto);
+    PersonDetailedDTO update(PersonDetailedDTO personDetailedDTO);
 
     /**
      * Adds a movie to person which he/she has directed.
      *
-     * @param personDto DTO of person that has directed the movie
-     * @param movieDto that has been directed
+     * @param personDTO DTO of person that has directed the movie
+     * @param movieDTO that has been directed
      * @return DTO with person data after update operation
      */
-    PersonDetailedDTO addDirectedMovie(PersonDTO personDto, MovieDTO movieDto);
+    PersonDetailedDTO addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO);
 
     /**
      * Adds a movie to person in which he/she has acted.
      *
-     * @param personDto DTO of person that has acted in the movie
-     * @param movieDto the person acted in
+     * @param personDTO DTO of person that has acted in the movie
+     * @param movieDTO the person acted in
      * @return DTO with person data after update operation
      */
-    PersonDetailedDTO addActsInMovie(PersonDTO personDto, MovieDTO movieDto);
+    PersonDetailedDTO addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO);
 
     /**
-     * Removes the given person
+     * Removes the given person.
      *
-     * @param personDto DTO of the person to be removed
+     * @param personDTO DTO of the person to be removed
+     * @return true if removal was successful, false otherwise
      */
-    void remove(PersonDTO personDto);
+    boolean remove(PersonDTO personDTO);
 }

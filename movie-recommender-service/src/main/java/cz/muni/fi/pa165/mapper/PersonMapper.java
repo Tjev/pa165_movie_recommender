@@ -16,9 +16,9 @@ import org.mapstruct.Mapper;
 public interface PersonMapper {
 
     PersonDTO personToPersonDTO(Person person);
-    Person personDTOToPerson(PersonDTO personDto);
+    Person personDTOToPerson(PersonDTO personDTO);
 
-    Person personDetailedDTOToPerson(PersonDetailedDTO personDetailedDto);
+    Person personDetailedDTOToPerson(PersonDetailedDTO personDetailedDTO);
     PersonDetailedDTO personToPersonDetailedDTO(Person person);
 
     PersonCreateDTO personToPersonCreateDTO(Person person);
