@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,11 +36,11 @@ public class Person implements Serializable {
 
     @ManyToMany(mappedBy = "directors")
     @Column(name = "directed_movies")
-    private Set<Movie> directedMovies;
+    private Set<Movie> directedMovies = new HashSet<>();
 
     @ManyToMany(mappedBy = "actors")
     @Column(name = "acts_in_movies")
-    private Set<Movie> actsInMovies;
+    private Set<Movie> actsInMovies = new HashSet<>();
 
     public Person() {}
 
