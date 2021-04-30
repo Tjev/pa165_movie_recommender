@@ -65,4 +65,19 @@ public interface UserService {
      * @return true if user is admin
      */
     boolean isAdmin(User user);
+
+    /**
+     * Disables the user account for given user entity.
+     *
+     * @param user - user to be disabled
+     */
+    void disableUser(User user);
+
+    /**
+     * Checks whether the given user account is disabled.
+     *
+     * @param user - user to be checked
+     * @return true if user is disabled
+     */
+    boolean isDisabled(User user);
 }

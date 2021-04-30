@@ -32,6 +32,8 @@ public class User implements Serializable {
 
     private boolean admin;
 
+    private boolean disabled;
+
     @NotEmpty
     @Email(message = "Should be a valid email address")
     @Column(name = "email_address", nullable = false, unique = true)
@@ -92,6 +94,14 @@ public class User implements Serializable {
         return admin;
     }
 
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,9 +123,9 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", admin=" + admin +
+                ", disabled=" + disabled +
                 ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }

@@ -110,6 +110,30 @@ public class UserServiceImpl implements UserService {
         return persistedUser.isAdmin();
     }
 
+    @Override
+    public void disableUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User parameter is null.");
+        }
+
+        User persistedUser = findById(user.getId());
+        if (persistedUser == null) {
+            throw new IllegalArgumentException("User is not in the database.");
+        }
+
+        persistedUser.setDisabled(true);
+    }
+
+    @Override
+    public boolean isDisabled(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User parameter is null.");
+        }
+
+        User persistedUser = findById(user.getId());
+        return persistedUser.isDisabled();
+    }
+
     private void validateStringParameter(String string, String paramName) {
         if (string == null) {
             throw new IllegalArgumentException((String.format("%s parameter is null.", paramName)));

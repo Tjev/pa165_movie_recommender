@@ -52,12 +52,4 @@ public class UserDaoImpl implements UserDao {
     public void update(User user) {
         em.merge(user);
     }
-
-    @Override
-    public void remove(User user) {
-        if (!em.contains(user)) {
-            user = em.merge(user);
-        }
-        em.remove(user);
-    }
 }
