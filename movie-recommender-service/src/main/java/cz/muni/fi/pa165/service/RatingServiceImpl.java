@@ -5,8 +5,11 @@ import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 
 import java.util.List;
@@ -36,7 +39,9 @@ public class RatingServiceImpl implements RatingService {
 
         try {
             return ratingDao.create(rating);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while creating Rating.", e);
         }
     }
@@ -45,7 +50,7 @@ public class RatingServiceImpl implements RatingService {
     public List<Rating> findAll() {
         try {
             return ratingDao.findAll();
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving all ratings.");
         }
     }
@@ -58,7 +63,7 @@ public class RatingServiceImpl implements RatingService {
 
         try {
             return ratingDao.findById(id);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving rating by id.", e);
         }
     }
@@ -71,7 +76,7 @@ public class RatingServiceImpl implements RatingService {
 
         try {
             return ratingDao.findByMovie(movie);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving rating by movie.", e);
         }
     }
@@ -84,7 +89,7 @@ public class RatingServiceImpl implements RatingService {
 
         try {
             return ratingDao.findByUser(user);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving rating by user.", e);
         }
     }
@@ -102,7 +107,9 @@ public class RatingServiceImpl implements RatingService {
 
         try {
             return ratingDao.update(rating);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while updating rating", e);
         }
     }
@@ -120,7 +127,7 @@ public class RatingServiceImpl implements RatingService {
 
         try {
             ratingDao.remove(rating);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while removing rating", e);
         }
     }

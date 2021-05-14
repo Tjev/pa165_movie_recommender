@@ -4,6 +4,11 @@ import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
+
+import org.hibernate.JDBCException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +45,9 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDao.create(user);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while creating User.", e);
         }
     }
@@ -49,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         try {
             return userDao.findAll();
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving all users.");
         }
     }
@@ -61,7 +68,7 @@ public class UserServiceImpl implements UserService {
         }
         try {
             return userDao.findById(id);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving persisted user by id.", e);
         }
     }
@@ -72,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDao.findByEmailAddress(emailAddress);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving user by email address.", e);
         }
     }
@@ -83,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDao.findByUsername(username);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving user by username.", e);
         }
     }
@@ -124,8 +131,8 @@ public class UserServiceImpl implements UserService {
         persistedUser.setDisabled(true);
         try {
             return userDao.update(persistedUser);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Error occurred while updating user.", e);
+        } catch (PersistenceException | DataAccessException e) {
+            throw new ServiceLayerException("Error occurred while disabling user.", e);
         }
     }
 
@@ -152,7 +159,9 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDao.update(user);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while updating user", e);
         }
     }

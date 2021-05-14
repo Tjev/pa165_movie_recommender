@@ -8,6 +8,9 @@ import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -45,9 +48,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
             return findMoviesWithSameViewers(persistedMovie);
 
-        } catch (IllegalArgumentException e) {
-            throw e;
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error while getting recommendations based on users.", e);
         }
     }
@@ -67,9 +68,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
             return findMoviesWithSameGenres(persistedMovie);
 
-        } catch (IllegalArgumentException e) {
-            throw e;
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error while getting recommendations based on genres.", e);
         }
 

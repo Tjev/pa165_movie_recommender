@@ -4,6 +4,11 @@ import cz.muni.fi.pa165.dao.MovieDao;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
+
+import org.hibernate.validator.cfg.context.Constrainable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +38,9 @@ public class MovieServiceImpl implements MovieService {
 
         try {
             return movieDao.create(movie);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while creating Movie.", e);
         }
     }
@@ -42,8 +49,8 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> findAll() {
         try {
             return movieDao.findAll();
-        } catch (Exception e) {
-            throw new ServiceLayerException("Error occurred while retrieving all movies.");
+        } catch (PersistenceException | DataAccessException e) {
+            throw new ServiceLayerException("Error occurred while retrieving all movies.", e);
         }
     }
 
@@ -55,7 +62,7 @@ public class MovieServiceImpl implements MovieService {
 
         try {
             return movieDao.findById(id);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving movie by id.", e);
         }
     }
@@ -72,7 +79,7 @@ public class MovieServiceImpl implements MovieService {
 
         try {
             return movieDao.findByTitle(title);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while retrieving movie by title.", e);
         }
     }
@@ -90,7 +97,9 @@ public class MovieServiceImpl implements MovieService {
 
         try {
             return movieDao.update(movie);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while updating movie", e);
         }
     }
@@ -108,7 +117,7 @@ public class MovieServiceImpl implements MovieService {
 
         try {
             movieDao.remove(movie);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while removing movie", e);
         }
     }

@@ -4,6 +4,10 @@ import cz.muni.fi.pa165.dao.PersonDao;
 import cz.muni.fi.pa165.entity.Person;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +35,9 @@ public class PersonServiceImpl implements PersonService {
 
         try {
             return personDao.create(person);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while creating Person.", e);
         }
     }
@@ -40,7 +46,7 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> findAll() {
         try {
             return personDao.findAll();
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while finding Persons.", e);
         }
     }
@@ -53,7 +59,7 @@ public class PersonServiceImpl implements PersonService {
 
         try {
             return personDao.findById(id);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while finding Person by its id.", e);
         }
     }
@@ -70,7 +76,7 @@ public class PersonServiceImpl implements PersonService {
 
         try {
             return personDao.findByName(name);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while finding Person by its name.", e);
         }
     }
@@ -89,7 +95,9 @@ public class PersonServiceImpl implements PersonService {
 
         try {
             return personDao.update(person);
-        } catch (Exception e) {
+        } catch (PersistenceException
+                | ConstraintViolationException
+                | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while updating Person.", e);
         }
     }
@@ -108,7 +116,7 @@ public class PersonServiceImpl implements PersonService {
 
         try {
             personDao.remove(person);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while removing Person.", e);
         }
     }

@@ -6,6 +6,9 @@ import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,7 +42,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
         Rating persistedRating;
         try {
             persistedRating = ratingDao.findById(rating.getId());
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while finding given rating by its id.", e);
         }
 
@@ -111,7 +114,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
         Movie persistedMovie;
         try {
             persistedMovie = movieDao.findById(movie.getId());
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while finding movie by its id.", e);
         }
 
@@ -122,7 +125,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
         List<Rating> ratings;
         try {
             ratings = ratingDao.findByMovie(movie);
-        } catch (Exception e) {
+        } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while finding ratings for the given movie.", e);
         }
         return ratings;
