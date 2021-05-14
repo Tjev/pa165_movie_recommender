@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.dto.person;
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public class PersonDetailedDTO {
     private LocalDate dateOfBirth;
     private String bio;
 
-    private Set<MovieDTO> directedMovies;
-    private Set<MovieDTO> actsInMovies;
+    private ArrayList<MovieDTO> directedMovies;
+    private ArrayList<MovieDTO> actsInMovies;
 
     public Long getId() {
         return id;
@@ -53,19 +54,19 @@ public class PersonDetailedDTO {
         this.bio = bio;
     }
 
-    public Set<MovieDTO> getDirectedMovies() {
+    public ArrayList<MovieDTO> getDirectedMovies() {
         return directedMovies;
     }
 
-    public void setDirectedMovies(Set<MovieDTO> directedMovies) {
+    public void setDirectedMovies(ArrayList<MovieDTO> directedMovies) {
         this.directedMovies = directedMovies;
     }
 
-    public Set<MovieDTO> getActsInMovies() {
+    public ArrayList<MovieDTO> getActsInMovies() {
         return actsInMovies;
     }
 
-    public void setActsInMovies(Set<MovieDTO> actsInMovies) {
+    public void setActsInMovies(ArrayList<MovieDTO> actsInMovies) {
         this.actsInMovies = actsInMovies;
     }
 

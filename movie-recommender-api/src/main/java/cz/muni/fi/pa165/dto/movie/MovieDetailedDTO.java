@@ -5,8 +5,8 @@ import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.entity.Genre;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * DTO for Movie entity with relationships to other DTOs.
@@ -19,11 +19,11 @@ public class MovieDetailedDTO {
     private String title;
     private String bio;
     private LocalDate releaseYear;
-    private Set<Genre> genres;
+    private ArrayList<Genre> genres;
 
-    private Set<PersonDTO> directors;
-    private Set<PersonDTO> actors;
-    private Set<RatingDTO> ratings;
+    private ArrayList<PersonDTO> directors;
+    private ArrayList<PersonDTO> actors;
+    private ArrayList<RatingDTO> ratings;
 
     public Long getId() {
         return id;
@@ -57,35 +57,35 @@ public class MovieDetailedDTO {
         this.releaseYear = releaseYear;
     }
 
-    public Set<Genre> getGenres() {
+    public ArrayList<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
+    public void setGenres(ArrayList<Genre> genres) {
         this.genres = genres;
     }
 
-    public Set<PersonDTO> getDirectors() {
+    public ArrayList<PersonDTO> getDirectors() {
         return directors;
     }
 
-    public void setDirectors(Set<PersonDTO> directors) {
+    public void setDirectors(ArrayList<PersonDTO> directors) {
         this.directors = directors;
     }
 
-    public Set<PersonDTO> getActors() {
+    public ArrayList<PersonDTO> getActors() {
         return actors;
     }
 
-    public void setActors(Set<PersonDTO> actors) {
+    public void setActors(ArrayList<PersonDTO> actors) {
         this.actors = actors;
     }
 
-    public Set<RatingDTO> getRatings() {
+    public ArrayList<RatingDTO> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Set<RatingDTO> ratings) {
+    public void setRatings(ArrayList<RatingDTO> ratings) {
         this.ratings = ratings;
     }
 

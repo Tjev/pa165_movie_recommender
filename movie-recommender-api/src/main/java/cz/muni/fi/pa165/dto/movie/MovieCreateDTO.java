@@ -3,9 +3,9 @@ package cz.muni.fi.pa165.dto.movie;
 import cz.muni.fi.pa165.entity.Genre;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * DTO for Movie entity (for creation purposes).
@@ -17,7 +17,7 @@ public class MovieCreateDTO {
     private String title;
     private String bio;
     private LocalDate releaseYear;
-    private Set<Genre> genres;
+    private ArrayList<Genre> genres;
     private byte[] graphics;
 
     public String getTitle() {
@@ -44,11 +44,11 @@ public class MovieCreateDTO {
         this.releaseYear = releaseYear;
     }
 
-    public Set<Genre> getGenres() {
+    public ArrayList<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
+    public void setGenres(ArrayList<Genre> genres) {
         this.genres = genres;
     }
 

@@ -7,8 +7,7 @@ import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
-import cz.muni.fi.pa165.service.ScoreComputationService;
-import cz.muni.fi.pa165.service.ScoreComputationServiceImpl;
+import cz.muni.fi.pa165.service.impl.ScoreComputationServiceImpl;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 

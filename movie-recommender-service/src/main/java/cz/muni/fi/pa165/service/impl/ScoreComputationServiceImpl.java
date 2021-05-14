@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.service.impl;
 
 import cz.muni.fi.pa165.dao.MovieDao;
 import cz.muni.fi.pa165.dao.RatingDao;
@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
+import cz.muni.fi.pa165.service.ScoreComputationService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 

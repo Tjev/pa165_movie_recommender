@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.dto.user;
 
 import cz.muni.fi.pa165.dto.rating.RatingDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public class UserDetailedDTO {
     private String passwordHash;
     private boolean admin;
     private String emailAddress;
-    private List<RatingDTO> ratings;
+    private ArrayList<RatingDTO> ratings;
 
     public Long getId() {
         return id;
@@ -59,11 +60,11 @@ public class UserDetailedDTO {
         this.emailAddress = emailAddress;
     }
 
-    public List<RatingDTO> getRatings() {
+    public ArrayList<RatingDTO> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<RatingDTO> ratings) {
+    public void setRatings(ArrayList<RatingDTO> ratings) {
         this.ratings = ratings;
     }
 

@@ -1,10 +1,11 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.service.impl;
 
 import cz.muni.fi.pa165.dao.RatingDao;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
+import cz.muni.fi.pa165.service.RatingService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import javax.inject.Inject;

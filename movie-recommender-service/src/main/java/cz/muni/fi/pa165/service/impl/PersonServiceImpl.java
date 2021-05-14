@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.service.impl;
 
 import cz.muni.fi.pa165.dao.PersonDao;
 import cz.muni.fi.pa165.entity.Person;
@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 
+import cz.muni.fi.pa165.service.PersonService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
