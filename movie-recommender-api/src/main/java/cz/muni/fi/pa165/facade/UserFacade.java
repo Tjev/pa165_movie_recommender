@@ -63,6 +63,14 @@ public interface UserFacade {
     Optional<Boolean> isAdmin(UserDTO userDTO);
 
     /**
+     * Check if the given user is disabled.
+     *
+     * @param userDTO - user to be checked
+     * @return true if user is disabled
+     */
+    Optional<Boolean> isDisabled(UserDTO userDTO);
+
+    /**
      * Disable an account of the given user
      *
      * @param userDTO - user to be disabled

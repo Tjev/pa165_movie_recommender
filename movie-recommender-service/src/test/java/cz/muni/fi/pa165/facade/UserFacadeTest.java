@@ -146,6 +146,18 @@ public class UserFacadeTest {
     }
 
     @Test
+    public void isDisabled() {
+        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
+        when(userService.isDisabled(any(User.class))).thenReturn(true);
+        Optional<Boolean> answer = userFacade.isDisabled(userDTO);
+
+        Assert.assertTrue(answer.isPresent());
+        Assert.assertTrue(answer.get());
+        verify(userService, times(1)).isDisabled(any(User.class));
+        verifyNoMoreInteractions(userService);
+    }
+
+    @Test
     public void disable() {
         when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         userFacade.disable(userDTO);

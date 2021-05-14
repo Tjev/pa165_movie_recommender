@@ -108,6 +108,20 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    public Optional<Boolean> isDisabled(UserDTO userDTO) {
+        User user = userMapper.userDTOToUser(userDTO);
+
+        boolean isDisabled;
+        try {
+            isDisabled = userService.isDisabled(user);
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+
+        return Optional.of(isDisabled);
+    }
+
+    @Override
     public Boolean disable(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
