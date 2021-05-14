@@ -1,6 +1,5 @@
-package cz.muni.fi.pa165.dto;
+package cz.muni.fi.pa165.dto.user;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -8,14 +7,13 @@ import java.util.Objects;
  *
  * @author Tomas Jevocin
  */
-public class UserDetailedDTO {
+public class UserDTO {
 
     private Long id;
     private String username;
     private String passwordHash;
     private boolean admin;
     private String emailAddress;
-    private List<RatingDTO> ratings;
 
     public Long getId() {
         return id;
@@ -57,25 +55,17 @@ public class UserDetailedDTO {
         this.emailAddress = emailAddress;
     }
 
-    public List<RatingDTO> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<RatingDTO> ratings) {
-        this.ratings = ratings;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserDetailedDTO)) return false;
+        if (!(o instanceof UserDTO)) return false;
 
-        UserDetailedDTO userDetailedDTO = (UserDetailedDTO) o;
+        UserDTO userDTO = (UserDTO) o;
 
-        if (isAdmin() != userDetailedDTO.isAdmin()) return false;
-        if (!getUsername().equals(userDetailedDTO.getUsername())) return false;
-        if (!getPasswordHash().equals(userDetailedDTO.getPasswordHash())) return false;
-        return getEmailAddress().equals(userDetailedDTO.getEmailAddress());
+        if (isAdmin() != userDTO.isAdmin()) return false;
+        if (!getUsername().equals(userDTO.getUsername())) return false;
+        if (!getPasswordHash().equals(userDTO.getPasswordHash())) return false;
+        return getEmailAddress().equals(userDTO.getEmailAddress());
     }
 
     @Override
@@ -89,7 +79,7 @@ public class UserDetailedDTO {
 
     @Override
     public String toString() {
-        return "UserDetailedDTO{" +
+        return "UserDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", admin=" + admin +

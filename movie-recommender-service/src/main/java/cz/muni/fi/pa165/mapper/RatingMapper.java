@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.mapper;
 
-import cz.muni.fi.pa165.dto.RatingCreateDTO;
-import cz.muni.fi.pa165.dto.RatingDTO;
+import cz.muni.fi.pa165.dto.rating.RatingCreateDTO;
+import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.entity.Rating;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;

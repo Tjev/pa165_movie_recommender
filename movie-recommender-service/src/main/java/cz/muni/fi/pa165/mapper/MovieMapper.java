@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.mapper;
 
-import cz.muni.fi.pa165.dto.MovieCreateDTO;
-import cz.muni.fi.pa165.dto.MovieDTO;
-import cz.muni.fi.pa165.dto.MovieDetailedDTO;
+import cz.muni.fi.pa165.dto.movie.MovieCreateDTO;
+import cz.muni.fi.pa165.dto.movie.MovieDTO;
+import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.entity.Movie;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;

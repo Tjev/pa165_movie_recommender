@@ -1,19 +1,25 @@
-package cz.muni.fi.pa165.dto;
+package cz.muni.fi.pa165.dto.person;
+
+import cz.muni.fi.pa165.dto.movie.MovieDTO;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 /**
- * DTO for Person entity.
+ * DTO for Person entity with relationships to other DTOs.
  *
  * @author Jiri Papousek
  */
-public class PersonDTO {
+public class PersonDetailedDTO {
 
     private Long id;
     private String name;
     private LocalDate dateOfBirth;
     private String bio;
+
+    private Set<MovieDTO> directedMovies;
+    private Set<MovieDTO> actsInMovies;
 
     public Long getId() {
         return id;
@@ -47,17 +53,33 @@ public class PersonDTO {
         this.bio = bio;
     }
 
+    public Set<MovieDTO> getDirectedMovies() {
+        return directedMovies;
+    }
+
+    public void setDirectedMovies(Set<MovieDTO> directedMovies) {
+        this.directedMovies = directedMovies;
+    }
+
+    public Set<MovieDTO> getActsInMovies() {
+        return actsInMovies;
+    }
+
+    public void setActsInMovies(Set<MovieDTO> actsInMovies) {
+        this.actsInMovies = actsInMovies;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonDTO)) return false;
+        if (!(o instanceof PersonDetailedDTO)) return false;
 
-        PersonDTO personDTO = (PersonDTO) o;
+        PersonDetailedDTO that = (PersonDetailedDTO) o;
 
-        if (!getName().equals(personDTO.getName())) return false;
-        if (getDateOfBirth() != null ? !getDateOfBirth().equals(personDTO.getDateOfBirth()) : personDTO.getDateOfBirth() != null)
+        if (!getName().equals(that.getName())) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(that.getDateOfBirth()) : that.getDateOfBirth() != null)
             return false;
-        return getBio() != null ? getBio().equals(personDTO.getBio()) : personDTO.getBio() == null;
+        return getBio() != null ? getBio().equals(that.getBio()) : that.getBio() == null;
     }
 
     @Override
@@ -69,7 +91,7 @@ public class PersonDTO {
 
     @Override
     public String toString() {
-        return "PersonDTO{" +
+        return "PersonDetailedDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +

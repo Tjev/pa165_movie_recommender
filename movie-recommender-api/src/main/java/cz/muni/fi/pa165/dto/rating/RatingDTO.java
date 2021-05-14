@@ -1,4 +1,7 @@
-package cz.muni.fi.pa165.dto;
+package cz.muni.fi.pa165.dto.rating;
+
+import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.dto.movie.MovieDTO;
 
 import java.util.Objects;
 

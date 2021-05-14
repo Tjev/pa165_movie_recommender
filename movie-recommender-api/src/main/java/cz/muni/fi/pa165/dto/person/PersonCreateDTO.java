@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dto;
+package cz.muni.fi.pa165.dto.person;
 
 import java.time.LocalDate;
 import java.util.Objects;

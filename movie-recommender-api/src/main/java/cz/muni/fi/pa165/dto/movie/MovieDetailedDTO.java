@@ -1,5 +1,7 @@
-package cz.muni.fi.pa165.dto;
+package cz.muni.fi.pa165.dto.movie;
 
+import cz.muni.fi.pa165.dto.person.PersonDTO;
+import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.entity.Genre;
 
 import java.time.LocalDate;

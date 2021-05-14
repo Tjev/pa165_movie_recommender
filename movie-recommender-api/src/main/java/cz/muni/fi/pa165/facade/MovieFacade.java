@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.MovieCreateDTO;
-import cz.muni.fi.pa165.dto.MovieDTO;
-import cz.muni.fi.pa165.dto.MovieDetailedDTO;
-import cz.muni.fi.pa165.dto.PersonDTO;
+import cz.muni.fi.pa165.dto.movie.MovieCreateDTO;
+import cz.muni.fi.pa165.dto.movie.MovieDTO;
+import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
+import cz.muni.fi.pa165.dto.person.PersonDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
