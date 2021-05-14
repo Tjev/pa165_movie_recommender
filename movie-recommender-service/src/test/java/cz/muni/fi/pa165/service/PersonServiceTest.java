@@ -1,8 +1,10 @@
-package cz.muni.fi.pa165;
+package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.PersonDao;
 import cz.muni.fi.pa165.entity.Person;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
+import cz.muni.fi.pa165.service.PersonService;
+import cz.muni.fi.pa165.service.PersonServiceImpl;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.AfterMethod;

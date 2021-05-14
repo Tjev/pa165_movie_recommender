@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.person.PersonCreateDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
 import cz.muni.fi.pa165.dto.person.PersonDetailedDTO;
-import cz.muni.fi.pa165.PersonService;
+import cz.muni.fi.pa165.service.PersonService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
