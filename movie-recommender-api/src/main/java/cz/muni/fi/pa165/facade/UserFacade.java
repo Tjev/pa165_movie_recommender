@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
-import cz.muni.fi.pa165.dto.UserDTO;
-import cz.muni.fi.pa165.dto.UserDetailedDTO;
+import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
+import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 
 import java.util.Optional;
 
@@ -62,6 +62,20 @@ public interface UserFacade {
      */
     Optional<Boolean> isAdmin(UserDTO userDTO);
 
+    /**
+     * Check if the given user is disabled.
+     *
+     * @param userDTO - user to be checked
+     * @return true if user is disabled
+     */
+    Optional<Boolean> isDisabled(UserDTO userDTO);
+
+    /**
+     * Disable an account of the given user
+     *
+     * @param userDTO - user to be disabled
+     * @return true if the user has been successfully disabled
+     */
     Boolean disable(UserDTO userDTO);
 
     /**

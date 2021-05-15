@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
-import cz.muni.fi.pa165.dto.UserDTO;
-import cz.muni.fi.pa165.dto.UserDetailedDTO;
-import cz.muni.fi.pa165.UserService;
+import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
+import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
+import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import cz.muni.fi.pa165.mapper.UserMapper;
@@ -105,6 +105,20 @@ public class UserFacadeImpl implements UserFacade {
         }
 
         return Optional.of(isAdmin);
+    }
+
+    @Override
+    public Optional<Boolean> isDisabled(UserDTO userDTO) {
+        User user = userMapper.userDTOToUser(userDTO);
+
+        boolean isDisabled;
+        try {
+            isDisabled = userService.isDisabled(user);
+        } catch (ServiceLayerException e) {
+            return Optional.empty();
+        }
+
+        return Optional.of(isDisabled);
     }
 
     @Override

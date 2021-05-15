@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.MovieDTO;
-import cz.muni.fi.pa165.dto.PersonCreateDTO;
-import cz.muni.fi.pa165.dto.PersonDTO;
-import cz.muni.fi.pa165.dto.PersonDetailedDTO;
-import cz.muni.fi.pa165.PersonService;
+import cz.muni.fi.pa165.dto.movie.MovieDTO;
+import cz.muni.fi.pa165.dto.person.PersonCreateDTO;
+import cz.muni.fi.pa165.dto.person.PersonDTO;
+import cz.muni.fi.pa165.dto.person.PersonDetailedDTO;
+import cz.muni.fi.pa165.service.PersonService;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
@@ -79,14 +79,14 @@ public class PersonFacadeTest {
         personCreateDTO.setBio("Born in Oklahoma");
 
         movie = new Movie("Matrix", null, LocalDate.of(1999, 3, 31),
-                new HashSet<>(Arrays.asList(Genre.ACTION)), null);
+                new HashSet<>(List.of(Genre.ACTION)), null);
         movie.setId(1L);
 
         movieDTO = new MovieDTO();
         movieDTO.setId(1L);
         movieDTO.setTitle("Matrix");
         movieDTO.setReleaseYear(LocalDate.of(1999, 3, 31));
-        movieDTO.setGenres(new HashSet<>(Arrays.asList(Genre.ACTION)));
+        movieDTO.setGenres(new ArrayList<>(List.of(Genre.ACTION)));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class PersonFacadeTest {
     @Test
     public void findByName() {
         when(personMapper.personToPersonDetailedDTO(any(Person.class))).thenReturn(personDetailedDTO);
-        List<Person> expected = new ArrayList<>(Arrays.asList(person));
+        List<Person> expected = new ArrayList<>(List.of(person));
 
         when(personService.findByName(any(String.class))).thenReturn(expected);
         Optional<List<PersonDetailedDTO>> result = personFacade.findByName("Brad");

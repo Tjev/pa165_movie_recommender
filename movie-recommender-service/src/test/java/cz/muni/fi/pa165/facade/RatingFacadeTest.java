@@ -1,13 +1,13 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.MovieDTO;
-import cz.muni.fi.pa165.dto.RatingCreateDTO;
-import cz.muni.fi.pa165.dto.RatingDTO;
-import cz.muni.fi.pa165.dto.UserDTO;
-import cz.muni.fi.pa165.MovieService;
-import cz.muni.fi.pa165.RatingService;
-import cz.muni.fi.pa165.ScoreComputationService;
-import cz.muni.fi.pa165.UserService;
+import cz.muni.fi.pa165.dto.movie.MovieDTO;
+import cz.muni.fi.pa165.dto.rating.RatingCreateDTO;
+import cz.muni.fi.pa165.dto.rating.RatingDTO;
+import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.service.MovieService;
+import cz.muni.fi.pa165.service.RatingService;
+import cz.muni.fi.pa165.service.ScoreComputationService;
+import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.entity.User;

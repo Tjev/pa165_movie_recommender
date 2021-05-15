@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
-import cz.muni.fi.pa165.dto.UserDTO;
-import cz.muni.fi.pa165.dto.UserDetailedDTO;
-import cz.muni.fi.pa165.UserService;
+import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
+import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
+import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.mapper.UserMapper;
 import org.mockito.Mock;
@@ -142,6 +142,18 @@ public class UserFacadeTest {
         Assert.assertTrue(answer.isPresent());
         Assert.assertTrue(answer.get());
         verify(userService, times(1)).isAdmin(any(User.class));
+        verifyNoMoreInteractions(userService);
+    }
+
+    @Test
+    public void isDisabled() {
+        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
+        when(userService.isDisabled(any(User.class))).thenReturn(true);
+        Optional<Boolean> answer = userFacade.isDisabled(userDTO);
+
+        Assert.assertTrue(answer.isPresent());
+        Assert.assertTrue(answer.get());
+        verify(userService, times(1)).isDisabled(any(User.class));
         verifyNoMoreInteractions(userService);
     }
 
