@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>movie-recommender-rest</artifactId>
+    <packaging>war</packaging>
+    <name>Rest Layer</name>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -28,15 +30,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>movie-recommender-sample-data</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
             <artifactId>movie-recommender-service</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
