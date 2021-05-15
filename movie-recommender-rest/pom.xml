@@ -19,6 +19,7 @@
     </properties>
 
     <build>
+        <finalName>pa165</finalName>
         <plugins>
             <!--  embedded tomcat -->
             <plugin>
