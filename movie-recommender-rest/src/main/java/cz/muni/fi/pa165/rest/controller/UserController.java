@@ -25,7 +25,7 @@ public class UserController {
         this.userFacade = userFacade;
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST,
+    @RequestMapping(value = "/register", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final UserDetailedDTO register(@RequestBody UserDTO userDTO, String password) {
@@ -87,7 +87,7 @@ public class UserController {
         return userFacade.disable(userDTO);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST,
+    @RequestMapping(value = "/update", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final UserDetailedDTO update(@RequestBody UserDetailedDTO userDetailedDTO) {
