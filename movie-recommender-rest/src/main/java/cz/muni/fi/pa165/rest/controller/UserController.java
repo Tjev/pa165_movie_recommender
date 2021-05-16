@@ -4,13 +4,18 @@ import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.facade.UserFacade;
+import cz.muni.fi.pa165.rest.exception.DataSourceException;
+import cz.muni.fi.pa165.rest.exception.InvalidParameterException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.*;
 
@@ -42,7 +47,13 @@ public class UserController {
     public final UserDetailedDTO register(@RequestBody UserRegisterDTO userRegisterDTO) {
         logger.debug("rest register({})", userRegisterDTO);
 
-        return userFacade.register(userRegisterDTO);
+        try {
+            return userFacade.register(userRegisterDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("The instance already exists.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -57,7 +68,20 @@ public class UserController {
     public final UserDetailedDTO findById(@PathVariable Long id) {
         logger.debug("rest findById({})", id);
 
-        return userFacade.findById(id).get();
+        Optional<UserDetailedDTO> result;
+        try {
+            result = userFacade.findById(id);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.");
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        if (result.isEmpty()) {
+            throw new InvalidParameterException("User with given id has not been found.");
+        }
+
+        return result.get();
     }
 
     /**
@@ -72,7 +96,20 @@ public class UserController {
     public final UserDetailedDTO findByUsername(@RequestParam String username) {
         logger.debug("rest findByUsername({})", username);
 
-        return userFacade.findByUsername(username).get();
+        Optional<UserDetailedDTO> result;
+        try {
+            result = userFacade.findByUsername(username);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        if (result.isEmpty()) {
+            throw new InvalidParameterException("User with given username has not been found.");
+        }
+
+        return result.get();
     }
 
     /**
@@ -87,7 +124,20 @@ public class UserController {
     public final UserDetailedDTO findByEmailAddress(@RequestParam String emailAddress) {
         logger.debug("rest findByEmailAddress({})", emailAddress);
 
-        return userFacade.findByEmailAddress(emailAddress).get();
+        Optional<UserDetailedDTO> result;
+        try {
+            result = userFacade.findByEmailAddress(emailAddress);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        if (result.isEmpty()) {
+            throw new InvalidParameterException("User with given email address has not been found.");
+        }
+
+        return result.get();
     }
 
     /**
@@ -104,7 +154,13 @@ public class UserController {
     public final Boolean authenticate(@RequestBody UserAuthenticateDTO userAuthenticateDTO) {
         logger.debug("rest authenticate user ({})", userAuthenticateDTO.getId());
 
-        return userFacade.authenticate(userAuthenticateDTO);
+        try {
+            return userFacade.authenticate(userAuthenticateDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -119,7 +175,13 @@ public class UserController {
     public final Boolean isAdmin(@RequestBody UserDTO userDTO) {
         logger.debug("rest isAdmin({})", userDTO);
 
-        return userFacade.isAdmin(userDTO);
+        try {
+            return userFacade.isAdmin(userDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -134,7 +196,13 @@ public class UserController {
     public final Boolean isDisabled(@RequestBody UserDTO userDTO) {
         logger.debug("rest isDisabled({})", userDTO);
 
-        return userFacade.isDisabled(userDTO);
+        try {
+            return userFacade.isDisabled(userDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -150,7 +218,13 @@ public class UserController {
     public final void disable(@RequestBody UserDTO userDTO) {
         logger.debug("rest disable({})", userDTO);
 
-        userFacade.disable(userDTO);
+        try {
+            userFacade.disable(userDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -167,6 +241,12 @@ public class UserController {
     public final UserDetailedDTO update(@RequestBody UserDetailedDTO userDetailedDTO) {
         logger.debug("rest update({})", userDetailedDTO);
 
-        return userFacade.update(userDetailedDTO);
+        try {
+            return userFacade.update(userDetailedDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 }
