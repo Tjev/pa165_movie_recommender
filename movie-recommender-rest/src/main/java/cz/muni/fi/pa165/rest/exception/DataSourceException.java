@@ -4,7 +4,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason="The resource already exists")
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class DataSourceException extends DataAccessException {
 
     public DataSourceException(String msg) { super(msg); }
