@@ -96,10 +96,9 @@ public class MovieFacadeTest {
         when(movieService.create(m1)).thenReturn(m1);
         when(movieMapper.movieToMovieDetailedDTO(m1)).thenReturn(outputDTO);
 
-        Optional<MovieDetailedDTO> result = movieFacade.create(inputDTO);
+        MovieDetailedDTO result = movieFacade.create(inputDTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), outputDTO);
+        Assert.assertEquals(result, outputDTO);
     }
 
     @Test
@@ -126,10 +125,9 @@ public class MovieFacadeTest {
         when(movieService.findByTitle(m1.getTitle())).thenReturn(List.of(m1));
         when(movieMapper.movieListToMovieDetailedDTOList(List.of(m1))).thenReturn(List.of(outputDTO));
 
-        Optional<List<MovieDetailedDTO>> result = movieFacade.findByTitle(m1.getTitle());
+        List<MovieDetailedDTO> result = movieFacade.findByTitle(m1.getTitle());
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), List.of(outputDTO));
+        Assert.assertEquals(result, List.of(outputDTO));
     }
 
     @Test
@@ -142,10 +140,9 @@ public class MovieFacadeTest {
         when(movieService.update(m1)).thenReturn(m1);
         when(movieMapper.movieToMovieDetailedDTO(m1)).thenReturn(DTO);
 
-        Optional<MovieDetailedDTO> result = movieFacade.update(DTO);
+        MovieDetailedDTO result = movieFacade.update(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), DTO);
+        Assert.assertEquals(result, DTO);
     }
 
     @Test
@@ -169,10 +166,9 @@ public class MovieFacadeTest {
         when(movieService.update(m1updated)).thenReturn(m1updated);
         when(movieMapper.movieToMovieDetailedDTO(m1updated)).thenReturn(updatedMovieDTO);
 
-        Optional<MovieDetailedDTO> result = movieFacade.addActor(movieDTO, personDTO);
+        MovieDetailedDTO result = movieFacade.addActor(movieDTO, personDTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), updatedMovieDTO);
+        Assert.assertEquals(result, updatedMovieDTO);
     }
 
     @Test
@@ -196,10 +192,9 @@ public class MovieFacadeTest {
         when(movieService.update(m1updated)).thenReturn(m1updated);
         when(movieMapper.movieToMovieDetailedDTO(m1updated)).thenReturn(updatedMovieDTO);
 
-        Optional<MovieDetailedDTO> result = movieFacade.addDirector(movieDTO, personDTO);
+        MovieDetailedDTO result = movieFacade.addDirector(movieDTO, personDTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), updatedMovieDTO);
+        Assert.assertEquals(result, updatedMovieDTO);
     }
 
     @Test
@@ -210,7 +205,7 @@ public class MovieFacadeTest {
 
         when(movieMapper.movieDTOToMovie(DTO)).thenReturn(m1);
 
-        Assert.assertTrue(movieFacade.remove(DTO));
+        movieFacade.remove(DTO);
         verify(movieService, times(1)).remove(m1);
         verifyNoMoreInteractions(movieService);
     }
@@ -225,10 +220,9 @@ public class MovieFacadeTest {
 
         when(scoreService.getOverallScoreForMovie(m1)).thenReturn(BigDecimal.ONE);
 
-        Optional<BigDecimal> result = movieFacade.getOverallScore(DTO);
+        BigDecimal result = movieFacade.getOverallScore(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), BigDecimal.ONE);
+        Assert.assertEquals(result, BigDecimal.ONE);
     }
 
     @Test
@@ -241,10 +235,9 @@ public class MovieFacadeTest {
 
         when(scoreService.getOriginalityScoreForMovie(m1)).thenReturn(BigDecimal.ONE);
 
-        Optional<BigDecimal> result = movieFacade.getOriginalityScore(DTO);
+        BigDecimal result = movieFacade.getOriginalityScore(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), BigDecimal.ONE);
+        Assert.assertEquals(result, BigDecimal.ONE);
     }
 
     @Test
@@ -257,10 +250,9 @@ public class MovieFacadeTest {
 
         when(scoreService.getSoundtrackScoreForMovie(m1)).thenReturn(BigDecimal.ONE);
 
-        Optional<BigDecimal> result = movieFacade.getSoundtrackScore(DTO);
+        BigDecimal result = movieFacade.getSoundtrackScore(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), BigDecimal.ONE);
+        Assert.assertEquals(result, BigDecimal.ONE);
     }
 
     @Test
@@ -273,10 +265,9 @@ public class MovieFacadeTest {
 
         when(scoreService.getNarrativeScoreForMovie(m1)).thenReturn(BigDecimal.ONE);
 
-        Optional<BigDecimal> result = movieFacade.getNarrativeScore(DTO);
+        BigDecimal result = movieFacade.getNarrativeScore(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), BigDecimal.ONE);
+        Assert.assertEquals(result, BigDecimal.ONE);
     }
 
     @Test
@@ -289,10 +280,9 @@ public class MovieFacadeTest {
 
         when(scoreService.getCinematographyScoreForMovie(m1)).thenReturn(BigDecimal.ONE);
 
-        Optional<BigDecimal> result = movieFacade.getCinematographyScore(DTO);
+        BigDecimal result = movieFacade.getCinematographyScore(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), BigDecimal.ONE);
+        Assert.assertEquals(result, BigDecimal.ONE);
     }
 
     @Test
@@ -305,10 +295,9 @@ public class MovieFacadeTest {
 
         when(scoreService.getDepthScoreForMovie(m1)).thenReturn(BigDecimal.ONE);
 
-        Optional<BigDecimal> result = movieFacade.getDepthScore(DTO);
+        BigDecimal result = movieFacade.getDepthScore(DTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), BigDecimal.ONE);
+        Assert.assertEquals(result, BigDecimal.ONE);
     }
 
 
@@ -338,10 +327,9 @@ public class MovieFacadeTest {
 
         when(movieMapper.movieListToMovieDetailedDTOList(List.of(m4, m1, m5))).thenReturn(expected);
 
-        Optional<List<MovieDetailedDTO>> result = movieFacade.getRecommendations(inputDTO, 3);
+        List<MovieDetailedDTO> result = movieFacade.getRecommendations(inputDTO, 3);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), expected);
+        Assert.assertEquals(result, expected);
     }
 
     @AfterMethod

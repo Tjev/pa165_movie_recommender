@@ -22,7 +22,7 @@ public interface MovieFacade {
      * @param movieCreateDTO DTO with movie data
      * @return detailed DTO of created Movie
      */
-    Optional<MovieDetailedDTO> create(MovieCreateDTO movieCreateDTO);
+    MovieDetailedDTO create(MovieCreateDTO movieCreateDTO);
 
     /**
      * Finds movie by id.
@@ -38,7 +38,7 @@ public interface MovieFacade {
      * @param title title of the movie in the data source
      * @return list od detailed DTOs with given title
      */
-    Optional<List<MovieDetailedDTO>> findByTitle(String title);
+    List<MovieDetailedDTO> findByTitle(String title);
 
     /**
      * Updates the given Movie in the data source.
@@ -46,7 +46,7 @@ public interface MovieFacade {
      * @param movieDetailedDTO detailed DTO of the movie with updated attributes
      * @return detailed DTO of the updated movie
      */
-    Optional<MovieDetailedDTO> update(MovieDetailedDTO movieDetailedDTO);
+    MovieDetailedDTO update(MovieDetailedDTO movieDetailedDTO);
 
     /**
      * Adds given actor to the given movie.
@@ -55,7 +55,7 @@ public interface MovieFacade {
      * @param personDTO DTO of the actor
      * @return detailed DTO of the updated movie
      */
-    Optional<MovieDetailedDTO> addActor(MovieDTO movieDTO, PersonDTO personDTO);
+    MovieDetailedDTO addActor(MovieDTO movieDTO, PersonDTO personDTO);
 
     /**
      * Adds director to the given movie.
@@ -64,15 +64,14 @@ public interface MovieFacade {
      * @param personDTO DTO of the director
      * @return detailed DTO of the updated movie
      */
-    Optional<MovieDetailedDTO> addDirector(MovieDTO movieDTO, PersonDTO personDTO);
+    MovieDetailedDTO addDirector(MovieDTO movieDTO, PersonDTO personDTO);
 
     /**
      * Removes the given movie.
      *
      * @param movieDTO DTO of the movie to be removed
-     * @return Boolean whether the operation succeeded
      */
-    Boolean remove(MovieDTO movieDTO);
+    void remove(MovieDTO movieDTO);
 
     /**
      * Gets overall score for the given movie computed as average
@@ -81,7 +80,7 @@ public interface MovieFacade {
      * @param movieDTO DTO of a movie to compute overall score for
      * @return the overall score for the given movie
      */
-    Optional<BigDecimal> getOverallScore(MovieDTO movieDTO);
+    BigDecimal getOverallScore(MovieDTO movieDTO);
 
     /**
      * Gets originality score for the given movie computed as average
@@ -90,7 +89,7 @@ public interface MovieFacade {
      * @param movieDTO DTO of a movie to compute originality score for
      * @return the originality score for the given movie
      */
-    Optional<BigDecimal> getOriginalityScore(MovieDTO movieDTO);
+    BigDecimal getOriginalityScore(MovieDTO movieDTO);
 
     /**
      * Gets soundtrack score for the given movie computed as average
@@ -99,7 +98,7 @@ public interface MovieFacade {
      * @param movieDTO DTO of a movie to compute soundtrack score for
      * @return the soundtrack score for the given movie
      */
-    Optional<BigDecimal> getSoundtrackScore(MovieDTO movieDTO);
+    BigDecimal getSoundtrackScore(MovieDTO movieDTO);
 
     /**
      * Gets narrative score for the given movie computed as average
@@ -108,7 +107,7 @@ public interface MovieFacade {
      * @param movieDTO DTO of a movie to compute narrative score for
      * @return the narrative score for the given movie
      */
-    Optional<BigDecimal> getNarrativeScore(MovieDTO movieDTO);
+    BigDecimal getNarrativeScore(MovieDTO movieDTO);
 
     /**
      * Gets cinematography score for the given movie computed as average
@@ -117,7 +116,7 @@ public interface MovieFacade {
      * @param movieDTO DTO of a movie to compute cinematography score for
      * @return the cinematography score for the given movie
      */
-    Optional<BigDecimal> getCinematographyScore(MovieDTO movieDTO);
+    BigDecimal getCinematographyScore(MovieDTO movieDTO);
 
     /**
      * Gets depth score for the given movie computed as average
@@ -126,7 +125,7 @@ public interface MovieFacade {
      * @param movieDTO DTO of a movie to compute depth score for
      * @return the depth score for the given movie
      */
-    Optional<BigDecimal> getDepthScore(MovieDTO movieDTO);
+    BigDecimal getDepthScore(MovieDTO movieDTO);
 
     /**
      * Gets movie recommendations based on the given movie. Recommendations
@@ -137,5 +136,5 @@ public interface MovieFacade {
      * @param n max number of movie recommendations that will be returned
      * @return list of max n recommended movies
      */
-    Optional<List<MovieDetailedDTO>> getRecommendations(MovieDTO movieDTO, Integer n);
+    List<MovieDetailedDTO> getRecommendations(MovieDTO movieDTO, Integer n);
 }

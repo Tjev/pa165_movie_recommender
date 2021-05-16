@@ -22,7 +22,7 @@ public interface RatingFacade {
      * @param ratingCreateDTO of the rating to be created
      * @return DTO of the created rating
      */
-    Optional<RatingDTO> create(RatingCreateDTO ratingCreateDTO);
+    RatingDTO create(RatingCreateDTO ratingCreateDTO);
 
     /**
      * Update a rating.
@@ -30,15 +30,14 @@ public interface RatingFacade {
      * @param ratingDTO DTO of rating with desired attributes
      * @return DTO of the rating from the database after update operation
      */
-    Optional<RatingDTO> update(RatingDTO ratingDTO);
+    RatingDTO update(RatingDTO ratingDTO);
 
     /**
      * Delete a rating.
      *
      * @param ratingDTO of the rating to be deleted.
-     * @return true if the rating was removed successfully
      */
-    Boolean remove(RatingDTO ratingDTO);
+    void remove(RatingDTO ratingDTO);
 
     /**
      * Finds rating with the given id.
@@ -54,7 +53,7 @@ public interface RatingFacade {
      * @param movieDTO of the movie to find ratings by
      * @return list of DTOs of the found ratings
      */
-    Optional<List<RatingDTO>> findByMovie(MovieDTO movieDTO);
+    List<RatingDTO> findByMovie(MovieDTO movieDTO);
 
     /**
      * Finds ratings with the given user.
@@ -62,7 +61,7 @@ public interface RatingFacade {
      * @param userDTO of the user to find ratings by
      * @return list of DTOs of the found ratings
      */
-    Optional<List<RatingDTO>> findByUser(UserDTO userDTO);
+    List<RatingDTO> findByUser(UserDTO userDTO);
 
     /**
      * Gets overall score for the given rating computed as average
@@ -71,5 +70,5 @@ public interface RatingFacade {
      * @param ratingDTO of rating to compute overall score for
      * @return the overall score for the rating
      */
-    Optional<BigDecimal> getOverallScore(RatingDTO ratingDTO);
+    BigDecimal getOverallScore(RatingDTO ratingDTO);
 }

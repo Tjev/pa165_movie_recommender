@@ -124,10 +124,9 @@ public class UserFacadeTest {
         when(userService.findById(any(Long.class))).thenReturn(user);
         when(userService.authenticate(any(User.class), any(String.class))).thenReturn(true);
 
-        Optional<Boolean> answer = userFacade.authenticate(userAuthenticateDTO);
+        Boolean answer = userFacade.authenticate(userAuthenticateDTO);
 
-        Assert.assertTrue(answer.isPresent());
-        Assert.assertTrue(answer.get());
+        Assert.assertTrue(answer);
         verify(userService, times(1)).authenticate(any(User.class), any(String.class));
         verify(userService, times(1)).findById(any(Long.class));
         verifyNoMoreInteractions(userService);
@@ -137,10 +136,9 @@ public class UserFacadeTest {
     public void isAdmin() {
         when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userService.isAdmin(any(User.class))).thenReturn(true);
-        Optional<Boolean> answer = userFacade.isAdmin(userDTO);
+        Boolean answer = userFacade.isAdmin(userDTO);
 
-        Assert.assertTrue(answer.isPresent());
-        Assert.assertTrue(answer.get());
+        Assert.assertTrue(answer);
         verify(userService, times(1)).isAdmin(any(User.class));
         verifyNoMoreInteractions(userService);
     }
@@ -149,10 +147,9 @@ public class UserFacadeTest {
     public void isDisabled() {
         when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userService.isDisabled(any(User.class))).thenReturn(true);
-        Optional<Boolean> answer = userFacade.isDisabled(userDTO);
+        Boolean answer = userFacade.isDisabled(userDTO);
 
-        Assert.assertTrue(answer.isPresent());
-        Assert.assertTrue(answer.get());
+        Assert.assertTrue(answer);
         verify(userService, times(1)).isDisabled(any(User.class));
         verifyNoMoreInteractions(userService);
     }
