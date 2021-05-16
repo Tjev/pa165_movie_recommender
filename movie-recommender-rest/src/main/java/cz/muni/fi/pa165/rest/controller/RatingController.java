@@ -37,7 +37,9 @@ public class RatingController {
     /**
      * Create a given rating.
      *
-     * @param ratingCreateDTO person to be created
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"user":{"id":1},"movie":{"id":1},"originality":1,"soundtrack":1,"narrative":1,"cinematography":1,"depth":1}' http://localhost:8080/pa165/rest/ratings/create
+     *
+     * @param ratingCreateDTO rating to be created
      * @return DTO of the rating after create operation
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST,
@@ -52,7 +54,9 @@ public class RatingController {
     /**
      * Update the given rating.
      *
-     * @param ratingDTO DTO of the person to be updated
+     * curl -X PUT -i -H "Content-Type: application/json" --data '{"id": "1","user":{"id":1},"movie":{"id":1},"originality":5,"soundtrack":5,"narrative":5,"cinematography":5,"depth":5}' http://localhost:8080/pa165/rest/ratings/update
+     *
+     * @param ratingDTO DTO of the rating to be updated
      * @return DTO of the rating after update operation
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT,
@@ -65,7 +69,9 @@ public class RatingController {
     }
 
     /**
-     * Remove the given person from the data source.
+     * Remove the given rating from the data source.
+     *
+     * curl -X DELETE -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/remove
      *
      * @param ratingDTO rating to be removed
      */
@@ -81,6 +87,8 @@ public class RatingController {
     /**
      * Find a rating by its id.
      *
+     * curl -X GET -i http://localhost:8080/pa165/rest/ratings/1
+     *
      * @param id id of the rating to be found
      * @return DTO of the found rating
      */
@@ -94,10 +102,12 @@ public class RatingController {
     /**
      * Find a ratings by their user.
      *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/find-by-user
+     *
      * @param userDTO of the user to find ratings by
      * @return list of ratingDTOs of the found ratings
      */
-    @RequestMapping(value = "/find", method = RequestMethod.POST,
+    @RequestMapping(value = "/find-by-user", method = RequestMethod.GET,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<RatingDTO> findByUser(@RequestBody UserDTO userDTO) {
@@ -109,10 +119,12 @@ public class RatingController {
     /**
      * Find a ratings by their movie.
      *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/find-by-movie
+     *
      * @param movieDTO of the user to find ratings by
      * @return list of ratingDTOs of the found ratings
      */
-    @RequestMapping(value = "/find", method = RequestMethod.POST,
+    @RequestMapping(value = "/find-by-movie", method = RequestMethod.GET,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<RatingDTO> findByMovie(@RequestBody MovieDTO movieDTO) {
@@ -124,10 +136,12 @@ public class RatingController {
     /**
      * Get overall score for the given rating.
      *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/overall-score
+     *
      * @param ratingDTO of the rating to get overall score for
      * @return the overall score of the rating
      */
-    @RequestMapping(value = "/overall_score", method = RequestMethod.POST,
+    @RequestMapping(value = "/overall-score", method = RequestMethod.GET,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getOverallScore(@RequestBody RatingDTO ratingDTO) {
