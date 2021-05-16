@@ -2,10 +2,7 @@ package cz.muni.fi.pa165;
 
 import javax.inject.Inject;
 
-import cz.muni.fi.pa165.entity.Genre;
-import cz.muni.fi.pa165.entity.Movie;
-import cz.muni.fi.pa165.entity.Person;
-import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.entity.*;
 import cz.muni.fi.pa165.service.MovieService;
 import cz.muni.fi.pa165.service.PersonService;
 import cz.muni.fi.pa165.service.RatingService;
@@ -63,6 +60,15 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         User u4 = createUser("Jevo", "jevo@email.com", "jevoheslo");
 
         u4.setAdmin(true);
+
+        Rating r1 = createRating(m1, u1, 1, 1, 1, 1, 1);
+        Rating r2 = createRating(m2, u1, 4, 4, 4, 4, 4);
+        Rating r3 = createRating(m1, u2, 1, 2, 3, 4, 5);
+        Rating r4 = createRating(m2, u2, 3, 3, 3, 3, 3);
+        Rating r5 = createRating(m1, u3, 2, 2, 2, 2, 2);
+        Rating r6 = createRating(m2, u3, 3, 3, 3, 3, 3);
+        Rating r7 = createRating(m1, u4, 1, 1, 2, 2, 2);
+        Rating r8 = createRating(m2, u4, 4, 3, 3, 3, 4);
     }
 
     private Person createPerson(String name, LocalDate dateOfBirth, String bio) {
@@ -78,5 +84,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     private User createUser(String username, String emailAddress, String password) {
         User user = new User(username, emailAddress);
         return userService.register(user, password);
+    }
+
+    private Rating createRating(Movie movie, User user, int originality, int soundtrack,
+                                int narrative, int cinematography, int depth) {
+        Rating rating = new Rating(movie, user, originality, soundtrack, narrative, cinematography, depth);
+        return ratingService.create(rating);
     }
 }
