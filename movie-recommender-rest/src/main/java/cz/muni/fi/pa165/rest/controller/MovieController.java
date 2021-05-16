@@ -61,14 +61,14 @@ public class MovieController {
     }
 
     /**
-     * Find movies by name.
+     * Find movies by title.
      *
-     * curl -X GET -i http://localhost:8080/pa165/rest/movies/find?title=Dune
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/find-by-title?title=Dune
      *
      * @param title title of movies to be found
-     * @return list of detailed DTOs of found movies
+     * @return list of detailed DTO of movies with the given method
      */
-    @RequestMapping(value = "/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/find-by-title", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<MovieDetailedDTO> findByTitle(@RequestParam String title) {
         logger.debug("rest findByTitle({})", title);
 
