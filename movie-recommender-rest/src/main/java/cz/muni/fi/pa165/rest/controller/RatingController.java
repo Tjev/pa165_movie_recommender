@@ -48,7 +48,7 @@ public class RatingController {
     public final RatingDTO create(@RequestBody RatingCreateDTO ratingCreateDTO) {
         logger.debug("rest create({})", ratingCreateDTO);
 
-        return ratingFacade.create(ratingCreateDTO).get();
+        return ratingFacade.create(ratingCreateDTO);
     }
 
     /**
@@ -65,7 +65,7 @@ public class RatingController {
     public final RatingDTO update(@RequestBody RatingDTO ratingDTO) {
         logger.debug("rest update({})", ratingDTO);
 
-        return ratingFacade.update(ratingDTO).get();
+        return ratingFacade.update(ratingDTO);
     }
 
     /**
@@ -113,7 +113,7 @@ public class RatingController {
     public final List<RatingDTO> findByUser(@RequestBody UserDTO userDTO) {
         logger.debug("rest findByUser({})", userDTO);
 
-        return ratingFacade.findByUser(userDTO).get();
+        return ratingFacade.findByUser(userDTO);
     }
 
     /**
@@ -130,7 +130,7 @@ public class RatingController {
     public final List<RatingDTO> findByMovie(@RequestBody MovieDTO movieDTO) {
         logger.debug("rest findByMovie({})", movieDTO);
 
-        return ratingFacade.findByMovie(movieDTO).get();
+        return ratingFacade.findByMovie(movieDTO);
     }
 
     /**
@@ -147,6 +147,6 @@ public class RatingController {
     public final BigDecimal getOverallScore(@RequestBody RatingDTO ratingDTO) {
         logger.debug("rest getOverallScore({})", ratingDTO);
 
-        return ratingFacade.getOverallScore(ratingDTO).get();
+        return ratingFacade.getOverallScore(ratingDTO);
     }
 }

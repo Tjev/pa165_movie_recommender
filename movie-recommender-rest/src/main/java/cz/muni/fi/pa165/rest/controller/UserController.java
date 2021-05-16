@@ -40,7 +40,7 @@ public class UserController {
     public final UserDetailedDTO register(@RequestBody UserRegisterDTO userRegisterDTO) {
         logger.debug("rest register({})", userRegisterDTO);
 
-        return userFacade.register(userRegisterDTO).get();
+        return userFacade.register(userRegisterDTO);
     }
 
     /**
@@ -102,7 +102,7 @@ public class UserController {
     public final Boolean authenticate(@RequestBody UserAuthenticateDTO userAuthenticateDTO) {
         logger.debug("rest authenticate user ({})", userAuthenticateDTO.getId());
 
-        return userFacade.authenticate(userAuthenticateDTO).get();
+        return userFacade.authenticate(userAuthenticateDTO);
     }
 
     /**
@@ -117,7 +117,7 @@ public class UserController {
     public final Boolean isAdmin(@RequestBody UserDTO userDTO) {
         logger.debug("rest isAdmin({})", userDTO);
 
-        return userFacade.isAdmin(userDTO).get();
+        return userFacade.isAdmin(userDTO);
     }
 
     /**
@@ -132,7 +132,7 @@ public class UserController {
     public final Boolean isDisabled(@RequestBody UserDTO userDTO) {
         logger.debug("rest isDisabled({})", userDTO);
 
-        return userFacade.isDisabled(userDTO).get();
+        return userFacade.isDisabled(userDTO);
     }
 
     /**
@@ -145,10 +145,10 @@ public class UserController {
     @RequestMapping(value = "/disable", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Boolean disable(@RequestBody UserDTO userDTO) {
+    public final void disable(@RequestBody UserDTO userDTO) {
         logger.debug("rest disable({})", userDTO);
 
-        return userFacade.disable(userDTO);
+        userFacade.disable(userDTO);
     }
 
     /**
@@ -165,6 +165,6 @@ public class UserController {
     public final UserDetailedDTO update(@RequestBody UserDetailedDTO userDetailedDTO) {
         logger.debug("rest update({})", userDetailedDTO);
 
-        return userFacade.update(userDetailedDTO).get();
+        return userFacade.update(userDetailedDTO);
     }
 }

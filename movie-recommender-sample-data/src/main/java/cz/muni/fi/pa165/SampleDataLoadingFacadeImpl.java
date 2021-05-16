@@ -47,14 +47,25 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Movie m1 = createMovie("Zombieland", "A shy student trying to reach his family in Ohio, a gun-toting bruiser in search or the last Twinkie and a pair of sisters striving to get to an amusement park join forces in a trek across a zombie-filled America.", LocalDate.of(2009, 1, 1), Set.of(Genre.ACTION, Genre.HORROR), null);
         Movie m2 = createMovie("Once Upon a Time... in Hollywood", "A faded television actor and his stunt double strive to achieve fame and success in the final years of Hollywood's Golden Age in 1969 Los Angeles.", LocalDate.of(2019, 1, 1), Set.of(Genre.COMEDY, Genre.DRAMA), null);
 
-        m1.addActor(p3);
+        /*m1.addActor(p3);
         m2.addActor(p1);
 
         m1.addDirector(p4);
         m2.addDirector(p2);
 
         movieService.update(m1);
-        movieService.update(m2);
+        movieService.update(m2);*/
+
+        p3.addActsInMovie(m1);
+        p1.addActsInMovie(m2);
+
+        p4.addDirectedMovie(m1);
+        p2.addDirectedMovie(m2);
+
+        personService.update(p1);
+        personService.update(p2);
+        personService.update(p3);
+        personService.update(p4);
 
         User u1 = createUser("Rado", "rado@email.com", "radoheslo");
         User u2 = createUser("Kiko", "kiko@email.com", "kikoheslo");

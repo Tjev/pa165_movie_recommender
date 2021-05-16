@@ -44,7 +44,7 @@ public class PersonController {
     public final PersonDetailedDTO create(@RequestBody PersonCreateDTO personCreateDTO) {
         logger.debug("rest create({})", personCreateDTO);
 
-        return personFacade.create(personCreateDTO).get();
+        return personFacade.create(personCreateDTO);
     }
 
     /**
@@ -74,7 +74,7 @@ public class PersonController {
     public final List<PersonDetailedDTO> findByName(@RequestParam String name) {
         logger.debug("rest findByName({})", name);
 
-        return personFacade.findByName(name).get();
+        return personFacade.findByName(name);
     }
 
     /**
@@ -91,7 +91,7 @@ public class PersonController {
     public final PersonDetailedDTO update(@RequestBody PersonDetailedDTO personDetailedDTO) {
         logger.debug("rest update({})", personDetailedDTO);
 
-        return personFacade.update(personDetailedDTO).get();
+        return personFacade.update(personDetailedDTO);
     }
 
     /**

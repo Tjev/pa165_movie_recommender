@@ -41,7 +41,7 @@ public class MovieController {
         logger.debug("rest create({})", movieCreateDTO);
 
         var detailedDTO = movieFacade.create(movieCreateDTO);
-        return detailedDTO.get();
+        return detailedDTO;
     }
 
     /**
@@ -73,7 +73,7 @@ public class MovieController {
         logger.debug("rest findByTitle({})", title);
 
         var movieDetailedDTO = movieFacade.findByTitle(title);
-        return movieDetailedDTO.get();
+        return movieDetailedDTO;
     }
 
     /**
@@ -90,7 +90,7 @@ public class MovieController {
         logger.debug("rest update({})", movieDetailedDTO);
 
         var updated = movieFacade.update(movieDetailedDTO);
-        return updated.get();
+        return updated;
     }
 
     /**
