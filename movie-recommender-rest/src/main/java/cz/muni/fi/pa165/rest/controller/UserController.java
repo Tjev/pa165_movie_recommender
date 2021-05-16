@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 import cz.muni.fi.pa165.facade.UserFacade;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public final UserDetailedDTO register(@RequestBody UserRegisterDTO userRegisterDTO) {
         logger.debug("rest register({})", userRegisterDTO);
 

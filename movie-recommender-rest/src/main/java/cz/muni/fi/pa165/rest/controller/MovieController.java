@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.facade.MovieFacade;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class MovieController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public final MovieDetailedDTO create(@RequestBody MovieCreateDTO movieCreateDTO) {
         logger.debug("rest create({})", movieCreateDTO);
 

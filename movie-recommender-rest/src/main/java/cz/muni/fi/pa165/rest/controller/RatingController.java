@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.facade.RatingFacade;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,7 @@ public class RatingController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public final RatingDTO create(@RequestBody RatingCreateDTO ratingCreateDTO) {
         logger.debug("rest create({})", ratingCreateDTO);
 

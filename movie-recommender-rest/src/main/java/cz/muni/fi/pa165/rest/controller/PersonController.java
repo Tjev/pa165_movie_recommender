@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.dto.person.PersonDTO;
 import cz.muni.fi.pa165.dto.person.PersonDetailedDTO;
 import cz.muni.fi.pa165.facade.PersonFacade;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class PersonController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public final PersonDetailedDTO create(@RequestBody PersonCreateDTO personCreateDTO) {
         logger.debug("rest create({})", personCreateDTO);
 
