@@ -72,7 +72,7 @@ public class UserController {
         try {
             result = userFacade.findById(id);
         } catch (FacadeLayerException e) {
-            throw new DataSourceException("Problem with the data source occurred.");
+            throw new DataSourceException("Problem with the data source occurred.", e);
         } catch (IllegalArgumentException e) {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }

@@ -76,7 +76,7 @@ public class PersonController {
         try {
             result = personFacade.findById(id);
         } catch (FacadeLayerException e) {
-            throw new DataSourceException("Problem with the data source occurred.");
+            throw new DataSourceException("Problem with the data source occurred.", e);
         } catch (IllegalArgumentException e) {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }
@@ -104,7 +104,7 @@ public class PersonController {
         try {
             result = personFacade.findByName(name);
         } catch (FacadeLayerException e) {
-            throw new DataSourceException("Problem with the data source occurred.");
+            throw new DataSourceException("Problem with the data source occurred.", e);
         } catch (IllegalArgumentException e) {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }
