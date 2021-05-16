@@ -31,7 +31,7 @@ public class Movie implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "bio")
+    @Column(name = "bio", length = 511)
     private String bio;
 
     @NotNull

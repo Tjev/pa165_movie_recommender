@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,12 +53,16 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         m1.addDirector(p4);
         m2.addDirector(p2);
 
+        movieService.update(m1);
+        movieService.update(m2);
+
         User u1 = createUser("Rado", "rado@email.com", "radoheslo");
         User u2 = createUser("Kiko", "kiko@email.com", "kikoheslo");
         User u3 = createUser("Papi", "papi@email.com", "papiheslo");
         User u4 = createUser("Jevo", "jevo@email.com", "jevoheslo");
 
         u4.setAdmin(true);
+        userService.update(u4);
 
         Rating r1 = createRating(m1, u1, 1, 1, 1, 1, 1);
         Rating r2 = createRating(m2, u1, 4, 4, 4, 4, 4);
