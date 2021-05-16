@@ -31,7 +31,7 @@ public class Movie implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "bio")
+    @Column(name = "bio", length = 511)
     private String bio;
 
     @NotNull
@@ -99,11 +99,11 @@ public class Movie implements Serializable {
         this.bio = bio;
     }
 
-    public LocalDate getYear() {
+    public LocalDate getReleaseYear() {
         return releaseYear;
     }
 
-    public void setYear(LocalDate year) {
+    public void setReleaseYear(LocalDate year) {
         this.releaseYear = year;
     }
 
@@ -175,7 +175,7 @@ public class Movie implements Serializable {
 
         if (!getTitle().equals(movie.getTitle())) return false;
         if (getBio() != null ? !getBio().equals(movie.getBio()) : movie.getBio() != null) return false;
-        if (getYear() != null ? !getYear().equals(movie.getYear()) : movie.getYear() != null) return false;
+        if (getReleaseYear() != null ? !getReleaseYear().equals(movie.getReleaseYear()) : movie.getReleaseYear() != null) return false;
         return getGenres().equals(movie.getGenres());
     }
 
@@ -184,7 +184,7 @@ public class Movie implements Serializable {
         return Objects.hash(
                 getTitle(),
                 getBio(),
-                getYear(),
+                getReleaseYear(),
                 getGenres());
     }
 

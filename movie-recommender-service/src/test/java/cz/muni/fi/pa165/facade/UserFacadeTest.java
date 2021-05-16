@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.facade;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
+import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.mapper.UserMapper;
@@ -40,6 +41,7 @@ public class UserFacadeTest {
     private UserDTO userDTO;
     private UserDetailedDTO userDetailedDTO;
     private UserAuthenticateDTO userAuthenticateDTO;
+    private UserRegisterDTO userRegisterDTO;
 
     @BeforeMethod
     public void init() {
@@ -68,15 +70,19 @@ public class UserFacadeTest {
         userDetailedDTO.setPasswordHash(encoder.encode("password1"));
 
         userAuthenticateDTO = new UserAuthenticateDTO();
-        userAuthenticateDTO.setUserId(1L);
+        userAuthenticateDTO.setId(1L);
         userAuthenticateDTO.setPassword("password1");
+
+        userRegisterDTO = new UserRegisterDTO();
+        userRegisterDTO.setUsername("John");
+        userRegisterDTO.setEmailAddress("john@email.com");
+        userRegisterDTO.setPassword("password1");
     }
 
     @Test
     public void register() {
-        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userMapper.userToUserDetailedDTO(any())).thenReturn(userDetailedDTO);
-        userFacade.register(userDTO, "password1");
+        userFacade.register(userRegisterDTO);
 
         Assert.assertEquals(userDTO.getId(), user.getId());
         verify(userService, times(1)).register(any(User.class), any(String.class));

@@ -27,7 +27,6 @@ public class User implements Serializable {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @NotEmpty
     private String passwordHash;
 
     private boolean admin;
@@ -59,6 +58,10 @@ public class User implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPasswordHash() {

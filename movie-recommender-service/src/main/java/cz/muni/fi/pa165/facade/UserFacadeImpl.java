@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.facade;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
-import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
@@ -33,17 +32,17 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDetailedDTO register(UserDTO userDTO, String password) {
+    public Optional<UserDetailedDTO> register(UserDTO userDTO, String password) {
         User user = userMapper.userDTOToUser(userDTO);
 
         User registeredUser;
         try {
             registeredUser = userService.register(user, password);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
 
-        return userMapper.userToUserDetailedDTO(registeredUser);
+        return Optional.of(userMapper.userToUserDetailedDTO(registeredUser));
     }
 
     @Override
@@ -52,7 +51,7 @@ public class UserFacadeImpl implements UserFacade {
         try {
             user = userService.findById(id);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
 
         return Optional.of(userMapper.userToUserDetailedDTO(user));
@@ -64,7 +63,7 @@ public class UserFacadeImpl implements UserFacade {
         try {
             user = userService.findByEmailAddress(emailAddress);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
         return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
@@ -75,74 +74,76 @@ public class UserFacadeImpl implements UserFacade {
         try {
             user = userService.findByUsername(username);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
 
         return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
 
     @Override
-    public Boolean authenticate(UserAuthenticateDTO userAuthenticateDTO) {
+    public Optional<Boolean> authenticate(UserAuthenticateDTO userAuthenticateDTO) {
         Boolean authenticated;
         try {
             User user = userService.findById(userAuthenticateDTO.getUserId());
             authenticated = userService.authenticate(user, userAuthenticateDTO.getPassword());
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
 
-        return authenticated;
+        return Optional.of(authenticated);
     }
 
     @Override
-    public Boolean isAdmin(UserDTO userDTO) {
+    public Optional<Boolean> isAdmin(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
         boolean isAdmin;
         try {
             isAdmin = userService.isAdmin(user);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
 
-        return isAdmin;
+        return Optional.of(isAdmin);
     }
 
     @Override
-    public Boolean isDisabled(UserDTO userDTO) {
+    public Optional<Boolean> isDisabled(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
         boolean isDisabled;
         try {
             isDisabled = userService.isDisabled(user);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
 
-        return isDisabled;
+        return Optional.of(isDisabled);
     }
 
     @Override
-    public void disable(UserDTO userDTO) {
+    public Boolean disable(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
         try {
             userService.disable(user);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return false;
         }
+
+        return true;
     }
 
     @Override
-    public UserDetailedDTO update(UserDetailedDTO userDetailedDTO) {
+    public Optional<UserDetailedDTO> update(UserDetailedDTO userDetailedDTO) {
         User user = userMapper.userDetailedDTOToUser(userDetailedDTO);
 
         User updatedUser;
         try {
             updatedUser = userService.update(user);
         } catch (ServiceLayerException e) {
-            throw new FacadeLayerException("Error at service layer occurred", e);
+            return Optional.empty();
         }
-        return userMapper.userToUserDetailedDTO(updatedUser);
+        return Optional.of(userMapper.userToUserDetailedDTO(updatedUser));
     }
 }

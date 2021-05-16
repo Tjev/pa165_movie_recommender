@@ -31,7 +31,7 @@ public class Person implements Serializable {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @Column(name = "bio")
+    @Column(name = "bio", length = 511)
     private String bio;
 
     @ManyToMany(mappedBy = "directors")
