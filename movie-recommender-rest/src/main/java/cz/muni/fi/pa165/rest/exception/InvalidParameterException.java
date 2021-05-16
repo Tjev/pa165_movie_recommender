@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.exception;
+package cz.muni.fi.pa165.rest.exception;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
