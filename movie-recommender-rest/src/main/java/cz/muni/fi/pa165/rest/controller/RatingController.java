@@ -54,7 +54,7 @@ public class RatingController {
     /**
      * Update the given rating.
      *
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"id": "1","user":{"id":1},"movie":{"id":1},"originality":5,"soundtrack":5,"narrative":5,"cinematography":5,"depth":5}' http://localhost:8080/pa165/rest/ratings/update
+     * curl -X PUT -i -H "Content-Type: application/json" --data '{"id":1,"user":{"id":1},"movie":{"id":1},"originality":5,"soundtrack":5,"narrative":5,"cinematography":5,"depth":5}' http://localhost:8080/pa165/rest/ratings/update
      *
      * @param ratingDTO DTO of the rating to be updated
      * @return DTO of the rating after update operation
@@ -71,7 +71,7 @@ public class RatingController {
     /**
      * Remove the given rating from the data source.
      *
-     * curl -X DELETE -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/remove
+     * curl -X DELETE -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/remove
      *
      * @param ratingDTO rating to be removed
      */
@@ -100,9 +100,9 @@ public class RatingController {
     }
 
     /**
-     * Find a ratings by their user.
+     * Find ratings by their user.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/find-by-user
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-user
      *
      * @param userDTO of the user to find ratings by
      * @return list of ratingDTOs of the found ratings
@@ -117,9 +117,9 @@ public class RatingController {
     }
 
     /**
-     * Find a ratings by their movie.
+     * Find ratings by their movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/find-by-movie
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-movie
      *
      * @param movieDTO of the user to find ratings by
      * @return list of ratingDTOs of the found ratings
@@ -136,7 +136,7 @@ public class RatingController {
     /**
      * Get overall score for the given rating.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/ratings/overall-score
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/overall-score
      *
      * @param ratingDTO of the rating to get overall score for
      * @return the overall score of the rating
