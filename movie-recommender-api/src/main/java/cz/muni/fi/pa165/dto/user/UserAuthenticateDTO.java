@@ -7,17 +7,17 @@ package cz.muni.fi.pa165.dto.user;
  */
 public class UserAuthenticateDTO {
 
-    private Long userId;
+    private Long id;
     private String password;
 
-    public Long getUserId()
+    public Long getId()
     {
-        return userId;
+        return id;
     }
 
-    public void setUserId(Long userId)
+    public void setId(Long userId)
     {
-        this.userId = userId;
+        this.id = userId;
     }
 
     public String getPassword()
@@ -33,7 +33,7 @@ public class UserAuthenticateDTO {
     @Override
     public String toString() {
         return "UserAuthenticateDTO{" +
-                "userId=" + userId +
+                "userId=" + id +
                 '}';
     }
 }

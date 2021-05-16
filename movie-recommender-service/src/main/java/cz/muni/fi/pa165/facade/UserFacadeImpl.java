@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.facade;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
+import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
@@ -32,12 +33,12 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public Optional<UserDetailedDTO> register(UserDTO userDTO, String password) {
-        User user = userMapper.userDTOToUser(userDTO);
+    public Optional<UserDetailedDTO> register(UserRegisterDTO userRegisterDTO) {
+        User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getEmailAddress());
 
         User registeredUser;
         try {
-            registeredUser = userService.register(user, password);
+            registeredUser = userService.register(user, userRegisterDTO.getPassword());
         } catch (ServiceLayerException e) {
             return Optional.empty();
         }
@@ -84,7 +85,7 @@ public class UserFacadeImpl implements UserFacade {
     public Optional<Boolean> authenticate(UserAuthenticateDTO userAuthenticateDTO) {
         Boolean authenticated;
         try {
-            User user = userService.findById(userAuthenticateDTO.getUserId());
+            User user = userService.findById(userAuthenticateDTO.getId());
             authenticated = userService.authenticate(user, userAuthenticateDTO.getPassword());
         } catch (ServiceLayerException e) {
             return Optional.empty();

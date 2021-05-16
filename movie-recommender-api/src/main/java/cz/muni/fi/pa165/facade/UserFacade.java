@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.facade;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
+import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 
 import java.util.Optional;
 
@@ -16,11 +17,10 @@ public interface UserFacade {
     /**
      * Registers the user into the system.
      *
-     * @param userDTO - user to be registered
-     * @param password - password to be hashed and stored for the user
+     * @param userRegisterDTO - user to be registered
      * @return - DTO representation of the registered user
      */
-    Optional<UserDetailedDTO> register(UserDTO userDTO, String password);
+    Optional<UserDetailedDTO> register(UserRegisterDTO userRegisterDTO);
 
     /**
      * Retrieves a user of the system with the matching id.
