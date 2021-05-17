@@ -7,11 +7,11 @@ import java.util.Objects;
  *
  * @author Tomas Jevocin
  */
-public class UserDTO {
+public class UserRegisterDTO {
 
     private Long id;
     private String username;
-    private boolean admin;
+    private String password;
     private String emailAddress;
 
     public Long getId() {
@@ -30,12 +30,12 @@ public class UserDTO {
         this.username = username;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmailAddress() {
@@ -53,7 +53,6 @@ public class UserDTO {
 
         UserDTO userDTO = (UserDTO) o;
 
-        if (isAdmin() != userDTO.isAdmin()) return false;
         if (!getUsername().equals(userDTO.getUsername())) return false;
         return getEmailAddress().equals(userDTO.getEmailAddress());
     }
@@ -62,7 +61,6 @@ public class UserDTO {
     public int hashCode() {
         return Objects.hash(
                 getUsername(),
-                isAdmin(),
                 getEmailAddress());
     }
 
@@ -71,7 +69,6 @@ public class UserDTO {
         return "UserDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", admin=" + admin +
                 ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }

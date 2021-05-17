@@ -75,11 +75,27 @@ public class ScoreComputationServiceTest {
     }
 
     @Test
+    void getOriginalityScoreForMovieWithNoRatings() {
+        when(movieDao.findById(movie.getId())).thenReturn(movie);
+        when(ratingDao.findByMovie(movie)).thenReturn(new ArrayList<>());
+
+        Assert.assertEquals(scoreComputationService.getOriginalityScoreForMovie(movie), new BigDecimal("0"));
+    }
+
+    @Test
     void getSoundtrackScoreForMovie() {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
         Assert.assertEquals(scoreComputationService.getSoundtrackScoreForMovie(movie), new BigDecimal("2.5"));
+    }
+
+    @Test
+    void getSoundtrackScoreForMovieWithNoRatings() {
+        when(movieDao.findById(movie.getId())).thenReturn(movie);
+        when(ratingDao.findByMovie(movie)).thenReturn(new ArrayList<>());
+
+        Assert.assertEquals(scoreComputationService.getSoundtrackScoreForMovie(movie), new BigDecimal("0"));
     }
 
     @Test
@@ -91,11 +107,27 @@ public class ScoreComputationServiceTest {
     }
 
     @Test
+    void getNarrativeScoreForMovieWithNoRatings() {
+        when(movieDao.findById(movie.getId())).thenReturn(movie);
+        when(ratingDao.findByMovie(movie)).thenReturn(new ArrayList<>());
+
+        Assert.assertEquals(scoreComputationService.getNarrativeScoreForMovie(movie), new BigDecimal("0"));
+    }
+
+    @Test
     void getCinematographyScoreForMovie() {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
         Assert.assertEquals(scoreComputationService.getCinematographyScoreForMovie(movie), new BigDecimal("3"));
+    }
+
+    @Test
+    void getCinematographyScoreForMovieWithNoRatings() {
+        when(movieDao.findById(movie.getId())).thenReturn(movie);
+        when(ratingDao.findByMovie(movie)).thenReturn(new ArrayList<>());
+
+        Assert.assertEquals(scoreComputationService.getCinematographyScoreForMovie(movie), new BigDecimal("0"));
     }
 
     @Test
@@ -107,6 +139,14 @@ public class ScoreComputationServiceTest {
     }
 
     @Test
+    void getDepthScoreForMovieWithNoRatings() {
+        when(movieDao.findById(movie.getId())).thenReturn(movie);
+        when(ratingDao.findByMovie(movie)).thenReturn(new ArrayList<>());
+
+        Assert.assertEquals(scoreComputationService.getDepthScoreForMovie(movie), new BigDecimal("0"));
+    }
+
+    @Test
     void getOverallScoreForMovie() {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
@@ -114,6 +154,14 @@ public class ScoreComputationServiceTest {
         when(ratingDao.findById(ratings.get(1).getId())).thenReturn(ratings.get(1));
 
         Assert.assertEquals(scoreComputationService.getOverallScoreForMovie(movie), new BigDecimal("2.5"));
+    }
+
+    @Test
+    void getOverallScoreForMovieWithNoRatings() {
+        when(movieDao.findById(movie.getId())).thenReturn(movie);
+        when(ratingDao.findByMovie(movie)).thenReturn(new ArrayList<>());
+
+        Assert.assertEquals(scoreComputationService.getOverallScoreForMovie(movie), new BigDecimal("0"));
     }
 
     @Test

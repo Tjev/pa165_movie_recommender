@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.dto.movie.MovieCreateDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.MovieService;
 import cz.muni.fi.pa165.service.RecommendationService;
 import cz.muni.fi.pa165.service.ScoreComputationService;
@@ -49,13 +50,13 @@ public class MovieFacadeImpl implements MovieFacade {
     }
 
     @Override
-    public Optional<MovieDetailedDTO> create(MovieCreateDTO movieCreateDTO) {
+    public MovieDetailedDTO create(MovieCreateDTO movieCreateDTO) {
         try {
             Movie movie = movieMapper.movieCreateDTOToMovie(movieCreateDTO);
             Movie created = movieService.create(movie);
-            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(created));
+            return movieMapper.movieToMovieDetailedDTO(created);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
@@ -65,33 +66,33 @@ public class MovieFacadeImpl implements MovieFacade {
             Movie movie = movieService.findById(id);
             return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(movie));
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<List<MovieDetailedDTO>> findByTitle(String title) {
+    public List<MovieDetailedDTO> findByTitle(String title) {
         try {
             List<Movie> movies = movieService.findByTitle(title);
-            return Optional.ofNullable(movieMapper.movieListToMovieDetailedDTOList(movies));
+            return movieMapper.movieListToMovieDetailedDTOList(movies);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<MovieDetailedDTO> update(MovieDetailedDTO movieDetailedDTO) {
+    public MovieDetailedDTO update(MovieDetailedDTO movieDetailedDTO) {
         try {
             Movie movie = movieMapper.movieDetailedDTOToMovie(movieDetailedDTO);
             Movie updated = movieService.update(movie);
-            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(updated));
+            return movieMapper.movieToMovieDetailedDTO(updated);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<MovieDetailedDTO> addActor(MovieDTO movieDTO, PersonDTO personDTO) {
+    public MovieDetailedDTO addActor(MovieDTO movieDTO, PersonDTO personDTO) {
         if (movieDTO == null) {
             throw new IllegalArgumentException("MovieDTO parameter is null.");
         }
@@ -107,14 +108,14 @@ public class MovieFacadeImpl implements MovieFacade {
             movie.addActor(actor);
             Movie updated = movieService.update(movie);
 
-            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(updated));
+            return movieMapper.movieToMovieDetailedDTO(updated);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<MovieDetailedDTO> addDirector(MovieDTO movieDTO, PersonDTO personDTO) {
+    public MovieDetailedDTO addDirector(MovieDTO movieDTO, PersonDTO personDTO) {
         if (movieDTO == null) {
             throw new IllegalArgumentException("MovieDTO parameter is null.");
         }
@@ -130,85 +131,84 @@ public class MovieFacadeImpl implements MovieFacade {
             movie.addDirector(director);
             Movie updated = movieService.update(movie);
 
-            return Optional.ofNullable(movieMapper.movieToMovieDetailedDTO(updated));
+            return movieMapper.movieToMovieDetailedDTO(updated);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Boolean remove(MovieDTO movieDTO) {
+    public void remove(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             movieService.remove(movie);
-            return true;
         } catch (ServiceLayerException e) {
-            return false;
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getOverallScore(MovieDTO movieDTO) {
+    public BigDecimal getOverallScore(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
-            return Optional.of(scoreService.getOverallScoreForMovie(movie));
+            return scoreService.getOverallScoreForMovie(movie);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getOriginalityScore(MovieDTO movieDTO) {
+    public BigDecimal getOriginalityScore(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
-            return Optional.of(scoreService.getOriginalityScoreForMovie(movie));
+            return scoreService.getOriginalityScoreForMovie(movie);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getSoundtrackScore(MovieDTO movieDTO) {
+    public BigDecimal getSoundtrackScore(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
-            return Optional.of(scoreService.getSoundtrackScoreForMovie(movie));
+            return scoreService.getSoundtrackScoreForMovie(movie);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getNarrativeScore(MovieDTO movieDTO) {
+    public BigDecimal getNarrativeScore(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
-            return Optional.of(scoreService.getNarrativeScoreForMovie(movie));
+            return scoreService.getNarrativeScoreForMovie(movie);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getCinematographyScore(MovieDTO movieDTO) {
+    public BigDecimal getCinematographyScore(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
-            return Optional.of(scoreService.getCinematographyScoreForMovie(movie));
+            return scoreService.getCinematographyScoreForMovie(movie);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getDepthScore(MovieDTO movieDTO) {
+    public BigDecimal getDepthScore(MovieDTO movieDTO) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
-            return Optional.of(scoreService.getDepthScoreForMovie(movie));
+            return scoreService.getDepthScoreForMovie(movie);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<List<MovieDetailedDTO>> getRecommendations(MovieDTO movieDTO, Integer n) {
+    public List<MovieDetailedDTO> getRecommendations(MovieDTO movieDTO, Integer n) {
         try {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             var moviesSimilarGenres = recommendationService.getRecommendationsBasedOnGenres(movie);
@@ -224,11 +224,10 @@ public class MovieFacadeImpl implements MovieFacade {
                 recommendations = recommendations.subList(0, n);
             }
 
-            var recommendationsDTO = movieMapper.movieListToMovieDetailedDTOList(recommendations);
-            return Optional.ofNullable(recommendationsDTO);
+            return movieMapper.movieListToMovieDetailedDTOList(recommendations);
 
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 

@@ -63,6 +63,10 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
     public BigDecimal getOverallScoreForMovie(Movie movie) {
         List<Rating> ratings = getRatings(movie);
 
+        if (ratings.size() == 0) {
+            return new BigDecimal("0");
+        }
+
         BigDecimal score = BigDecimal.ZERO;
 
         for (Rating rating : ratings) {
@@ -99,6 +103,10 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
 
     private BigDecimal computeAverage(Movie movie, ToIntFunction<Rating> func) {
         List<Rating> ratings = getRatings(movie);
+
+        if (ratings.size() == 0) {
+            return new BigDecimal("0");
+        }
 
         int scoreSum = ratings.stream()
                 .mapToInt(func)

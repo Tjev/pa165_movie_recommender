@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.facade;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
@@ -12,6 +15,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 /**
@@ -33,17 +37,17 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public Optional<UserDetailedDTO> register(UserRegisterDTO userRegisterDTO) {
+    public UserDetailedDTO register(UserRegisterDTO userRegisterDTO) {
         User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getEmailAddress());
 
         User registeredUser;
         try {
             registeredUser = userService.register(user, userRegisterDTO.getPassword());
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
-        return Optional.of(userMapper.userToUserDetailedDTO(registeredUser));
+        return userMapper.userToUserDetailedDTO(registeredUser);
     }
 
     @Override
@@ -52,7 +56,7 @@ public class UserFacadeImpl implements UserFacade {
         try {
             user = userService.findById(id);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
         return Optional.of(userMapper.userToUserDetailedDTO(user));
@@ -64,7 +68,7 @@ public class UserFacadeImpl implements UserFacade {
         try {
             user = userService.findByEmailAddress(emailAddress);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
         return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
@@ -75,76 +79,89 @@ public class UserFacadeImpl implements UserFacade {
         try {
             user = userService.findByUsername(username);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
         return Optional.of(userMapper.userToUserDetailedDTO(user));
     }
 
     @Override
-    public Optional<Boolean> authenticate(UserAuthenticateDTO userAuthenticateDTO) {
+    public Optional<String> authenticate(UserAuthenticateDTO userAuthenticateDTO) throws UnsupportedEncodingException {
         Boolean authenticated;
+        User user;
         try {
-            User user = userService.findById(userAuthenticateDTO.getId());
+            user = userService.findByEmailAddress(userAuthenticateDTO.getEmailAddress());
             authenticated = userService.authenticate(user, userAuthenticateDTO.getPassword());
         } catch (ServiceLayerException e) {
+            throw new FacadeLayerException("Error at service layer occurred", e);
+        }
+
+        if (!authenticated) {
             return Optional.empty();
         }
 
-        return Optional.of(authenticated);
+        return Optional.of(getJWTToken(user));
     }
 
     @Override
-    public Optional<Boolean> isAdmin(UserDTO userDTO) {
+    public Boolean isAdmin(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
         boolean isAdmin;
         try {
             isAdmin = userService.isAdmin(user);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
-        return Optional.of(isAdmin);
+        return isAdmin;
     }
 
     @Override
-    public Optional<Boolean> isDisabled(UserDTO userDTO) {
+    public Boolean isDisabled(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
         boolean isDisabled;
         try {
             isDisabled = userService.isDisabled(user);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
-        return Optional.of(isDisabled);
+        return isDisabled;
     }
 
     @Override
-    public Boolean disable(UserDTO userDTO) {
+    public void disable(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
         try {
             userService.disable(user);
         } catch (ServiceLayerException e) {
-            return false;
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
-
-        return true;
     }
 
     @Override
-    public Optional<UserDetailedDTO> update(UserDetailedDTO userDetailedDTO) {
+    public UserDetailedDTO update(UserDetailedDTO userDetailedDTO) {
         User user = userMapper.userDetailedDTOToUser(userDetailedDTO);
 
         User updatedUser;
         try {
             updatedUser = userService.update(user);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
-        return Optional.of(userMapper.userToUserDetailedDTO(updatedUser));
+        return userMapper.userToUserDetailedDTO(updatedUser);
+    }
+
+    private String getJWTToken(User user) throws UnsupportedEncodingException {
+        Algorithm algorithm = Algorithm.HMAC256("secret");
+        return JWT.create()
+                .withClaim("id", 1L)
+                .withClaim("email", user.getEmailAddress())
+                .withClaim("username", user.getUsername())
+                .withClaim("admin", user.isAdmin())
+                .sign(algorithm);
     }
 }

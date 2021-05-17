@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.person.PersonCreateDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
 import cz.muni.fi.pa165.dto.person.PersonDetailedDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.PersonService;
 import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
@@ -41,13 +42,13 @@ public class PersonFacadeImpl implements PersonFacade {
     }
 
     @Override
-    public Optional<PersonDetailedDTO> create(PersonCreateDTO personCreateDTO) {
+    public PersonDetailedDTO create(PersonCreateDTO personCreateDTO) {
         try {
             Person person = personMapper.personCreateDTOToPerson(personCreateDTO);
             person = personService.create(person);
-            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
+            return personMapper.personToPersonDetailedDTO(person);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
@@ -57,36 +58,36 @@ public class PersonFacadeImpl implements PersonFacade {
             Person person = personService.findById(id);
             return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<List<PersonDetailedDTO>> findByName(String name) {
+    public List<PersonDetailedDTO> findByName(String name) {
         try {
             List<Person> persons = personService.findByName(name);
-            return Optional.ofNullable(persons.stream()
+            return persons.stream()
                     .map(personMapper::personToPersonDetailedDTO)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList());
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
     }
 
     @Override
-    public Optional<PersonDetailedDTO> update(PersonDetailedDTO personDetailedDTO) {
+    public PersonDetailedDTO update(PersonDetailedDTO personDetailedDTO) {
         try {
             Person person = personMapper.personDetailedDTOToPerson(personDetailedDTO);
             person = personService.update(person);
-            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
+            return personMapper.personToPersonDetailedDTO(person);
         }  catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<PersonDetailedDTO> addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+    public PersonDetailedDTO addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO) {
         if (personDTO == null) {
             throw new IllegalArgumentException("PersonDTO is null.");
         }
@@ -98,15 +99,15 @@ public class PersonFacadeImpl implements PersonFacade {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             person.addDirectedMovie(movie);
             person = personService.update(person);
-            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
+            return personMapper.personToPersonDetailedDTO(person);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
     }
 
     @Override
-    public Optional<PersonDetailedDTO> addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO) {
+    public PersonDetailedDTO addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO) {
         if (personDTO == null) {
             throw new IllegalArgumentException("PersonDTO is null.");
         }
@@ -118,21 +119,20 @@ public class PersonFacadeImpl implements PersonFacade {
             Movie movie = movieMapper.movieDTOToMovie(movieDTO);
             person.addActsInMovie(movie);
             person = personService.update(person);
-            return Optional.ofNullable(personMapper.personToPersonDetailedDTO(person));
+            return personMapper.personToPersonDetailedDTO(person);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
     }
 
     @Override
-    public Boolean remove(PersonDTO personDTO) {
+    public void remove(PersonDTO personDTO) {
         try {
             Person person = personMapper.personDTOToPerson(personDTO);
             personService.remove(person);
-            return true;
         } catch (ServiceLayerException e) {
-            return false;
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 }

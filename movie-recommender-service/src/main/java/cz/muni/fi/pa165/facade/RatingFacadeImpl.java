@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.rating.RatingCreateDTO;
 import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.MovieService;
 import cz.muni.fi.pa165.service.RatingService;
 import cz.muni.fi.pa165.service.ScoreComputationService;
@@ -47,35 +48,34 @@ public class RatingFacadeImpl implements RatingFacade {
     }
 
     @Override
-    public Optional<RatingDTO> create(RatingCreateDTO ratingCreateDTO) {
+    public RatingDTO create(RatingCreateDTO ratingCreateDTO) {
         try {
             Rating rating = ratingMapper.ratingCreateDTOToRating(ratingCreateDTO);
             Rating createdRating = ratingService.create(rating);
-            return Optional.of(ratingMapper.ratingToRatingDTO(createdRating));
+            return ratingMapper.ratingToRatingDTO(createdRating);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<RatingDTO> update(RatingDTO ratingDTO) {
+    public RatingDTO update(RatingDTO ratingDTO) {
         try {
             Rating rating = ratingMapper.ratingDTOToRating(ratingDTO);
             Rating updatedRating = ratingService.update(rating);
-            return Optional.of(ratingMapper.ratingToRatingDTO(updatedRating));
+            return ratingMapper.ratingToRatingDTO(updatedRating);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Boolean remove(RatingDTO ratingDTO) {
+    public void remove(RatingDTO ratingDTO) {
         try {
             Rating rating = ratingMapper.ratingDTOToRating(ratingDTO);
             ratingService.remove(rating);
-            return true;
         } catch (ServiceLayerException e) {
-            return false;
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
@@ -85,39 +85,39 @@ public class RatingFacadeImpl implements RatingFacade {
             Rating rating = ratingService.findById(id);
             return Optional.of(ratingMapper.ratingToRatingDTO(rating));
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<List<RatingDTO>> findByMovie(MovieDTO movieDTO) {
+    public List<RatingDTO> findByMovie(MovieDTO movieDTO) {
         try {
             Movie movie = movieService.findById(movieDTO.getId());
             List<Rating> ratings = ratingService.findByMovie(movie);
-            return Optional.of(ratingMapper.mapRatingsToRatingDTOs(ratings));
+            return ratingMapper.mapRatingsToRatingDTOs(ratings);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<List<RatingDTO>> findByUser(UserDTO userDTO) {
+    public List<RatingDTO> findByUser(UserDTO userDTO) {
         try {
             User user = userService.findById(userDTO.getId());
             List<Rating> ratings = ratingService.findByUser(user);
-            return Optional.of(ratingMapper.mapRatingsToRatingDTOs(ratings));
+            return ratingMapper.mapRatingsToRatingDTOs(ratings);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 
     @Override
-    public Optional<BigDecimal> getOverallScore(RatingDTO ratingDTO) {
+    public BigDecimal getOverallScore(RatingDTO ratingDTO) {
         try {
             Rating rating = ratingMapper.ratingDTOToRating(ratingDTO);
-            return Optional.of(scoreComputationService.getOverallScoreForRating(rating));
+            return scoreComputationService.getOverallScoreForRating(rating);
         } catch (ServiceLayerException e) {
-            return Optional.empty();
+            throw new FacadeLayerException("Error at service layer occurred", e);
         }
     }
 }

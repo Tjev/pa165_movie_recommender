@@ -15,7 +15,6 @@ public class UserDetailedDTO {
 
     private Long id;
     private String username;
-    private String passwordHash;
     private boolean admin;
     private String emailAddress;
     private ArrayList<RatingDTO> ratings;
@@ -34,14 +33,6 @@ public class UserDetailedDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
     }
 
     public boolean isAdmin() {
@@ -77,7 +68,6 @@ public class UserDetailedDTO {
 
         if (isAdmin() != userDetailedDTO.isAdmin()) return false;
         if (!getUsername().equals(userDetailedDTO.getUsername())) return false;
-        if (!getPasswordHash().equals(userDetailedDTO.getPasswordHash())) return false;
         return getEmailAddress().equals(userDetailedDTO.getEmailAddress());
     }
 
@@ -85,7 +75,6 @@ public class UserDetailedDTO {
     public int hashCode() {
         return Objects.hash(
                 getUsername(),
-                getPasswordHash(),
                 isAdmin(),
                 getEmailAddress());
     }

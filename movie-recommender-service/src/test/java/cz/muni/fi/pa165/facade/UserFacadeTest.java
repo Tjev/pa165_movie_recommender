@@ -16,6 +16,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -60,17 +61,15 @@ public class UserFacadeTest {
         userDTO.setUsername("John");
         userDTO.setEmailAddress("john@email.com");
         userDTO.setAdmin(false);
-        userDTO.setPasswordHash(encoder.encode("password1"));
 
         userDetailedDTO = new UserDetailedDTO();
         userDetailedDTO.setId(1L);
         userDetailedDTO.setUsername("John");
         userDetailedDTO.setEmailAddress("john@email.com");
         userDetailedDTO.setAdmin(false);
-        userDetailedDTO.setPasswordHash(encoder.encode("password1"));
 
         userAuthenticateDTO = new UserAuthenticateDTO();
-        userAuthenticateDTO.setId(1L);
+        userAuthenticateDTO.setEmailAddress("john@email.com");
         userAuthenticateDTO.setPassword("password1");
 
         userRegisterDTO = new UserRegisterDTO();
@@ -126,16 +125,16 @@ public class UserFacadeTest {
     }
 
     @Test
-    public void authenticate() {
-        when(userService.findById(any(Long.class))).thenReturn(user);
+    public void authenticate() throws UnsupportedEncodingException {
+        when(userService.findByEmailAddress(any(String.class))).thenReturn(user);
         when(userService.authenticate(any(User.class), any(String.class))).thenReturn(true);
 
-        Optional<Boolean> answer = userFacade.authenticate(userAuthenticateDTO);
+        Optional<String> answer = userFacade.authenticate(userAuthenticateDTO);
 
         Assert.assertTrue(answer.isPresent());
-        Assert.assertTrue(answer.get());
+        Assert.assertEquals(answer.get(), "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6dHJ1ZSwiaWQiOjEsImVtYWlsIjoiam9obkBlbWFpbC5jb20iLCJ1c2VybmFtZSI6IkpvaG4ifQ.eYA86QE_F2b_TSyqE5XIkzqaQfHCN4CMq7X2wTrE1wo");
         verify(userService, times(1)).authenticate(any(User.class), any(String.class));
-        verify(userService, times(1)).findById(any(Long.class));
+        verify(userService, times(1)).findByEmailAddress(any(String.class));
         verifyNoMoreInteractions(userService);
     }
 
@@ -143,10 +142,9 @@ public class UserFacadeTest {
     public void isAdmin() {
         when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userService.isAdmin(any(User.class))).thenReturn(true);
-        Optional<Boolean> answer = userFacade.isAdmin(userDTO);
+        Boolean answer = userFacade.isAdmin(userDTO);
 
-        Assert.assertTrue(answer.isPresent());
-        Assert.assertTrue(answer.get());
+        Assert.assertTrue(answer);
         verify(userService, times(1)).isAdmin(any(User.class));
         verifyNoMoreInteractions(userService);
     }
@@ -155,10 +153,9 @@ public class UserFacadeTest {
     public void isDisabled() {
         when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
         when(userService.isDisabled(any(User.class))).thenReturn(true);
-        Optional<Boolean> answer = userFacade.isDisabled(userDTO);
+        Boolean answer = userFacade.isDisabled(userDTO);
 
-        Assert.assertTrue(answer.isPresent());
-        Assert.assertTrue(answer.get());
+        Assert.assertTrue(answer);
         verify(userService, times(1)).isDisabled(any(User.class));
         verifyNoMoreInteractions(userService);
     }

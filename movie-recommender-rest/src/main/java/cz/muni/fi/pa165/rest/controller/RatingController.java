@@ -1,11 +1,16 @@
 package cz.muni.fi.pa165.rest.controller;
 
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
+import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.dto.rating.RatingCreateDTO;
 import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.facade.RatingFacade;
+import cz.muni.fi.pa165.rest.exception.DataSourceException;
+import cz.muni.fi.pa165.rest.exception.InvalidParameterException;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +18,7 @@ import javax.inject.Inject;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.*;
 
@@ -45,10 +51,17 @@ public class RatingController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public final RatingDTO create(@RequestBody RatingCreateDTO ratingCreateDTO) {
         logger.debug("rest create({})", ratingCreateDTO);
 
-        return ratingFacade.create(ratingCreateDTO).get();
+        try {
+            return ratingFacade.create(ratingCreateDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("The instance already exists.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -65,7 +78,13 @@ public class RatingController {
     public final RatingDTO update(@RequestBody RatingDTO ratingDTO) {
         logger.debug("rest update({})", ratingDTO);
 
-        return ratingFacade.update(ratingDTO).get();
+        try {
+            return ratingFacade.update(ratingDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -81,7 +100,13 @@ public class RatingController {
     public final void remove(@RequestBody RatingDTO ratingDTO) {
         logger.debug("rest remove({})", ratingDTO);
 
-        ratingFacade.remove(ratingDTO);
+        try {
+            ratingFacade.remove(ratingDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -96,7 +121,20 @@ public class RatingController {
     public final RatingDTO findById(@PathVariable("id") long id) {
         logger.debug("rest findById({})", id);
 
-        return ratingFacade.findById(id).get();
+        Optional<RatingDTO> result;
+        try {
+            result = ratingFacade.findById(id);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        if (result.isEmpty()) {
+            throw new InvalidParameterException("Rating with given id has not been found.");
+        }
+
+        return result.get();
     }
 
     /**
@@ -113,7 +151,16 @@ public class RatingController {
     public final List<RatingDTO> findByUser(@RequestBody UserDTO userDTO) {
         logger.debug("rest findByUser({})", userDTO);
 
-        return ratingFacade.findByUser(userDTO).get();
+        List<RatingDTO> result;
+        try {
+            result = ratingFacade.findByUser(userDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        return result;
     }
 
     /**
@@ -130,7 +177,16 @@ public class RatingController {
     public final List<RatingDTO> findByMovie(@RequestBody MovieDTO movieDTO) {
         logger.debug("rest findByMovie({})", movieDTO);
 
-        return ratingFacade.findByMovie(movieDTO).get();
+        List<RatingDTO> result;
+        try {
+            result = ratingFacade.findByMovie(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        return result;
     }
 
     /**
@@ -147,6 +203,12 @@ public class RatingController {
     public final BigDecimal getOverallScore(@RequestBody RatingDTO ratingDTO) {
         logger.debug("rest getOverallScore({})", ratingDTO);
 
-        return ratingFacade.getOverallScore(ratingDTO).get();
+        try {
+            return ratingFacade.getOverallScore(ratingDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 }

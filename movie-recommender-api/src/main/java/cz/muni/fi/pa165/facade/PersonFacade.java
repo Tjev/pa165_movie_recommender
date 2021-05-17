@@ -21,7 +21,7 @@ public interface PersonFacade {
      * @param personCreateDTO DTO with person data
      * @return optional DTO after creation operation
      */
-    Optional<PersonDetailedDTO> create(PersonCreateDTO personCreateDTO);
+    PersonDetailedDTO create(PersonCreateDTO personCreateDTO);
 
     /**
      * Finds a person by id.
@@ -37,7 +37,7 @@ public interface PersonFacade {
      * @param name of the person in the data source
      * @return optional list of DTOs with person data
      */
-    Optional<List<PersonDetailedDTO>> findByName(String name);
+    List<PersonDetailedDTO> findByName(String name);
 
     /**
      * Updates the given person.
@@ -45,7 +45,7 @@ public interface PersonFacade {
      * @param personDetailedDTO DTO with data for update in attributes
      * @return optional DTO with person data after update operation
      */
-    Optional<PersonDetailedDTO> update(PersonDetailedDTO personDetailedDTO);
+    PersonDetailedDTO update(PersonDetailedDTO personDetailedDTO);
 
     /**
      * Adds a movie to person which he/she has directed.
@@ -54,7 +54,7 @@ public interface PersonFacade {
      * @param movieDTO that has been directed
      * @return optional DTO with person data after update operation
      */
-    Optional<PersonDetailedDTO> addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO);
+    PersonDetailedDTO addDirectedMovie(PersonDTO personDTO, MovieDTO movieDTO);
 
     /**
      * Adds a movie to person in which he/she has acted.
@@ -63,13 +63,12 @@ public interface PersonFacade {
      * @param movieDTO the person acted in
      * @return optional DTO with person data after update operation
      */
-    Optional<PersonDetailedDTO> addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO);
+    PersonDetailedDTO addActsInMovie(PersonDTO personDTO, MovieDTO movieDTO);
 
     /**
      * Removes the given person.
      *
      * @param personDTO DTO of the person to be removed
-     * @return true if removal was successful, false otherwise
      */
-    Boolean remove(PersonDTO personDTO);
+    void remove(PersonDTO personDTO);
 }

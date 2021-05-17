@@ -116,10 +116,9 @@ public class PersonFacadeTest {
         List<Person> expected = new ArrayList<>(List.of(person));
 
         when(personService.findByName(any(String.class))).thenReturn(expected);
-        Optional<List<PersonDetailedDTO>> result = personFacade.findByName("Brad");
+        List<PersonDetailedDTO> result = personFacade.findByName("Brad");
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get().get(0).getName(), person.getName());
+        Assert.assertEquals(result.get(0).getName(), person.getName());
         verify(personService, times(1)).findByName(any(String.class));
         verifyNoMoreInteractions(personService);
     }
@@ -147,10 +146,9 @@ public class PersonFacadeTest {
         when(personService.update(any(Person.class))).thenReturn(updatedPerson);
         when(personMapper.personToPersonDetailedDTO(updatedPerson)).thenReturn(personDetailedDTO);
 
-        Optional<PersonDetailedDTO> result = personFacade.addDirectedMovie(personDTO, movieDTO);
+        PersonDetailedDTO result = personFacade.addDirectedMovie(personDTO, movieDTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), personDetailedDTO);
+        Assert.assertEquals(result, personDetailedDTO);
     }
 
     @Test
@@ -167,10 +165,9 @@ public class PersonFacadeTest {
         when(personService.update(any(Person.class))).thenReturn(updatedPerson);
         when(personMapper.personToPersonDetailedDTO(updatedPerson)).thenReturn(personDetailedDTO);
 
-        Optional<PersonDetailedDTO> result = personFacade.addActsInMovie(personDTO, movieDTO);
+        PersonDetailedDTO result = personFacade.addActsInMovie(personDTO, movieDTO);
 
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(result.get(), personDetailedDTO);
+        Assert.assertEquals(result, personDetailedDTO);
     }
 
     @Test

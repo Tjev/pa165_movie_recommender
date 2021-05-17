@@ -5,12 +5,18 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.dto.person.PersonCreateDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
 import cz.muni.fi.pa165.dto.person.PersonDetailedDTO;
+import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
+import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.facade.PersonFacade;
+import cz.muni.fi.pa165.rest.exception.DataSourceException;
+import cz.muni.fi.pa165.rest.exception.InvalidParameterException;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.*;
 
@@ -41,10 +47,17 @@ public class PersonController {
     @RequestMapping(value = "/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public final PersonDetailedDTO create(@RequestBody PersonCreateDTO personCreateDTO) {
         logger.debug("rest create({})", personCreateDTO);
 
-        return personFacade.create(personCreateDTO).get();
+        try {
+            return personFacade.create(personCreateDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("The instance already exists.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -59,7 +72,20 @@ public class PersonController {
     public final PersonDetailedDTO findById(@PathVariable("id") long id) {
         logger.debug("rest findById({})", id);
 
-        return personFacade.findById(id).get();
+        Optional<PersonDetailedDTO> result;
+        try {
+            result = personFacade.findById(id);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        if (result.isEmpty()) {
+            throw new InvalidParameterException("Person with given id has not been found.");
+        }
+
+        return result.get();
     }
 
     /**
@@ -74,7 +100,16 @@ public class PersonController {
     public final List<PersonDetailedDTO> findByName(@RequestParam String name) {
         logger.debug("rest findByName({})", name);
 
-        return personFacade.findByName(name).get();
+        List<PersonDetailedDTO> result;
+        try {
+            result = personFacade.findByName(name);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        return result;
     }
 
     /**
@@ -91,7 +126,13 @@ public class PersonController {
     public final PersonDetailedDTO update(@RequestBody PersonDetailedDTO personDetailedDTO) {
         logger.debug("rest update({})", personDetailedDTO);
 
-        return personFacade.update(personDetailedDTO).get();
+        try {
+            return personFacade.update(personDetailedDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 
     /**
@@ -105,6 +146,12 @@ public class PersonController {
     public final void remove(@RequestBody PersonDTO personDTO) {
         logger.debug("rest remove({})", personDTO);
 
-        personFacade.remove(personDTO);
+        try {
+            personFacade.remove(personDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 }

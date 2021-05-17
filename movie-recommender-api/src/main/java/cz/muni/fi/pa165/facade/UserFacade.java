@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 /**
@@ -20,7 +21,7 @@ public interface UserFacade {
      * @param userRegisterDTO - user to be registered
      * @return - DTO representation of the registered user
      */
-    Optional<UserDetailedDTO> register(UserRegisterDTO userRegisterDTO);
+    UserDetailedDTO register(UserRegisterDTO userRegisterDTO);
 
     /**
      * Retrieves a user of the system with the matching id.
@@ -52,7 +53,7 @@ public interface UserFacade {
      * @param userAuthenticateDTO - user whose password is to be checked
      * @return true if the password hashes match
      */
-    Optional<Boolean> authenticate(UserAuthenticateDTO userAuthenticateDTO);
+    Optional<String> authenticate(UserAuthenticateDTO userAuthenticateDTO) throws UnsupportedEncodingException;
 
     /**
      * Check if the given user is admin.
@@ -60,7 +61,7 @@ public interface UserFacade {
      * @param userDTO - user to be checked for admin privileges
      * @return true if user is admin
      */
-    Optional<Boolean> isAdmin(UserDTO userDTO);
+    Boolean isAdmin(UserDTO userDTO);
 
     /**
      * Check if the given user is disabled.
@@ -68,15 +69,14 @@ public interface UserFacade {
      * @param userDTO - user to be checked
      * @return true if user is disabled
      */
-    Optional<Boolean> isDisabled(UserDTO userDTO);
+    Boolean isDisabled(UserDTO userDTO);
 
     /**
      * Disable an account of the given user
      *
      * @param userDTO - user to be disabled
-     * @return true if the user has been successfully disabled
      */
-    Boolean disable(UserDTO userDTO);
+    void disable(UserDTO userDTO);
 
     /**
      * Updates the given user.
@@ -84,5 +84,5 @@ public interface UserFacade {
      * @param userDetailedDTO - user DTO with data for update in attributes
      * @return DTO with user data after the update operation
      */
-    Optional<UserDetailedDTO> update(UserDetailedDTO userDetailedDTO);
+    UserDetailedDTO update(UserDetailedDTO userDetailedDTO);
 }
