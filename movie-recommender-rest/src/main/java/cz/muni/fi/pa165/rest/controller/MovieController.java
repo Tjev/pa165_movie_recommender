@@ -149,4 +149,30 @@ public class MovieController {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }
     }
+
+    /**
+     * Get the given amount of recommendations based on the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/recommendations?amount=1
+     *
+     * @param movieDTO
+     * @param amount
+     * @return
+     */
+    @RequestMapping(value = "/recommendations", method = RequestMethod.GET,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<MovieDetailedDTO> getRecommendations(@RequestBody MovieDTO movieDTO, @RequestParam Integer amount) {
+        logger.debug("rest getRecommendations({}, {})", movieDTO, amount);
+
+        List<MovieDetailedDTO> result;
+        try {
+            result = movieFacade.getRecommendations(movieDTO, amount);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+
+        return result;
+    }
 }
