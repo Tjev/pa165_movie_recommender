@@ -16,6 +16,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -70,7 +71,7 @@ public class UserFacadeTest {
         userDetailedDTO.setPasswordHash(encoder.encode("password1"));
 
         userAuthenticateDTO = new UserAuthenticateDTO();
-        userAuthenticateDTO.setId(1L);
+        userAuthenticateDTO.setEmailAddress("john@email.com");
         userAuthenticateDTO.setPassword("password1");
 
         userRegisterDTO = new UserRegisterDTO();
@@ -126,15 +127,16 @@ public class UserFacadeTest {
     }
 
     @Test
-    public void authenticate() {
-        when(userService.findById(any(Long.class))).thenReturn(user);
+    public void authenticate() throws UnsupportedEncodingException {
+        when(userService.findByEmailAddress(any(String.class))).thenReturn(user);
         when(userService.authenticate(any(User.class), any(String.class))).thenReturn(true);
 
-        Boolean answer = userFacade.authenticate(userAuthenticateDTO);
+        Optional<String> answer = userFacade.authenticate(userAuthenticateDTO);
 
-        Assert.assertTrue(answer);
+        Assert.assertTrue(answer.isPresent());
+        Assert.assertEquals(answer.get(), "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6dHJ1ZSwiaWQiOjEsImVtYWlsIjoiam9obkBlbWFpbC5jb20iLCJ1c2VybmFtZSI6IkpvaG4ifQ.eYA86QE_F2b_TSyqE5XIkzqaQfHCN4CMq7X2wTrE1wo");
         verify(userService, times(1)).authenticate(any(User.class), any(String.class));
-        verify(userService, times(1)).findById(any(Long.class));
+        verify(userService, times(1)).findByEmailAddress(any(String.class));
         verifyNoMoreInteractions(userService);
     }
 

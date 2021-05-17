@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.facade;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
@@ -13,6 +15,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 /**
@@ -83,16 +86,21 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public Boolean authenticate(UserAuthenticateDTO userAuthenticateDTO) {
+    public Optional<String> authenticate(UserAuthenticateDTO userAuthenticateDTO) throws UnsupportedEncodingException {
         Boolean authenticated;
+        User user;
         try {
-            User user = userService.findById(userAuthenticateDTO.getId());
+            user = userService.findByEmailAddress(userAuthenticateDTO.getEmailAddress());
             authenticated = userService.authenticate(user, userAuthenticateDTO.getPassword());
         } catch (ServiceLayerException e) {
             throw new FacadeLayerException("Error at service layer occurred", e);
         }
 
-        return authenticated;
+        if (!authenticated) {
+            return Optional.empty();
+        }
+
+        return Optional.of(getJWTToken(user));
     }
 
     @Override
@@ -145,5 +153,15 @@ public class UserFacadeImpl implements UserFacade {
             throw new FacadeLayerException("Error at service layer occurred", e);
         }
         return userMapper.userToUserDetailedDTO(updatedUser);
+    }
+
+    private String getJWTToken(User user) throws UnsupportedEncodingException {
+        Algorithm algorithm = Algorithm.HMAC256("secret");
+        return JWT.create()
+                .withClaim("id", 1L)
+                .withClaim("email", user.getEmailAddress())
+                .withClaim("username", user.getUsername())
+                .withClaim("admin", user.isAdmin())
+                .sign(algorithm);
     }
 }

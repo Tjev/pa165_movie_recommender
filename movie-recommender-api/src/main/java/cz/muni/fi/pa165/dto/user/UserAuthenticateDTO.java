@@ -7,18 +7,12 @@ package cz.muni.fi.pa165.dto.user;
  */
 public class UserAuthenticateDTO {
 
-    private Long id;
+    private String emailAddress;
     private String password;
 
-    public Long getId()
-    {
-        return id;
-    }
+    public String getEmailAddress() { return emailAddress; }
 
-    public void setId(Long userId)
-    {
-        this.id = userId;
-    }
+    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
 
     public String getPassword()
     {
@@ -28,12 +22,5 @@ public class UserAuthenticateDTO {
     public void setPassword(String password)
     {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "UserAuthenticateDTO{" +
-                "userId=" + id +
-                '}';
     }
 }

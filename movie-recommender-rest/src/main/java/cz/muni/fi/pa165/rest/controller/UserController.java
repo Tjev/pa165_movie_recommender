@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.rest.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
@@ -8,6 +10,7 @@ import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.facade.UserFacade;
 import cz.muni.fi.pa165.rest.exception.DataSourceException;
 import cz.muni.fi.pa165.rest.exception.InvalidParameterException;
+import cz.muni.fi.pa165.rest.exception.UnauthorizedException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.*;
@@ -143,7 +147,7 @@ public class UserController {
     /**
      * Authenticate user against his stored credentials.
      *
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"id": "1", "password": "OhHiMark"}' http://localhost:8080/pa165/rest/users/auth
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"emailAddress": "tom.wiseau@gmail.com", "password": "OhHiMark"}' http://localhost:8080/pa165/rest/users/auth
      *
      * @param userAuthenticateDTO user to be authenticated
      * @return true if the authentication was successful, false otherwise
@@ -151,16 +155,23 @@ public class UserController {
     @RequestMapping(value = "/auth", method = RequestMethod.POST,
                     consumes = MediaType.APPLICATION_JSON_VALUE,
                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Boolean authenticate(@RequestBody UserAuthenticateDTO userAuthenticateDTO) {
-        logger.debug("rest authenticate user ({})", userAuthenticateDTO.getId());
+    public final String authenticate(@RequestBody UserAuthenticateDTO userAuthenticateDTO) {
+        logger.debug("rest authenticate user ({})", userAuthenticateDTO.getEmailAddress());
 
+        Optional<String> token;
         try {
-            return userFacade.authenticate(userAuthenticateDTO);
+            token = userFacade.authenticate(userAuthenticateDTO);
         } catch (FacadeLayerException e) {
             throw new DataSourceException("Problem with the data source occurred.", e);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | UnsupportedEncodingException e) {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }
+
+        if (token.isEmpty()) {
+            throw new UnauthorizedException("Username or password is not valid.");
+        }
+
+        return token.get();
     }
 
     /**

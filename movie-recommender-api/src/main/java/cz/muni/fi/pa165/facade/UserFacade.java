@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 /**
@@ -52,7 +53,7 @@ public interface UserFacade {
      * @param userAuthenticateDTO - user whose password is to be checked
      * @return true if the password hashes match
      */
-    Boolean authenticate(UserAuthenticateDTO userAuthenticateDTO);
+    Optional<String> authenticate(UserAuthenticateDTO userAuthenticateDTO) throws UnsupportedEncodingException;
 
     /**
      * Check if the given user is admin.
