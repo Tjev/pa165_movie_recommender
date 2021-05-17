@@ -43,6 +43,9 @@ Below there are described examples of the CURL commands for each endpoint:
 #### [DELETE] /movies/remove
 `curl -X DELETE -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/remove`
 
+#### [GET] /movies/recommendations
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/recommendations?amount=1`
+
 ### /ratings
 
 #### [POST] /ratings/create
