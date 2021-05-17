@@ -61,14 +61,12 @@ public class UserFacadeTest {
         userDTO.setUsername("John");
         userDTO.setEmailAddress("john@email.com");
         userDTO.setAdmin(false);
-        userDTO.setPasswordHash(encoder.encode("password1"));
 
         userDetailedDTO = new UserDetailedDTO();
         userDetailedDTO.setId(1L);
         userDetailedDTO.setUsername("John");
         userDetailedDTO.setEmailAddress("john@email.com");
         userDetailedDTO.setAdmin(false);
-        userDetailedDTO.setPasswordHash(encoder.encode("password1"));
 
         userAuthenticateDTO = new UserAuthenticateDTO();
         userAuthenticateDTO.setEmailAddress("john@email.com");

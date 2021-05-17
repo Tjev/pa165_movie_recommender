@@ -11,7 +11,6 @@ public class UserDTO {
 
     private Long id;
     private String username;
-    private String passwordHash;
     private boolean admin;
     private String emailAddress;
 
@@ -29,14 +28,6 @@ public class UserDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
     }
 
     public boolean isAdmin() {
@@ -64,7 +55,6 @@ public class UserDTO {
 
         if (isAdmin() != userDTO.isAdmin()) return false;
         if (!getUsername().equals(userDTO.getUsername())) return false;
-        if (!getPasswordHash().equals(userDTO.getPasswordHash())) return false;
         return getEmailAddress().equals(userDTO.getEmailAddress());
     }
 
@@ -72,7 +62,6 @@ public class UserDTO {
     public int hashCode() {
         return Objects.hash(
                 getUsername(),
-                getPasswordHash(),
                 isAdmin(),
                 getEmailAddress());
     }
