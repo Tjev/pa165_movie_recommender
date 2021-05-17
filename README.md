@@ -1,6 +1,9 @@
 # PA165 Movie Recommender
 For the description, use case and class diagrams of the project, see the project wiki [here](https://github.com/Tjev/pa165_movie_recommender/wiki).
 
+## Frontend
+From `movie-recommender-react` run `npm install` to install React dependencies and `npm start` to run the web application.
+
 ## REST API
 
 Run `mvn clean install && cd movie-recommender-rest && mvn cargo:run` for REST API deployment.
