@@ -156,9 +156,9 @@ public class MovieController {
      *
      * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/recommendations?amount=1
      *
-     * @param movieDTO
-     * @param amount
-     * @return
+     * @param movieDTO movie to get recommendations for
+     * @param amount number of recommendations to get
+     * @return list of given amount of recommendations based on the given movie
      */
     @RequestMapping(value = "/recommendations", method = RequestMethod.GET,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -177,14 +177,13 @@ public class MovieController {
         return result;
     }
 
-
     /**
      * Get overall score for the given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/overall-score
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"]}' http://localhost:8080/pa165/rest/movies/overall-score
      *
-     * @param movieDTO
-     * @return
+     * @param movieDTO movie to get the score for
+     * @return overall score for the given movie
      */
     @RequestMapping(value = "/overall-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getOverallScore(@RequestBody MovieDTO movieDTO) {
@@ -204,8 +203,8 @@ public class MovieController {
      *
      * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/cinematography-score
      *
-     * @param movieDTO
-     * @return
+     * @param movieDTO movie to get the score for
+     * @return cinematography score for the given movie
      */
     @RequestMapping(value = "/cinematography-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getCinematographyScore(@RequestBody MovieDTO movieDTO) {
@@ -225,8 +224,8 @@ public class MovieController {
      *
      * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"]}' http://localhost:8080/pa165/rest/movies/depth-score
      *
-     * @param movieDTO
-     * @return
+     * @param movieDTO movie to get the score for
+     * @return depth score for the given movie
      */
     @RequestMapping(value = "/depth-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getDepthScore(@RequestBody MovieDTO movieDTO) {
@@ -246,8 +245,8 @@ public class MovieController {
      *
      * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/narrative-score
      *
-     * @param movieDTO
-     * @return
+     * @param movieDTO movie to get the score for
+     * @return narrative score for the given movie
      */
     @RequestMapping(value = "/narrative-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getNarrativeScore(@RequestBody MovieDTO movieDTO) {
@@ -262,6 +261,14 @@ public class MovieController {
         }
     }
 
+    /**
+     * Get originality score for the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/originality-score
+     *
+     * @param movieDTO movie to get the score for
+     * @return originality score for the given movie
+     */
     @RequestMapping(value = "/originality-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getOriginalityScore(@RequestBody MovieDTO movieDTO) {
         logger.debug("rest getOriginalityScore({})", movieDTO);
@@ -275,6 +282,14 @@ public class MovieController {
         }
     }
 
+    /**
+     * Get soundtrack score for the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/soundtrack-score
+     *
+     * @param movieDTO movie to get the score for
+     * @return soundtrack score for the given movie
+     */
     @RequestMapping(value = "/soundtrack-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final BigDecimal getSoundtrackScore(@RequestBody MovieDTO movieDTO) {
         logger.debug("rest getSoundtrackScore({})", movieDTO);
