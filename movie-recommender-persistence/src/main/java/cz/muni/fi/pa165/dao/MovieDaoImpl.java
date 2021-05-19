@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * MovieDao interface implementations that works with
@@ -38,8 +39,8 @@ public class MovieDaoImpl implements MovieDao {
 
     @Override
     public List<Movie> findByTitle(String title) {
-        return em.createQuery("SELECT m FROM Movie m WHERE m.title=:title", Movie.class)
-                .setParameter("title", title)
+        return em.createQuery("SELECT m FROM Movie m WHERE LOWER(m.title) LIKE :title", Movie.class)
+                .setParameter("title", "%" + title.toLowerCase() + "%")
                 .getResultList();
     }
 

@@ -37,8 +37,8 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> findByName(String name) {
-        return em.createQuery("SELECT p FROM Person p WHERE p.name = :name", Person.class)
-                .setParameter("name", name)
+        return em.createQuery("SELECT p FROM Person p WHERE p.name LIKE :name", Person.class)
+                .setParameter("name", "%" + name.toLowerCase() + "%")
                 .getResultList();
     }
 
