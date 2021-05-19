@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {NavLink} from "react-router-dom";
 
 function MovieList({ movies }) {
     if (movies.length === 0) {
@@ -6,14 +7,28 @@ function MovieList({ movies }) {
     }
     return (
         <ul>
-            {movies.map(({ id, title, bio, releaseYear, genres }) => (
+            {movies.map(({ id, title, bio, releaseYear, genres, directors, actors }) => (
                 <li key={id}>
                     <div>
                         <h2>{title}</h2>
                     </div>
                     {<p><b>Bio: </b> {bio}</p>}
                     {<p><b>Release year: </b>{releaseYear}</p>}
-                    {<p><b>Genres: </b>{genres.map(genre => genre + " ")}</p>}
+                    {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
+                    {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
+                    {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
+                    <NavLink exact activeClassName="active" to={{
+                        pathname:'/add-actor',
+                        state: {id: id, title: title, }
+                    }} >
+                        <button type="button">Add actor</button>
+                    </NavLink>
+                    <NavLink exact activeClassName="active" to={{
+                        pathname:'/add-director',
+                        state: {id: id, title: title, directors: directors}
+                    }} >
+                        <button type="button">Add director</button>
+                    </NavLink>
                 </li>
             ))}
         </ul>

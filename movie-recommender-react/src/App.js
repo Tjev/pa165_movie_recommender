@@ -6,6 +6,9 @@ import {SearchMovie} from "./components/SearchMovie";
 import {SearchPerson} from "./components/SearchPerson";
 import {useToken} from "./utils/Common";
 import {CreatePerson} from "./components/CreatePerson";
+import {AddDirector} from "./components/AddDirector";
+import {AddActor} from "./components/AddActor";
+
 
 function App() {
 
@@ -31,6 +34,8 @@ function App() {
                       <Route path="/search-movie" component={SearchMovie} />
                       <Route path="/search-person" component={SearchPerson} />
                       <Route path="/create-person" component={CreatePerson} />
+                      <Route path="/add-director" component={AddDirector} />
+                      <Route path="/add-actor" component={AddActor} />
                   </Switch>
               </div>
           </BrowserRouter>
