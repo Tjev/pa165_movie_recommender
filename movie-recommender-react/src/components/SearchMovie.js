@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 
-export function SearchMovie() {
+function MovieList({ movies }) {
+    if (movies.length === 0) {
+        return <p>No results found</p>;
+    }
+    return (
+        <ul>
+            {movies.map(({ id, title, bio, releaseYear, genres }) => (
+                <li key={id}>
+                    <div>
+                        <h2>{title}</h2>
+                    </div>
+                    {<p><b>Bio: </b> {bio}</p>}
+                    {<p><b>Release year: </b>{releaseYear}</p>}
+                    {<p><b>Genres: </b>{genres.map(genre => genre + " ")}</p>}
+                </li>
+            ))}
+        </ul>
+    );
+}
 
+export function SearchMovie() {
     const [title, setTitle] = useState('');
     const [movies, setMovies] = useState([]);
 
@@ -32,12 +51,7 @@ export function SearchMovie() {
                 </form>
             </div>
             <div>
-                <ul>
-                    {movies.length === 0 ? "No results found" : movies.map((movie, i) => <li key={i}>{JSON.stringify({
-                        title: movie.title,
-                        bio: movie.bio
-                    })}</li>)}
-                </ul>
+                <MovieList movies={movies} />
             </div>
         </div>
     );
