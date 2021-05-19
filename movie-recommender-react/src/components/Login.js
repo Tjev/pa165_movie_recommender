@@ -3,7 +3,6 @@ import "./Login.css";
 import PropTypes from 'prop-types';
 
 async function loginUser(credentials) {
-    //console.log(JSON.stringify(credentials));
     return fetch('http://localhost:8080/pa165/rest/users/auth', {
         method: 'POST',
         mode: 'no-cors',
@@ -16,7 +15,7 @@ export function Login({ setToken }) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await loginUser({email, password});
+        const token = await loginUser({ email, password });
         setToken(token);
     }
 
