@@ -40,6 +40,24 @@ Below there are described examples of the CURL commands for each endpoint:
 #### [GET] /movies/find-by-title
 `curl -X GET -i http://localhost:8080/pa165/rest/movies/find-by-title?title=Dune`
 
+#### [GET] /movies/overall-score
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/overall-score`
+
+#### [GET] /movies/originality-score
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/originality-score`
+
+#### [GET] /movies/soundtrack-score
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/soundtrack-score`
+
+#### [GET] /movies/narrative-score
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/narrative-score`
+
+#### [GET] /movies/cinematography-score
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/cinematography-score`
+
+#### [GET] /movies/depth-score
+`curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/depth-score`
+
 #### [PUT] /movies/update
 `curl -X PUT -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI", "ACTION"]}' http://localhost:8080/pa165/rest/movies/update`
 

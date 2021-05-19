@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import {NavLink} from "react-router-dom";
+import axios from "axios";
+import {useEffect} from "react/cjs/react.production.min";
+
+async function OverallScore( movieId ) {
+    const res = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}/overall-score`).catch(console.log);
+    //console.log(res);
+    return res.data;
+}
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
 function MovieList({ movies }) {
+
     if (movies.length === 0) {
         return <p>No results found</p>;
     }
@@ -15,6 +24,8 @@ function MovieList({ movies }) {
                     <div>
                         <h2>{title}</h2>
                     </div>
+                    {console.log(OverallScore(id))}
+                    {<p><b>Score: </b>{OverallScore(id)}</p>}
                     {<p><b>Bio: </b> {bio}</p>}
                     {<p><b>Release year: </b>{releaseYear}</p>}
                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
@@ -22,13 +33,13 @@ function MovieList({ movies }) {
                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
                     <NavLink exact activeClassName="active" to={{
                         pathname:'/add-actor',
-                        state: {id: id, title: title, }
+                        state: {id: id, title: title}
                     }} >
                         <button type="button">Add actor</button>
                     </NavLink>
                     <NavLink exact activeClassName="active" to={{
                         pathname:'/add-director',
-                        state: {id: id, title: title, directors: directors}
+                        state: {id: id, title: title}
                     }} >
                         <button type="button">Add director</button>
                     </NavLink>
