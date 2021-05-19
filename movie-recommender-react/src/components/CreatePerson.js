@@ -48,12 +48,11 @@ export function CreatePerson() {
                             </label>
                         </td>
                         <td>
-                            <input type="text"
-                                   value={personBio}
-                                   onChange={e => setPersonBio(e.target.value)}
-                                   name="bio"
-                                   placeholder="Enter person bio"
-                                   style={{width: 700, height: 100}} />
+                            <textarea value={personBio}
+                                      onChange={e => setPersonBio(e.target.value)}
+                                      name="bio"
+                                      placeholder="Enter person bio"
+                                      style={{width: 700, height: 100}} />
                         </td>
                     </tr>
                     <tr>
