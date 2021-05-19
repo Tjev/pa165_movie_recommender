@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import DatePicker from 'react-date-picker'
 import axios from "axios";
 
+/**
+ * @author Kristian Tkacik
+ */
 export function CreatePerson() {
     const [personName, setPersonName] = useState('');
     const [personBio, setPersonBio] = useState('');

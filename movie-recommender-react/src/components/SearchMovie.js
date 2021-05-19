@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import {NavLink} from "react-router-dom";
 
+/**
+ * @author Kristian Tkacik, Jiri Papousek
+ */
 function MovieList({ movies }) {
     if (movies.length === 0) {
         return <p>No results found</p>;

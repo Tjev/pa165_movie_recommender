@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {useLocation} from "react-router-dom";
 
-
+/**
+ * @author Jiri Papousek
+ */
 function PersonList({ persons, movieId }) {
 
     const handleAddDirector = async (e) => {

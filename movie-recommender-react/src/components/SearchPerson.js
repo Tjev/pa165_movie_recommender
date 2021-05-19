@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 
+/**
+ * @author Kristian Tkacik, Jiri Papousek
+ */
 function PersonList({ persons }) {
     if (persons.length === 0) {
         return <p>No results found</p>;
