@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -174,5 +175,116 @@ public class MovieController {
         }
 
         return result;
+    }
+
+
+    /**
+     * Get overall score for the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/overall-score
+     *
+     * @param movieDTO
+     * @return
+     */
+    @RequestMapping(value = "/overall-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getOverallScore(@RequestBody MovieDTO movieDTO) {
+        logger.debug("rest getOverallScore({})", movieDTO);
+
+        try {
+            return movieFacade.getOverallScore(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+    }
+
+    /**
+     * Get cinematography score for the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/cinematography-score
+     *
+     * @param movieDTO
+     * @return
+     */
+    @RequestMapping(value = "/cinematography-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getCinematographyScore(@RequestBody MovieDTO movieDTO) {
+        logger.debug("rest getCinematographyScore({})", movieDTO);
+
+        try {
+            return movieFacade.getCinematographyScore(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+    }
+
+    /**
+     * Get depth score for the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"]}' http://localhost:8080/pa165/rest/movies/depth-score
+     *
+     * @param movieDTO
+     * @return
+     */
+    @RequestMapping(value = "/depth-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getDepthScore(@RequestBody MovieDTO movieDTO) {
+        logger.debug("rest getDepthScore({})", movieDTO);
+
+        try {
+            return movieFacade.getDepthScore(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+    }
+
+    /**
+     * Get narrative score for the given movie.
+     *
+     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/narrative-score
+     *
+     * @param movieDTO
+     * @return
+     */
+    @RequestMapping(value = "/narrative-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getNarrativeScore(@RequestBody MovieDTO movieDTO) {
+        logger.debug("rest getNarrativeScore({})", movieDTO);
+
+        try {
+            return movieFacade.getNarrativeScore(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+    }
+
+    @RequestMapping(value = "/originality-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getOriginalityScore(@RequestBody MovieDTO movieDTO) {
+        logger.debug("rest getOriginalityScore({})", movieDTO);
+
+        try {
+            return movieFacade.getOriginalityScore(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
+    }
+
+    @RequestMapping(value = "/soundtrack-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getSoundtrackScore(@RequestBody MovieDTO movieDTO) {
+        logger.debug("rest getSoundtrackScore({})", movieDTO);
+
+        try {
+            return movieFacade.getSoundtrackScore(movieDTO);
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidParameterException("Given parameters were invalid.", e);
+        }
     }
 }
