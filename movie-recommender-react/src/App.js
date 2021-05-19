@@ -5,6 +5,7 @@ import {Login} from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
 import {SearchPerson} from "./components/SearchPerson";
 import {useToken} from "./utils/Common";
+import {CreatePerson} from "./components/CreatePerson";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
                   <NavLink exact activeClassName="active" to="/login">Login</NavLink>
                   <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
                   <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
+                  <NavLink activeClassName="active" to="/create-person">Create Person</NavLink>
                   <NavLink activeClassName="active" to="/your-ratings">Your Ratings</NavLink>
               </div>
               <div className="content">
@@ -28,6 +30,7 @@ function App() {
                       <Route path="/login" component={Login} />
                       <Route path="/search-movie" component={SearchMovie} />
                       <Route path="/search-person" component={SearchPerson} />
+                      <Route path="/create-person" component={CreatePerson} />
                   </Switch>
               </div>
           </BrowserRouter>

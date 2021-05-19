@@ -77,3 +77,7 @@ li h2 {
 li p {
   margin: 8px;
 }
+
+table {
+  text-align: left;
+}
