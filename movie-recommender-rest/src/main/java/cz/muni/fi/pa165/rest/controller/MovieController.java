@@ -317,18 +317,20 @@ public class MovieController {
     /**
      * Get the given amount of recommendations based on the given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/recommendations?amount=1
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/1/recommendations?amount=1
      *
-     * @param movieDTO
-     * @param amount
-     * @return
+     * @param id of the movie for more recommendations
+     * @param amount of movies to be returned
+     * @return list of recommendations
      */
-    @RequestMapping(value = "/recommendations", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<MovieDetailedDTO> getRecommendations(@RequestBody MovieDTO movieDTO, @RequestParam Integer amount) {
-        logger.debug("rest getRecommendations({}, {})", movieDTO, amount);
+    @RequestMapping(value = "/{id}/recommendations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<MovieDetailedDTO> getRecommendations(@PathVariable Long id, @RequestParam Integer amount) {
+        logger.debug("rest getRecommendations({}, {})", id, amount);
 
         List<MovieDetailedDTO> result;
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         try {
             result = movieFacade.getRecommendations(movieDTO, amount);
         } catch (FacadeLayerException e) {

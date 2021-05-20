@@ -9,6 +9,8 @@ import {CreatePerson} from "./components/CreatePerson";
 import {CreateMovie} from "./components/CreateMovie";
 import {AddDirector} from "./components/AddDirector";
 import {AddActor} from "./components/AddActor";
+import {GetRecommendations} from "./components/GetRecommendations";
+
 
 
 function App() {
@@ -39,6 +41,7 @@ function App() {
                       <Route path="/add-director" component={AddDirector} />
                       <Route path="/add-actor" component={AddActor} />
                       <Route path="/create-movie" component={CreateMovie} />
+                      <Route path="/get-recommendations" component={GetRecommendations} />
                   </Switch>
               </div>
           </BrowserRouter>

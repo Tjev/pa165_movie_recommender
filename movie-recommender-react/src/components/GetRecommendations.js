@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
-import {NavLink} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import {NavLink, useLocation} from "react-router-dom";
 import axios from "axios";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
 function MovieList({ movies, scores }) {
+    let location = useLocation();
 
     if (movies.length === 0) {
         return <p>No results found</p>;
     }
+
+    function HandleRefresh({id, title}) {
+        location.state.id = id;
+        location.state.title = title;
+        GetRecommendations();
+    }
+
     return (
         <ul>
             {movies.map(({ id, title, bio, releaseYear, genres, directors, actors }, index) => (
@@ -35,7 +43,7 @@ function MovieList({ movies, scores }) {
                     }} >
                         <button type="button">Add director</button>
                     </NavLink>
-                    <NavLink exact activeClassName="active" to={{
+                    <NavLink exact activeClassName="active" onClick={()=>window.location.reload()} to={{
                         pathname:'/get-recommendations',
                         state: {id: id, title: title}
                     }} >
@@ -47,14 +55,14 @@ function MovieList({ movies, scores }) {
     );
 }
 
-export function SearchMovie() {
-    const [title, setTitle] = useState('');
+export function GetRecommendations() {
+    let location = useLocation();
+
     const [movies, setMovies] = useState([]);
     const [scores, setScores] = useState([]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await axios.get(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
+    useEffect(async () => {
+        await axios.get(`http://localhost:8080/pa165/rest/movies/${location.state.id}/recommendations?amount=10`)
             .then(res => {
                 setMovies(res.data);
                 return axios.all(res.data.map(
@@ -62,25 +70,12 @@ export function SearchMovie() {
             })
             .then( res => {
                 setScores(res);
-            });
-    }
+            })
+    }, []);
 
     return (
         <div>
-            <div className="search-wrapper">
-                <h1>Search movie:</h1>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Title:
-                        <input type="text"
-                               value={title}
-                               onChange={e => setTitle(e.target.value)}
-                               name="title"
-                               placeholder="Enter movie title"/>
-                    </label>
-                    <input type="submit" value="Search" />
-                </form>
-            </div>
+            <h1>Recommendations for {location.state.title}</h1>
             <div>
                 <MovieList movies={movies} scores={scores} />
             </div>
