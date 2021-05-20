@@ -1,31 +1,23 @@
 import React, { useState } from 'react';
 import {NavLink} from "react-router-dom";
 import axios from "axios";
-import {useEffect} from "react/cjs/react.production.min";
-
-async function OverallScore( movieId ) {
-    const res = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}/overall-score`).catch(console.log);
-    //console.log(res);
-    return res.data;
-}
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
-function MovieList({ movies }) {
+function MovieList({ movies, scores }) {
 
     if (movies.length === 0) {
         return <p>No results found</p>;
     }
     return (
         <ul>
-            {movies.map(({ id, title, bio, releaseYear, genres, directors, actors }) => (
+            {movies.map(({ id, title, bio, releaseYear, genres, directors, actors }, index) => (
                 <li key={id}>
                     <div>
                         <h2>{title}</h2>
                     </div>
-                    {console.log(OverallScore(id))}
-                    {<p><b>Score: </b>{OverallScore(id)}</p>}
+                    {<p><b>Score: </b> {scores[index]} / 5</p>}
                     {<p><b>Bio: </b> {bio}</p>}
                     {<p><b>Release year: </b>{releaseYear}</p>}
                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
@@ -52,15 +44,19 @@ function MovieList({ movies }) {
 export function SearchMovie() {
     const [title, setTitle] = useState('');
     const [movies, setMovies] = useState([]);
+    const [scores, setScores] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetch(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
-            .then(res => res.json())
-            .then((data) => {
-                setMovies(data);
+        await axios.get(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
+            .then(res => {
+                setMovies(res.data);
+                return axios.all(res.data.map(
+                    movie => axios.get(`http://localhost:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
             })
-            .catch(console.log);
+            .then( res => {
+                setScores(res);
+            });
     }
 
     return (
@@ -80,7 +76,7 @@ export function SearchMovie() {
                 </form>
             </div>
             <div>
-                <MovieList movies={movies} />
+                <MovieList movies={movies} scores={scores} />
             </div>
         </div>
     );
