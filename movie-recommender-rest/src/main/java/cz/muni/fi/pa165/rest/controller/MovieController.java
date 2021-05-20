@@ -140,16 +140,19 @@ public class MovieController {
     /**
      * Get originality score for given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/originality-score
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/1/originality-score
      *
-     * @param movieDTO of the given movie
+     * @param id of the given movie
      * @return originality score for the given movie
      */
-    @RequestMapping(value = "/originality-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final BigDecimal getOriginalityScore(@RequestBody MovieDTO movieDTO) {
-        logger.debug("rest getOriginalityScore({})", movieDTO);
+    @RequestMapping(value = "/{id}/originality-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getOriginalityScore(@PathVariable Long id) {
+        logger.debug("rest getOriginalityScore({})", id);
 
         BigDecimal result;
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         try {
             result = movieFacade.getOriginalityScore(movieDTO);
         } catch (FacadeLayerException e) {
@@ -164,16 +167,19 @@ public class MovieController {
     /**
      * Get soundtrack score for given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/soundtrack-score
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/1/soundtrack-score
      *
-     * @param movieDTO of the given movie
+     * @param id of the given movie
      * @return soundtrack score for the given movie
      */
-    @RequestMapping(value = "/soundtrack-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final BigDecimal getSoundtrackScore(@RequestBody MovieDTO movieDTO) {
-        logger.debug("rest getSoundtrackScore({})", movieDTO);
+    @RequestMapping(value = "/{id}/soundtrack-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getSoundtrackScore(@PathVariable Long id) {
+        logger.debug("rest getSoundtrackScore({})", id);
 
         BigDecimal result;
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         try {
             result = movieFacade.getSoundtrackScore(movieDTO);
         } catch (FacadeLayerException e) {
@@ -188,16 +194,19 @@ public class MovieController {
     /**
      * Get narrative score for given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/narrative-score
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/1/narrative-score
      *
-     * @param movieDTO of the given movie
+     * @param id of the given movie
      * @return narrative score for the given movie
      */
-    @RequestMapping(value = "/narrative-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final BigDecimal getNarrativeScore(@RequestBody MovieDTO movieDTO) {
-        logger.debug("rest getNarrativeScore({})", movieDTO);
+    @RequestMapping(value = "/{id}/narrative-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getNarrativeScore(@PathVariable Long id) {
+        logger.debug("rest getNarrativeScore({})", id);
 
         BigDecimal result;
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         try {
             result = movieFacade.getNarrativeScore(movieDTO);
         } catch (FacadeLayerException e) {
@@ -212,16 +221,19 @@ public class MovieController {
     /**
      * Get cinematography score for given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/cinematography-score
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/1/cinematography-score
      *
-     * @param movieDTO of the given movie
+     * @param id of the given movie
      * @return cinematography score for the given movie
      */
-    @RequestMapping(value = "/cinematography-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final BigDecimal getCinematographyScore(@RequestBody MovieDTO movieDTO) {
-        logger.debug("rest getCinematographyScore({})", movieDTO);
+    @RequestMapping(value = "/{id}/cinematography-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getCinematographyScore(@PathVariable Long id) {
+        logger.debug("rest getCinematographyScore({})", id);
 
         BigDecimal result;
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         try {
             result = movieFacade.getCinematographyScore(movieDTO);
         } catch (FacadeLayerException e) {
@@ -236,16 +248,19 @@ public class MovieController {
     /**
      * Get depth score for given movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id": 1}' http://localhost:8080/pa165/rest/movies/depth-score
+     * curl -X GET -i http://localhost:8080/pa165/rest/movies/1/depth-score
      *
-     * @param movieDTO of the given movie
+     * @param id of the given movie
      * @return depth score for the given movie
      */
-    @RequestMapping(value = "/depth-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final BigDecimal getDepthScore(@RequestBody MovieDTO movieDTO) {
-        logger.debug("rest getDepthScore({})", movieDTO);
+    @RequestMapping(value = "/{id}/depth-score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final BigDecimal getDepthScore(@PathVariable Long id) {
+        logger.debug("rest getDepthScore({})", id);
 
         BigDecimal result;
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         try {
             result = movieFacade.getDepthScore(movieDTO);
         } catch (FacadeLayerException e) {
