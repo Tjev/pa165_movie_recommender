@@ -3,13 +3,13 @@ import DatePicker from 'react-date-picker'
 import axios from "axios";
 
 export function CreateMovie() {
+    const allMovieGenres = ["ACTION", "ADVENTURE", "ADULT"];
+
     const [movieTitle, setMovieTitle] = useState('');
     const [movieBio, setMovieBio] = useState('');
     const [releaseYear, setReleaseYear] = useState('');
-    const [movieGenre, setMovieGenre] = useState('');
+    const [movieGenre, setMovieGenre] = useState(allMovieGenres[0]);
     const [movieGenres, setMovieGenres] = useState([]);
-
-    let allMovieGenres = ["ACTION", "ADVENTURE", "ADULT"];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,21 +25,19 @@ export function CreateMovie() {
             .catch((msg) => alert(msg))
     }
 
-    const handleAddGenre = async (e) => {
+    const handleAddGenre = e => {
         e.preventDefault();
         if (!movieGenres.includes(movieGenre)) {
-            movieGenres.push(movieGenre)
+            setMovieGenres([...movieGenres, movieGenre]);
         }
-        setMovieGenres(movieGenres)
-        console.log(movieGenres);
     }
 
-    const handleClearGenres = async (e) => {
+    const handleClearGenres = e => {
         e.preventDefault();
         setMovieGenres([]);
     }
 
-    function Options({ options }) {
+    const Options = ({ options }) => {
         return (
             options.map((option, i) =>
                 <option key={i} value={option.toString().toLowerCase()}>
@@ -92,16 +90,20 @@ export function CreateMovie() {
                             <DatePicker value={releaseYear} onChange={setReleaseYear} />
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label>Genres:</label>
+                        </td>
+                        <td>
+                            <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
+                                <Options options={allMovieGenres}/>
+                            </select>
+                            <button onClick={handleAddGenre}>Add genre</button>
+                            <button onClick={handleClearGenres}>Clear genres</button>
+                        </td>
+                    </tr>
                 </table>
-                <label>
-                    Genres:
-                    <p>{movieGenres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>
-                    <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
-                        <Options options={allMovieGenres}/>
-                    </select>
-                </label>
-                <button onClick={handleAddGenre}>Add genre</button>
-                <button onClick={handleClearGenres}>Clear genres</button>
+                <p style={{textAlign: "left"}}>{movieGenres.map(genre => genre.toString().slice(0, 1).toUpperCase() + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>
                 <input type="submit" value="Submit" />
             </form>
         </div>
