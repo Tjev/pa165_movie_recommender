@@ -20,7 +20,7 @@ function App() {
 
     return (
       <div className="App">
-          <BrowserRouter>
+          <BrowserRouter basename="/pa165">
               <div className="header">
                   <NavLink exact activeClassName="active" to="/login">Login</NavLink>
                   <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
