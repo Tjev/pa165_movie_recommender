@@ -9,7 +9,7 @@ function PersonList({ persons, movieId }) {
 
     const handleAddDirector = async (e) => {
         e.preventDefault();
-        const movie = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}`);
+        const movie = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}`).catch(console.log);
 
         movie.data.directors.push({id: e.target.value});
 
