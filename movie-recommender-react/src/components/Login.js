@@ -1,22 +1,29 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Login.css";
 import PropTypes from 'prop-types';
 
-async function loginUser(credentials) {
-    return fetch('http://localhost:8080/pa165/rest/users/auth', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify(credentials)}).then(data => data.json());
-}
 
-export function Login({ setToken }) {
-    const [email, setEmail] = useState('');
+export default function Login({ setToken }) {
+    const [emailAddress, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await loginUser({ email, password });
-        setToken(token);
+        const token = await axios
+        .post('http://localhost:8080/pa165/rest/users/auth', {emailAddress, password})
+        .then((data) => {
+            console.log("Token =>", data);
+            setToken(data.data);
+        })
+        .catch(error => {
+            if (error.response && (error.response.status === 401 || error.response.status === 404)) {
+                alert("Invalid email or password. Try again.")
+                return;
+            }
+            alert(error);
+            //alert("Some server-related problems occurred. Please try again.");
+        });
     }
 
     return (
@@ -26,7 +33,7 @@ export function Login({ setToken }) {
                 <label>
                     Email:
                     <input type="email"
-                           value={email}
+                           value={emailAddress}
                            onChange={e => setEmail(e.target.value)}
                            name="email"
                            placeholder="Email"/>

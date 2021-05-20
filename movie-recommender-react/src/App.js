@@ -1,10 +1,10 @@
 import './App.css';
 import React from "react";
 import {BrowserRouter, NavLink, Route, Switch} from "react-router-dom";
-import {Login} from "./components/Login";
+import Login from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
 import {SearchPerson} from "./components/SearchPerson";
-import {useToken} from "./utils/Common";
+import {useToken, getUser} from "./utils/Common";
 import {CreatePerson} from "./components/CreatePerson";
 import {CreateMovie} from "./components/CreateMovie";
 import {AddDirector} from "./components/AddDirector";
@@ -13,19 +13,19 @@ import {GetRecommendations} from "./components/GetRecommendations";
 
 
 
+
 function App() {
 
     const { token, setToken } = useToken();
 
-    /*if(!token) {
+    if (!token) {
         return <Login setToken={setToken} />
-    }*/
+    }
 
     return (
       <div className="App">
           <BrowserRouter basename="/pa165">
               <div className="header">
-                  <NavLink exact activeClassName="active" to="/login">Login</NavLink>
                   <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
                   <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
                   <NavLink activeClassName="active" to="/create-person">Create Person</NavLink>
