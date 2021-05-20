@@ -6,6 +6,7 @@ import {SearchMovie} from "./components/SearchMovie";
 import {SearchPerson} from "./components/SearchPerson";
 import {useToken} from "./utils/Common";
 import {CreatePerson} from "./components/CreatePerson";
+import {CreateMovie} from "./components/CreateMovie";
 import {AddDirector} from "./components/AddDirector";
 import {AddActor} from "./components/AddActor";
 
@@ -26,6 +27,7 @@ function App() {
                   <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
                   <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
                   <NavLink activeClassName="active" to="/create-person">Create Person</NavLink>
+                  <NavLink activeClassName="active" to="/create-movie">Create Movie</NavLink>
                   <NavLink activeClassName="active" to="/your-ratings">Your Ratings</NavLink>
               </div>
               <div className="content">
@@ -36,6 +38,7 @@ function App() {
                       <Route path="/create-person" component={CreatePerson} />
                       <Route path="/add-director" component={AddDirector} />
                       <Route path="/add-actor" component={AddActor} />
+                      <Route path="/create-movie" component={CreateMovie} />
                   </Switch>
               </div>
           </BrowserRouter>
