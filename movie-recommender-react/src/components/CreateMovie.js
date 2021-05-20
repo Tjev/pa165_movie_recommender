@@ -3,7 +3,7 @@ import DatePicker from 'react-date-picker'
 import axios from "axios";
 
 export function CreateMovie() {
-    const allMovieGenres = ["ACTION", "ADVENTURE", "ADULT"];
+    const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY"];
 
     const [movieTitle, setMovieTitle] = useState('');
     const [movieBio, setMovieBio] = useState('');
@@ -17,18 +17,20 @@ export function CreateMovie() {
             {
                 title: movieTitle,
                 bio: movieBio,
-                releaseYear: releaseYear})
+                releaseYear: releaseYear,
+                genres: movieGenres,
+            })
             .then(
                 response => JSON.stringify(response))
             .then(
                 () => alert("Movie added successfully"))
-            .catch((msg) => alert(msg))
+            .catch((msg) => alert(msg));
     }
 
     const handleAddGenre = e => {
         e.preventDefault();
         if (!movieGenres.includes(movieGenre)) {
-            setMovieGenres([...movieGenres, movieGenre]);
+            setMovieGenres([...movieGenres, movieGenre.toUpperCase()]);
         }
     }
 
@@ -95,6 +97,10 @@ export function CreateMovie() {
                             <label>Genres:</label>
                         </td>
                         <td>
+                            <p style={{textAlign: "left"}}>
+                                {movieGenres.length > 0
+                                    ? movieGenres.map(genre => genre.toString().slice(0, 1).toUpperCase() + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')
+                                    : "(Choose at least one genre)"}</p>
                             <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
                                 <Options options={allMovieGenres}/>
                             </select>
@@ -103,7 +109,6 @@ export function CreateMovie() {
                         </td>
                     </tr>
                 </table>
-                <p style={{textAlign: "left"}}>{movieGenres.map(genre => genre.toString().slice(0, 1).toUpperCase() + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>
                 <input type="submit" value="Submit" />
             </form>
         </div>
