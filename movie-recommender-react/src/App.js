@@ -1,89 +1,102 @@
 import './App.css';
 import React from "react";
-import {BrowserRouter, NavLink, Route, Switch} from "react-router-dom";
+import {BrowserRouter, NavLink, Route, Switch, useLocation} from "react-router-dom";
 import Login from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
 import {SearchPerson} from "./components/SearchPerson";
-import {getAdminStatus, useToken} from "./utils/Common";
+import {useToken} from "./utils/Common";
 import {CreatePerson} from "./components/CreatePerson";
 import {CreateMovie} from "./components/CreateMovie";
 import {AddDirector} from "./components/AddDirector";
 import {AddActor} from "./components/AddActor";
-import {GetRecommendations} from "./components/GetRecommendations";
 import {YourRatings} from "./components/YourRatings";
-import {Logout} from "./components/Logout";
-import {CreateRating} from "./components/CreateRating"
-
-
-function LoginLink(token) {
-    if (!token) {
-        return <NavLink activeClassName="active" to="/login">Login</NavLink>;
-    }
-}
-
-function CreatePersonLink(token) {
-    if (token && getAdminStatus()) {
-        return <NavLink activeClassName="active" to="/create-person">Create Person</NavLink>;
-    }
-}
-
-function CreateMovieLink(token) {
-    if (token && getAdminStatus()) {
-        return <NavLink activeClassName="active" to="/create-movie">Create Movie</NavLink>;
-    }
-}
-
-function CreateYourRatingsLink(token) {
-    if (token) {
-        return <NavLink activeClassName="active" to="/your-ratings">Your Ratings</NavLink>;
-    }
-}
-
-function CreateLogoutLink(token) {
-    if (token) {
-        return <NavLink activeClassName="active" to="/logout">Logout</NavLink>;
-    }
-}
 
 export function App() {
     const { token, setToken } = useToken();
 
+    const Logout = () => {
+        setToken(null);
+    }
+
+    const NoMatch = () => {
+        let location = useLocation();
+        return (
+            <div>
+                <h3>
+                    404: Unknown request for <code>{location.pathname}</code>.
+                </h3>
+            </div>
+        )
+    }
+
+    const NoAccess = () => {
+        let location = useLocation();
+        return (
+            <div>
+                <h3>
+                    403: Forbidden: you don't have sufficient rights to access <code>{location.pathname}</code>.
+                </h3>
+            </div>
+        )
+    }
+
+    const GetRouteContent = () => {
+        return (
+            <div className="content">
+                <Switch>
+                    <Route path="/search-movie" component={SearchMovie} />
+                    <Route path="/search-person" component={SearchPerson} />
+                    <Route path="/your-ratings" component={YourRatings} />
+                    <Route path='/:path(create-person|create-movie|add-director|add-actor)'><NoAccess /></Route>
+                    <Route path='*'><NoMatch/></Route>
+                </Switch>
+            </div>
+        )
+    }
+
+    const GetUnauthorizedRouteContent = () => {
+        return (
+            <div className="content">
+                <Switch>
+                    <Route path="/login"><Login token={token} setToken={setToken} /></Route>
+                    <Route path="/search-movie" component={SearchMovie} />
+                    <Route path="/search-person" component={SearchPerson} />
+                    <Route path='/:path(your-ratings|create-person|create-movie|add-director|add-actor)'><Login token={token} setToken={setToken} /></Route>
+                    <Route path='*'><NoMatch/></Route>
+                </Switch>
+            </div>
+        )
+    }
+
+    const GetHeader =  () => {
+        return (
+            <div className="header">
+                <NavLink activeClassName="active" to="/login" onClick={Logout}>Logout</NavLink>
+                <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
+                <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
+                <NavLink activeClassName="active" to="/your-ratings">Your Ratings</NavLink>
+            </div>
+        )
+    }
+
+    const GetUnauthorizedHeader = () => {
+        return (
+            <div className="header">
+                <NavLink activeClassName="active" to="/login">Login</NavLink>
+                <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
+                <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
+            </div>
+        )
+    }
+
     return (
         <div className="App">
             <BrowserRouter basename="/pa165">
-                <div className="header">
-                    {LoginLink(token)}
-                    <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
-                    <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
-                    {CreatePersonLink(token)}
-                    {CreateMovieLink(token)}
-                    {CreateYourRatingsLink(token)}
-                    {CreateLogoutLink(token)}
-                </div>
-                <div className="content">
-                    <Switch>
-                        <Route path="/login" render={() => (
-                            <Login token={token} setToken={setToken} />
-                        )} />
-                        <Route path="/search-movie" render={() => (
-                            <SearchMovie token={token} />
-                        )} />
-                        <Route path="/search-person" component={SearchPerson} />
-                        <Route path="/create-person" component={CreatePerson} />
-                        <Route path="/add-director" component={AddDirector} />
-                        <Route path="/add-actor" component={AddActor} />
-                        <Route path="/create-movie" component={CreateMovie} />
-                        <Route path="/your-ratings" component={YourRatings} />
-                        <Route path="/get-recommendations" component={GetRecommendations} />
-                        <Route path="/create-rating" component={CreateRating}/>
-                        <Route path="/logout" render={() => (
-                            <Logout token={token} setToken={setToken} />
-                        )} />
-                    </Switch>
-                </div>
+                {(!token) ? <GetUnauthorizedHeader/> : <GetHeader/>}
+                {(!token) ? <GetUnauthorizedRouteContent/> : <GetRouteContent/>}
             </BrowserRouter>
         </div>
-    );
+      );
 }
 
 export default App;
