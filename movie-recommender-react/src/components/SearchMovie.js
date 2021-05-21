@@ -12,6 +12,9 @@ function MovieList({ movies, scores, token }) {
     const [ratedMoviesIDs, setRatedMoviesIDs] = useState([]);
 
     useEffect(() => {
+        if (!token) {
+            return;
+        }
         const getRatings = async () => {
             return await axios.get(`http://localhost:8080/pa165/rest/ratings/find-by-user?id=${getUserId()}`)
                 .catch(console.log);
@@ -43,11 +46,11 @@ function MovieList({ movies, scores, token }) {
                     }} >
                         <button type="button">Search for movies like this</button>
                     </NavLink>
-                    {!ratedMoviesIDs.includes(id) && <NavLink exact activeClassName="active" to={{
+                    {token && <NavLink exact activeClassName="active" to={{
                         pathname:'/create-rating',
                         state: {id: id, title: title}
                     }} >
-                        <button type="button">Rate this movie</button>
+                        <button type="button" disabled={ratedMoviesIDs.includes(id)}>Rate this movie</button>
                     </NavLink>}
                 </li>
             ))}
