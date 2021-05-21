@@ -16,7 +16,6 @@ const RatingSelect = ({rating, setter}) => {
             </option>)}
         </select>
     )
-
 }
 
 export function CreateRating() {

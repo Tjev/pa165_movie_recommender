@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {AddActorLink} from "./AddActorLink";
+import {getUserId} from "../utils/Common";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
 function MovieList({ movies, scores, token }) {
+    const [ratedMoviesIDs, setRatedMoviesIDs] = useState([]);
+
+    useEffect(() => {
+        const getRatings = async () => {
+            return await axios.get(`http://localhost:8080/pa165/rest/ratings/find-by-user?id=${getUserId()}`)
+                .catch(console.log);
+        }
+        getRatings().then(ratings => {setRatedMoviesIDs(ratings.data.map(x => x.movie.id))});
+    }, [])
 
     if (movies.length === 0) {
         return <p>No results found</p>;
@@ -33,12 +43,12 @@ function MovieList({ movies, scores, token }) {
                     }} >
                         <button type="button">Search for movies like this</button>
                     </NavLink>
-                    <NavLink exact activeClassName="active" to={{
+                    {!ratedMoviesIDs.includes(id) && <NavLink exact activeClassName="active" to={{
                         pathname:'/create-rating',
                         state: {id: id, title: title}
                     }} >
                         <button type="button">Rate this movie</button>
-                    </NavLink>
+                    </NavLink>}
                 </li>
             ))}
         </ul>
