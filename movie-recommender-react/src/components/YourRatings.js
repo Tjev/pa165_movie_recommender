@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getUserId} from "../utils/Common";
+import {getUserId, getUser} from "../utils/Common";
 import axios from "axios";
 
 /**
@@ -28,6 +28,7 @@ export function YourRatings() {
 
     return (
         <div>
+            <h1>{getUser()}'s ratings:</h1>
             {ratings.length === 0 && <p>You do not have any ratings</p>}
             <ul>
                 {ratings.map(({ id, movie, originality, soundtrack, narrative, cinematography, depth }) => (
