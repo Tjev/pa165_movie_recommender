@@ -7,24 +7,19 @@ function getJwtItem(key) {
 }
 
 export const getUser = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    return (jwtToken) ? jwtDecode(jwtToken)['username'] : null;
-    //TODO return getJwtItem('username');
+    return getJwtItem('username');
 }
 
 export const getAdminStatus = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    return (jwtToken) ? jwtDecode(jwtToken)['admin'] : null;
+    return getJwtItem('admin');
 }
 
 export const getUserId = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    return (jwtToken) ? jwtDecode(jwtToken)['id'] : null;
+    return getJwtItem('id');
 }
 
 export const getEmail = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    return (jwtToken) ? jwtDecode(jwtToken)['email'] : null;
+    return getJwtItem('email');
 }
 
 export function useToken() {
