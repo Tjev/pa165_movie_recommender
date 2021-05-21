@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.rest.controller;
 
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
-import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.dto.rating.RatingCreateDTO;
 import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
@@ -118,7 +117,7 @@ public class RatingController {
      * @return DTO of the found rating
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final RatingDTO findById(@PathVariable("id") long id) {
+    public final RatingDTO findById(@PathVariable("id") Long id) {
         logger.debug("rest findById({})", id);
 
         Optional<RatingDTO> result;
@@ -140,17 +139,18 @@ public class RatingController {
     /**
      * Find ratings by their user.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-user
+     * curl -X GET -i http://localhost:8080/pa165/rest/ratings/find-by-user?id=1
      *
-     * @param userDTO of the user to find ratings by
+     * @param id of the user to find ratings by
      * @return list of ratingDTOs of the found ratings
      */
     @RequestMapping(value = "/find-by-user", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<RatingDTO> findByUser(@RequestBody UserDTO userDTO) {
-        logger.debug("rest findByUser({})", userDTO);
+    public final List<RatingDTO> findByUser(@RequestParam Long id) {
+        logger.debug("rest findByUser({})", id);
 
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(id);
         List<RatingDTO> result;
         try {
             result = ratingFacade.findByUser(userDTO);
@@ -166,17 +166,18 @@ public class RatingController {
     /**
      * Find ratings by their movie.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-movie
+     * curl -X GET -i http://localhost:8080/pa165/rest/ratings/find-by-movie?id=1
      *
-     * @param movieDTO of the user to find ratings by
+     * @param id of the user to find ratings by
      * @return list of ratingDTOs of the found ratings
      */
     @RequestMapping(value = "/find-by-movie", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<RatingDTO> findByMovie(@RequestBody MovieDTO movieDTO) {
-        logger.debug("rest findByMovie({})", movieDTO);
+    public final List<RatingDTO> findByMovie(@RequestParam Long id) {
+        logger.debug("rest findByMovie({})", id);
 
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(id);
         List<RatingDTO> result;
         try {
             result = ratingFacade.findByMovie(movieDTO);
@@ -192,17 +193,18 @@ public class RatingController {
     /**
      * Get overall score for the given rating.
      *
-     * curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/overall-score
+     * curl -X GET -i http://localhost:8080/pa165/rest/ratings/1/overall-score
      *
-     * @param ratingDTO of the rating to get overall score for
+     * @param id of the rating to get overall score for
      * @return the overall score of the rating
      */
-    @RequestMapping(value = "/overall-score", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/{id}/overall-score", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final BigDecimal getOverallScore(@RequestBody RatingDTO ratingDTO) {
-        logger.debug("rest getOverallScore({})", ratingDTO);
+    public final BigDecimal getOverallScore(@PathVariable("id") Long id) {
+        logger.debug("rest getOverallScore({})", id);
 
+        RatingDTO ratingDTO = new RatingDTO();
+        ratingDTO.setId(id);
         try {
             return ratingFacade.getOverallScore(ratingDTO);
         } catch (FacadeLayerException e) {

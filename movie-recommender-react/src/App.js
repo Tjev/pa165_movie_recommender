@@ -10,6 +10,7 @@ import {CreateMovie} from "./components/CreateMovie";
 import {AddDirector} from "./components/AddDirector";
 import {AddActor} from "./components/AddActor";
 import {GetRecommendations} from "./components/GetRecommendations";
+import {YourRatings} from "./components/YourRatings";
 
 function LoginLink(token) {
     if (!token) {
@@ -43,6 +44,7 @@ export function App() {
                       <Route path="/add-director" component={AddDirector} />
                       <Route path="/add-actor" component={AddActor} />
                       <Route path="/create-movie" component={CreateMovie} />
+                      <Route path="/your-ratings" component={YourRatings} />
                       <Route path="/get-recommendations" component={GetRecommendations} />
                   </Switch>
               </div>
