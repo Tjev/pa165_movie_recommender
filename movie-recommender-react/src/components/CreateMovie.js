@@ -3,7 +3,9 @@ import DatePicker from 'react-date-picker'
 import axios from "axios";
 
 export function CreateMovie() {
-    const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY"];
+    const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY",
+        "DRAMA", "FAMILY", "FANTASY", "NOIR", "HISTORY","HORROR", "MUSICAL", "MYSTERY", "NEWS", "REALITY", "ROMANCE",
+        "SCIFI", "SPORT", "THRILLER", "WAR", "WESTERN"];
 
     const [movieTitle, setMovieTitle] = useState('');
     const [movieBio, setMovieBio] = useState('');
