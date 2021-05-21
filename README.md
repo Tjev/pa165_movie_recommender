@@ -83,13 +83,13 @@ Below there are described examples of the CURL commands for each endpoint:
 `curl -X GET -i http://localhost:8080/pa165/rest/ratings/1`
 
 #### [GET] /ratings/find-by-user
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-user`
+`curl -X GET -i http://localhost:8080/pa165/rest/ratings/find-by-user?id=1`
 
 #### [GET] /ratings/find-by-movie
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-movie`
+`curl -X GET -i http://localhost:8080/pa165/rest/ratings/find-by-movie?id=1`
 
 #### [GET] /ratings/overall-score
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/overall-score`
+`curl -X GET -i http://localhost:8080/pa165/rest/ratings/1/overall-score`
 
 ### /users
 
