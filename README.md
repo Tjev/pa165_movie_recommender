@@ -1,12 +1,31 @@
 # PA165 Movie Recommender
 For the description, use case and class diagrams of the project, see the project wiki [here](https://github.com/Tjev/pa165_movie_recommender/wiki).
 
-## Frontend
-From `movie-recommender-react` run `npm install` to install React dependencies and `npm start` to run the web application.
+## Deployment
+
+Run `./run.sh` from this directory to run both backend and frontend.
+
+If the deployment is successful, the app should be available at [http://localhost:8080/pa165](http://localhost:8080/pa165).
+
+## Credentials
+
+###Admin:
+
+Email: `jevo@email.com`, 
+Password: `jevoheslo`
+
+###Regular users:
+
+Email: `papi@email.com`,
+Password: `papiheslo`
+
+Email: `kiko@email.com`,
+Password: `kikoheslo`
+
+Email: `rado@email.com`,
+Password: `radoheslo`
 
 ## REST API
-
-Run `mvn clean install && cd movie-recommender-rest && mvn cargo:run` for REST API deployment.
 
 The Swagger documentation is available at [http://localhost:8080/pa165/rest/swagger-ui.html](http://localhost:8080/pa165/rest/swagger-ui.html).
 
@@ -40,14 +59,32 @@ Below there are described examples of the CURL commands for each endpoint:
 #### [GET] /movies/find-by-title
 `curl -X GET -i http://localhost:8080/pa165/rest/movies/find-by-title?title=Dune`
 
+#### [GET] /movies/{id}/overall-score
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/overall-score`
+
+#### [GET] /movies/{id}/originality-score
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/originality-score`
+
+#### [GET] /movies/{id}/soundtrack-score
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/soundtrack-score`
+
+#### [GET] /movies/{id}/narrative-score
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/narrative-score`
+
+#### [GET] /movies/{id}/cinematography-score
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/cinematography-score`
+
+#### [GET] /movies/{id}/depth-score
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/depth-score`
+
 #### [PUT] /movies/update
 `curl -X PUT -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI", "ACTION"]}' http://localhost:8080/pa165/rest/movies/update`
 
 #### [DELETE] /movies/remove
 `curl -X DELETE -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/movies/remove`
 
-#### [GET] /movies/recommendations
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1", "title": "Dune", "releaseYear": "2021-10-01", "genres": ["SCIFI"]}' http://localhost:8080/pa165/rest/movies/recommendations?amount=1`
+#### [GET] /movies/{id}/recommendations
+`curl -X GET -i http://localhost:8080/pa165/rest/movies/1/recommendations?amount=1`
 
 ### /ratings
 
@@ -64,13 +101,13 @@ Below there are described examples of the CURL commands for each endpoint:
 `curl -X GET -i http://localhost:8080/pa165/rest/ratings/1`
 
 #### [GET] /ratings/find-by-user
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-user`
+`curl -X GET -i http://localhost:8080/pa165/rest/ratings/find-by-user?id=1`
 
 #### [GET] /ratings/find-by-movie
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/find-by-movie`
+`curl -X GET -i http://localhost:8080/pa165/rest/ratings/find-by-movie?id=1`
 
 #### [GET] /ratings/overall-score
-`curl -X GET -i -H "Content-Type: application/json" --data '{"id":1}' http://localhost:8080/pa165/rest/ratings/overall-score`
+`curl -X GET -i http://localhost:8080/pa165/rest/ratings/1/overall-score`
 
 ### /users
 

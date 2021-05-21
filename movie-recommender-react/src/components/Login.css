@@ -1,0 +1,23 @@
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    background: royalblue;
+    padding: 1.5em;
+    border-radius: 1em;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+}
+
+.error-message {
+    margin-top: 1em;
+    color: red;
+}

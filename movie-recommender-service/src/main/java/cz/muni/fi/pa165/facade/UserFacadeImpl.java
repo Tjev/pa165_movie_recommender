@@ -158,7 +158,7 @@ public class UserFacadeImpl implements UserFacade {
     private String getJWTToken(User user) throws UnsupportedEncodingException {
         Algorithm algorithm = Algorithm.HMAC256("secret");
         return JWT.create()
-                .withClaim("id", 1L)
+                .withClaim("id", user.getId())
                 .withClaim("email", user.getEmailAddress())
                 .withClaim("username", user.getUsername())
                 .withClaim("admin", user.isAdmin())
