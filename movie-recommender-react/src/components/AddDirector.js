@@ -61,7 +61,7 @@ export function AddDirector() {
     return (
         <div>
             <div className="add-director-wrapper">
-                <h1>Search person:</h1>
+                <h1>Search for a director to add:</h1>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:

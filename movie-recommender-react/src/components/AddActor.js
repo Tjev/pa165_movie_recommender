@@ -61,7 +61,7 @@ export function AddActor() {
     return (
         <div>
             <div className="add-actor-wrapper">
-                <h1>Search person:</h1>
+                <h1>Search for an actor to add:</h1>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:

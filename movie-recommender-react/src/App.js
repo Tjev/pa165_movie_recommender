@@ -12,6 +12,7 @@ import {AddActor} from "./components/AddActor";
 import {GetRecommendations} from "./components/GetRecommendations";
 import {YourRatings} from "./components/YourRatings";
 import {Logout} from "./components/Logout";
+import {CreateRating} from "./components/CreateRating"
 
 
 function LoginLink(token) {
@@ -74,6 +75,7 @@ export function App() {
                         <Route path="/create-movie" component={CreateMovie} />
                         <Route path="/your-ratings" component={YourRatings} />
                         <Route path="/get-recommendations" component={GetRecommendations} />
+                        <Route path="/create-rating" component={CreateRating}/>
                         <Route path="/logout" render={() => (
                             <Logout token={token} setToken={setToken} />
                         )} />

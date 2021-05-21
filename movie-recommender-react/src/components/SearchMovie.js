@@ -33,6 +33,12 @@ function MovieList({ movies, scores, token }) {
                     }} >
                         <button type="button">Search for movies like this</button>
                     </NavLink>
+                    <NavLink exact activeClassName="active" to={{
+                        pathname:'/create-rating',
+                        state: {id: id, title: title}
+                    }} >
+                        <button type="button">Rate this movie</button>
+                    </NavLink>
                 </li>
             ))}
         </ul>
