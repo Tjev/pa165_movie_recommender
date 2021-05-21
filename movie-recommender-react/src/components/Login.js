@@ -26,8 +26,7 @@ export default function Login({token, setToken}) {
                 alert("Invalid email or password. Try again.")
                 return;
             }
-            alert(error);
-            //alert("Some server-related problems occurred. Please try again.");
+            alert("Some server-related problems occurred. Please try again.");
         });
     }
 
