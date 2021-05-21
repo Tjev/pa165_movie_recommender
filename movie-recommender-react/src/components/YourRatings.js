@@ -27,20 +27,23 @@ export function YourRatings() {
     }
 
     return (
-        <ul>
-            {ratings.map(({ id, movie, originality, soundtrack, narrative, cinematography, depth }) => (
-                <li key={id}>
-                    <div>
-                        <h2>{movie.title}</h2>
-                    </div>
-                    {<p><b>Originality: </b>{originality}</p>}
-                    {<p><b>Soundtrack: </b>{soundtrack}</p>}
-                    {<p><b>Narrative: </b>{narrative}</p>}
-                    {<p><b>Cinematography: </b>{cinematography}</p>}
-                    {<p><b>Depth: </b>{depth}</p>}
-                    <button onClick={() => handleDelete(id)}>Delete</button>
-                </li>
-            ))}
-        </ul>
+        <div>
+            {ratings.length === 0 && <p>You do not have any ratings</p>}
+            <ul>
+                {ratings.map(({ id, movie, originality, soundtrack, narrative, cinematography, depth }) => (
+                    <li key={id}>
+                        <div>
+                            <h2>{movie.title}</h2>
+                        </div>
+                        {<p><b>Originality: </b>{originality}</p>}
+                        {<p><b>Soundtrack: </b>{soundtrack}</p>}
+                        {<p><b>Narrative: </b>{narrative}</p>}
+                        {<p><b>Cinematography: </b>{cinematography}</p>}
+                        {<p><b>Depth: </b>{depth}</p>}
+                        <button onClick={() => handleDelete(id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }
