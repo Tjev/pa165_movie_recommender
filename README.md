@@ -7,6 +7,24 @@ Run `./run.sh` from this directory to run both backend and frontend.
 
 If the deployment is successful, the app should be available at [http://localhost:8080/pa165](http://localhost:8080/pa165).
 
+## Credentials
+
+###Admin:
+
+Email: `jevo@email.com`, 
+Password: `jevoheslo`
+
+###Regular users:
+
+Email: `papi@email.com`,
+Password: `papiheslo`
+
+Email: `kiko@email.com`,
+Password: `kikoheslo`
+
+Email: `rado@email.com`,
+Password: `radoheslo`
+
 ## REST API
 
 The Swagger documentation is available at [http://localhost:8080/pa165/rest/swagger-ui.html](http://localhost:8080/pa165/rest/swagger-ui.html).
