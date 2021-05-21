@@ -15,6 +15,7 @@ export const getUser = () => {
 
 export const getAdminStatus = () => {
     const jwtToken = sessionStorage.getItem('token');
+    console.log(jwtDecode(jwtToken));
     return (jwtToken) ? jwtDecode(jwtToken)['admin'] : null;
 }
 

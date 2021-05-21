@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import {NavLink} from "react-router-dom";
 import axios from "axios";
+import {AddDirectorLink} from "./AddDirectorLink";
+import {AddActorLink} from "./AddActorLink";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
-function MovieList({ movies, scores }) {
+function MovieList({ movies, scores, token }) {
 
     if (movies.length === 0) {
         return <p>No results found</p>;
@@ -23,21 +25,11 @@ function MovieList({ movies, scores }) {
                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                     {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                    <NavLink exact activeClassName="active" to={{
-                        pathname:'/add-actor',
-                        state: {id: id, title: title}
-                    }} >
-                        <button type="button">Add actor</button>
-                    </NavLink>
-                    <NavLink exact activeClassName="active" to={{
-                        pathname:'/add-director',
-                        state: {id: id, title: title}
-                    }} >
-                        <button type="button">Add director</button>
-                    </NavLink>
+                    {AddActorLink(id, title, token)}
+                    {AddDirectorLink(id, title, token)}
                     <NavLink exact activeClassName="active" to={{
                         pathname:'/get-recommendations',
-                        state: {id: id, title: title}
+                        state: {id: id, title: title, token: token}
                     }} >
                         <button type="button">Search for movies like this</button>
                     </NavLink>
@@ -47,7 +39,7 @@ function MovieList({ movies, scores }) {
     );
 }
 
-export function SearchMovie() {
+export function SearchMovie({token}) {
     const [title, setTitle] = useState('');
     const [movies, setMovies] = useState([]);
     const [scores, setScores] = useState([]);
@@ -82,7 +74,7 @@ export function SearchMovie() {
                 </form>
             </div>
             <div>
-                <MovieList movies={movies} scores={scores} />
+                <MovieList movies={movies} scores={scores} token={token}/>
             </div>
         </div>
     );

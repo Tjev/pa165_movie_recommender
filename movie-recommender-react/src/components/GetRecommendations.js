@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {NavLink, useLocation} from "react-router-dom";
 import axios from "axios";
+import {AddActorLink} from "./AddActorLink";
+import {AddDirectorLink} from "./AddDirectorLink";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
-function MovieList({ movies, scores, setMovies, setScores}) {
+function MovieList({ movies, scores, token, setMovies, setScores}) {
     let location = useLocation();
 
     if (movies.length === 0) {
@@ -37,18 +39,8 @@ function MovieList({ movies, scores, setMovies, setScores}) {
                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                     {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                    <NavLink exact activeClassName="active" to={{
-                        pathname:'/add-actor',
-                        state: {id: id, title: title}
-                    }} >
-                        <button type="button">Add actor</button>
-                    </NavLink>
-                    <NavLink exact activeClassName="active" to={{
-                        pathname:'/add-director',
-                        state: {id: id, title: title}
-                    }} >
-                        <button type="button">Add director</button>
-                    </NavLink>
+                    {AddActorLink}
+                    {AddDirectorLink(id, title, token)}
                     <NavLink exact activeClassName="active" to={{
                         pathname:'/get-recommendations',
                         state: {id: id, title: title}
@@ -83,7 +75,7 @@ export function GetRecommendations() {
         <div>
             <h1>Recommendations for {location.state.title}</h1>
             <div>
-                <MovieList movies={movies} scores={scores} setMovies={setMovies} setScores={setScores} />
+                <MovieList movies={movies} scores={scores} token={location.state.token} setMovies={setMovies} setScores={setScores} />
             </div>
         </div>
     );
