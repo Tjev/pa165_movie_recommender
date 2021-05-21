@@ -28,10 +28,6 @@ export const getEmail = () => {
     return (jwtToken) ? jwtDecode(jwtToken)['email'] : null;
 }
 
-export const ssetToken = (userToken) => {
-    sessionStorage.setItem('token', JSON.stringify(userToken));
-};
-
 export function useToken() {
 
     const getToken = () => {
@@ -43,7 +39,7 @@ export function useToken() {
 
     const saveToken = (userToken) => {
         sessionStorage.setItem('token', JSON.stringify(userToken));
-        setToken(userToken.token);
+        setToken(userToken);
     };
 
     return {

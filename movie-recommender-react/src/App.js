@@ -4,28 +4,27 @@ import {BrowserRouter, NavLink, Route, Switch} from "react-router-dom";
 import Login from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
 import {SearchPerson} from "./components/SearchPerson";
-import {useToken, getUser} from "./utils/Common";
+import {getToken, useToken} from "./utils/Common";
 import {CreatePerson} from "./components/CreatePerson";
 import {CreateMovie} from "./components/CreateMovie";
 import {AddDirector} from "./components/AddDirector";
 import {AddActor} from "./components/AddActor";
 import {GetRecommendations} from "./components/GetRecommendations";
 
-
-
-
-function App() {
-
-    const { token, setToken } = useToken();
-
+function LoginLink(token) {
     if (!token) {
-        return <Login setToken={setToken} />
+        return <NavLink activeClassName="active" to="/login">Login</NavLink>
     }
+}
+
+export function App() {
+    const { token, setToken } = useToken();
 
     return (
       <div className="App">
           <BrowserRouter basename="/pa165">
               <div className="header">
+                  {LoginLink(token)}
                   <NavLink activeClassName="active" to="/search-movie">Search Movie</NavLink>
                   <NavLink activeClassName="active" to="/search-person">Search Person</NavLink>
                   <NavLink activeClassName="active" to="/create-person">Create Person</NavLink>
@@ -34,7 +33,10 @@ function App() {
               </div>
               <div className="content">
                   <Switch>
-                      <Route path="/login" component={Login} />
+                      <Route path="/login" render={() => (
+                              <Login token={token} setToken={setToken} />
+                        )}
+                      />
                       <Route path="/search-movie" component={SearchMovie} />
                       <Route path="/search-person" component={SearchPerson} />
                       <Route path="/create-person" component={CreatePerson} />
