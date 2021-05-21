@@ -5,9 +5,10 @@
 }
 
 form {
-    background: royalblue;
+    background: #BEC3CC;
     padding: 1.5em;
-    border-radius: 1em;
+    border: 1px solid #505B6A;
+    border-radius: 5px 2px;
 }
 
 .center {

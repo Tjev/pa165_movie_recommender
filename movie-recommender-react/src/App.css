@@ -2,25 +2,29 @@
   text-align: center;
 }
 
+html, body {
+  background-color: #f05e23;
+}
+
 .content {
   padding: 20px;
 }
 
 .header {
   padding: 10px;
-  background: #edf2f4;
-  border-bottom: 1px solid #999;
+  background: #BEC3CC;
+  border-bottom: 1px solid #505B6A;
 }
 
 .header a {
-  color: #0072ff;
+  color: #505B6A;
   text-decoration: none;
   margin-left: 20px;
   margin-right: 5px;
 }
 
 .header a:hover {
-  color: #8a0f53;
+  color: #f05e23;
 }
 
 .header small {
@@ -28,7 +32,7 @@
 }
 
 .header .active {
-  color: #2c7613;
+  color: #f05e23;
 }
 
 ul {
@@ -41,8 +45,8 @@ ul {
 }
 
 li {
-  background-color: cornflowerblue;
-  border: 1px solid darkblue;
+  background-color: #BEC3CC;
+  border: 1px solid #505B6A;
   border-radius: 5px 2px;
   margin: 8px 0;
 }
@@ -69,7 +73,7 @@ li div button:focus {
 }
 
 li h2 {
-  background-color: royalblue;
+  background-color: #505B6A;
   margin: 0;
   padding: 4px;
 }
