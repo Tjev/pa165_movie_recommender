@@ -82,9 +82,9 @@ public interface UserFacade {
     /**
      * Disable an account of the given user
      *
-     * @param userDTO - user to be disabled
+     * @param id - id of the user to be disabled
      */
-    void disable(UserDTO userDTO);
+    void disable(Long id);
 
     /**
      * Updates the given user.

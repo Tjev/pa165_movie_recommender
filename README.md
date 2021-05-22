@@ -136,4 +136,5 @@ Below there are described examples of the CURL commands for each endpoint:
 `curl -X GET -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/users/is-disabled`
 
 #### [POST] /users/disable
-`curl -X POST -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/users/disable`
+`curl -X POST -i -H "Content-Type: application/json" http://localhost:8080/pa165/rest/users/disable?id=1`
+

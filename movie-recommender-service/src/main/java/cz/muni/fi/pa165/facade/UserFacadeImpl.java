@@ -145,10 +145,9 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void disable(UserDTO userDTO) {
-        User user = userMapper.userDTOToUser(userDTO);
-
+    public void disable(Long id) {
         try {
+            User user = userService.findById(id);
             userService.disable(user);
         } catch (ServiceLayerException e) {
             throw new FacadeLayerException("Error at service layer occurred", e);
