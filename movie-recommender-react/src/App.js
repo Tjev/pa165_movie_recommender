@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react";
-import {BrowserRouter, NavLink, Redirect, Route, Switch, useLocation} from "react-router-dom";
+import {BrowserRouter, NavLink, Redirect, Route, Router, Switch, useLocation} from "react-router-dom";
 import {useToken, getAdminStatus} from "./utils/Common";
 import Login from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
@@ -12,6 +12,7 @@ import {AddDirector} from "./components/AddDirector";
 import {AddActor} from "./components/AddActor";
 import {YourRatings} from "./components/YourRatings";
 import {GetRecommendations} from "./components/GetRecommendations";
+import {ManageUsers} from "./components/ManageUsers";
 
 export function App() {
     const { token, setToken } = useToken();
@@ -56,6 +57,7 @@ export function App() {
                     <Route path="/add-actor" component={AddActor} />
                     <Route path="/create-movie" component={CreateMovie} />
                     <Route path="/your-ratings" component={YourRatings} />
+                    <Route path="/users" component={ManageUsers} />
                     <Route path="/get-recommendations">{location.state?.id ? <GetRecommendations /> : <NoMatch />}</Route>
                     <Route path="/create-rating">{location.state?.id ? <CreateRating /> : <NoMatch />}</Route>
                     <Route path='*'><NoMatch /></Route>
@@ -105,6 +107,7 @@ export function App() {
                 <NavLink activeClassName="active" to="/create-person">Create Person</NavLink>
                 <NavLink activeClassName="active" to="/create-movie">Create Movie</NavLink>
                 <NavLink activeClassName="active" to="/your-ratings">Your Ratings</NavLink>
+                <NavLink activeClassName="active" to="/users">Users</NavLink>
             </div>
         )
     }
