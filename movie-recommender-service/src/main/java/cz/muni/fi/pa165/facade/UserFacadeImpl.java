@@ -6,6 +6,8 @@ import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
+import cz.muni.fi.pa165.entity.Movie;
+import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,6 +51,16 @@ public class UserFacadeImpl implements UserFacade {
         }
 
         return userMapper.userToUserDetailedDTO(registeredUser);
+    }
+
+    @Override
+    public List<UserDTO> findAll() {
+        try {
+            List<User> users = userService.findAll();
+            return userMapper.usersToUserDTOs(users);
+        } catch (ServiceLayerException e) {
+            throw new FacadeLayerException("Error at service layer occurred", e);
+        }
     }
 
     @Override
