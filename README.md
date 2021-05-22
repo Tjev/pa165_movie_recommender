@@ -111,6 +111,9 @@ Below there are described examples of the CURL commands for each endpoint:
 
 ### /users
 
+#### [GET] /users
+`curl -X GET -i http://localhost:8080/pa165/rest/users`
+
 #### [PUT] /users/create
 `curl -X PUT -i -H "Content-Type: application/json" --data '{"username": "TomWiseau1", "emailAddress": "tom.wiseau@gmail.com", "password": "OhHiMark"}' http://localhost:8080/pa165/rest/users/register`
 

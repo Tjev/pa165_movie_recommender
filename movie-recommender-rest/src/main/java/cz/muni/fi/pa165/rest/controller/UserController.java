@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.*;
@@ -58,6 +59,27 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }
+    }
+
+    /**
+     * Retrieve all system users.
+     *
+     * curl -X GET -i http://localhost:8080/pa165/rest/users
+     *
+     * @return list of User DTO objects
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<UserDTO> findAll() {
+        logger.debug("rest findAll()");
+
+        List<UserDTO> result;
+        try {
+            result = userFacade.findAll();
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        }
+
+        return result;
     }
 
     /**
