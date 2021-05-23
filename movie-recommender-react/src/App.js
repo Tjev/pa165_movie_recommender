@@ -72,7 +72,7 @@ export function App() {
             <div className="content">
                 <Switch>
                     <Route path="/login"><Redirect to="/search-person"/></Route>
-                    <Route path="/search-movie" component={SearchMovie} />
+                    <Route path="/search-movie"><SearchMovie token={token} /></Route>
                     <Route path="/search-person" component={SearchPerson} />
                     <Route path="/your-ratings" component={YourRatings} />
                     <Route path="/get-recommendations">{location.state?.id ? <GetRecommendations /> : <NoMatch />}</Route>
