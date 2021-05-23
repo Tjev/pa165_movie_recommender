@@ -64,6 +64,7 @@ export function SearchMovie({token}) {
     const [scores, setScores] = useState([]);
 
     const handleSubmit = async (e) => {
+        if (!title) return;
         e.preventDefault();
         await axios.get(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
             .then(res => {
