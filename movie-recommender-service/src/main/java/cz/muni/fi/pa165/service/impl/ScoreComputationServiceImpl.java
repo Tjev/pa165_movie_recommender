@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.function.ToIntFunction;
 
@@ -56,7 +57,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
                         persistedRating.getSoundtrack() +
                         persistedRating.getNarrative() +
                         persistedRating.getCinematography() +
-                        persistedRating.getDepth()).divide(new BigDecimal("5"));
+                        persistedRating.getDepth()).divide(new BigDecimal("5"), 2, RoundingMode.HALF_EVEN);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
             score = score.add(getOverallScoreForRating(rating));
         }
 
-        return score.divide(new BigDecimal(ratings.size()));
+        return score.divide(new BigDecimal(ratings.size()), 2, RoundingMode.HALF_EVEN);
     }
 
     @Override
@@ -112,7 +113,7 @@ public class ScoreComputationServiceImpl implements ScoreComputationService {
                 .mapToInt(func)
                 .sum();
 
-        return new BigDecimal(scoreSum).divide(new BigDecimal(ratings.size()));
+        return new BigDecimal(scoreSum).divide(new BigDecimal(ratings.size()), 2, RoundingMode.HALF_EVEN);
     }
 
     private List<Rating> getRatings(Movie movie) {

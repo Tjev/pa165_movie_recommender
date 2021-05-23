@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -37,8 +36,8 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> findByName(String name) {
-        return em.createQuery("SELECT p FROM Person p WHERE p.name = :name", Person.class)
-                .setParameter("name", name)
+        return em.createQuery("SELECT p FROM Person p WHERE LOWER(p.name) LIKE :n", Person.class)
+                .setParameter("n", "%" + name.toLowerCase() + "%")
                 .getResultList();
     }
 

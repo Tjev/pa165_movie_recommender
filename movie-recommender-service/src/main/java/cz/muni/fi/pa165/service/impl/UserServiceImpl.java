@@ -105,6 +105,11 @@ public class UserServiceImpl implements UserService {
         validateStringParameter(password, "Password");
 
         User persistedUser = findById(user.getId());
+
+        if (persistedUser.isDisabled()){
+            return false;
+        }
+
         return encoder.matches(password, persistedUser.getPasswordHash());
     }
 

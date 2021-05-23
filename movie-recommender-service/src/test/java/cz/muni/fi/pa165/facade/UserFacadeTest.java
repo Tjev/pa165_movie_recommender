@@ -162,9 +162,10 @@ public class UserFacadeTest {
 
     @Test
     public void disable() {
-        when(userMapper.userDTOToUser(any(UserDTO.class))).thenReturn(user);
-        userFacade.disable(userDTO);
+        when(userService.findById(1L)).thenReturn(user);
+        userFacade.disable(1L);
 
+        verify(userService, times(1)).findById(1L);
         verify(userService, times(1)).disable(any(User.class));
         verifyNoMoreInteractions(userService);
     }

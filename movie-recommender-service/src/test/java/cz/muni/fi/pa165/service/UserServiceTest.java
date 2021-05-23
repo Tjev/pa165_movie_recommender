@@ -96,7 +96,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void findByEmailAdress() {
+    public void findByEmailAddress() {
         when(userDao.findByEmailAddress(user1.getEmailAddress())).thenReturn(user1);
 
         User result = userService.findByEmailAddress(user1.getEmailAddress());
@@ -125,7 +125,7 @@ public class UserServiceTest {
         when(userDao.findById(user2.getId())).thenReturn(user2);
 
         Assert.assertTrue(userService.authenticate(user1, PASSWORD1));
-        Assert.assertTrue(userService.authenticate(user2, PASSWORD2));
+        Assert.assertFalse(userService.authenticate(user1, PASSWORD2));
     }
 
     @Test
@@ -217,6 +217,13 @@ public class UserServiceTest {
         Assert.assertThrows(IllegalArgumentException.class, () -> {
             userService.authenticate(user1, null);
         });
+    }
+
+    @Test
+    public void authenticateDisabled() {
+        when(userDao.findById(user2.getId())).thenReturn(user2);
+
+        Assert.assertFalse(userService.authenticate(user2, PASSWORD2));
     }
 
     @Test

@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+}
+
+html, body {
+  background-color: #f05e23;
+}
+
+.content {
+  padding: 20px;
+}
+
+.header {
+  padding: 10px;
+  background: #BEC3CC;
+  border-bottom: 1px solid #505B6A;
+}
+
+.header a {
+  color: #505B6A;
+  text-decoration: none;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.header a:hover {
+  color: #f05e23;
+}
+
+.header small {
+  color: #666;
+}
+
+.header .active {
+  color: #f05e23;
+}
+
+ul {
+  list-style: none;
+  text-align: left;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  background-color: #BEC3CC;
+  border: 1px solid #505B6A;
+  border-radius: 5px 2px;
+  margin: 8px 0;
+}
+
+li div {
+  position: relative;
+}
+
+li div button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: 0;
+  padding: 10px;
+  font-weight: bolder;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+li div button:hover,
+li div button:focus {
+  box-shadow: 0 0 1px black;
+}
+
+li h2 {
+  background-color: #505B6A;
+  margin: 0;
+  padding: 4px;
+}
+
+li p {
+  margin: 8px;
+}
+
+table {
+  text-align: left;
+}

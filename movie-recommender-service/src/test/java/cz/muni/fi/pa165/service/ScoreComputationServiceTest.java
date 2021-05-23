@@ -71,7 +71,7 @@ public class ScoreComputationServiceTest {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
-        Assert.assertEquals(scoreComputationService.getOriginalityScoreForMovie(movie), new BigDecimal("1.5"));
+        Assert.assertEquals(scoreComputationService.getOriginalityScoreForMovie(movie), new BigDecimal("1.50"));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ScoreComputationServiceTest {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
-        Assert.assertEquals(scoreComputationService.getSoundtrackScoreForMovie(movie), new BigDecimal("2.5"));
+        Assert.assertEquals(scoreComputationService.getSoundtrackScoreForMovie(movie), new BigDecimal("2.50"));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class ScoreComputationServiceTest {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
-        Assert.assertEquals(scoreComputationService.getNarrativeScoreForMovie(movie), new BigDecimal("2.5"));
+        Assert.assertEquals(scoreComputationService.getNarrativeScoreForMovie(movie), new BigDecimal("2.50"));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ScoreComputationServiceTest {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
-        Assert.assertEquals(scoreComputationService.getCinematographyScoreForMovie(movie), new BigDecimal("3"));
+        Assert.assertEquals(scoreComputationService.getCinematographyScoreForMovie(movie), new BigDecimal("3.00"));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ScoreComputationServiceTest {
         when(movieDao.findById(movie.getId())).thenReturn(movie);
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
 
-        Assert.assertEquals(scoreComputationService.getDepthScoreForMovie(movie), new BigDecimal("3"));
+        Assert.assertEquals(scoreComputationService.getDepthScoreForMovie(movie), new BigDecimal("3.00"));
     }
 
     @Test
@@ -153,7 +153,7 @@ public class ScoreComputationServiceTest {
         when(ratingDao.findById(ratings.get(0).getId())).thenReturn(ratings.get(0));
         when(ratingDao.findById(ratings.get(1).getId())).thenReturn(ratings.get(1));
 
-        Assert.assertEquals(scoreComputationService.getOverallScoreForMovie(movie), new BigDecimal("2.5"));
+        Assert.assertEquals(scoreComputationService.getOverallScoreForMovie(movie), new BigDecimal("2.50"));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class ScoreComputationServiceTest {
         when(ratingDao.findByMovie(movie)).thenReturn(ratings);
         when(ratingDao.findById(ratings.get(0).getId())).thenReturn(ratings.get(0));
 
-        Assert.assertEquals(scoreComputationService.getOverallScoreForRating(ratings.get(0)), new BigDecimal("3"));
+        Assert.assertEquals(scoreComputationService.getOverallScoreForRating(ratings.get(0)), new BigDecimal("3.00"));
     }
 
     @Test
