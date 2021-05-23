@@ -14,7 +14,6 @@ export function ManageUsers() {
     }, [])
 
     const handleDisable = async (userId) => {
-        console.log("handleDIsable -> ", userId);
         await axios.post(`http://localhost:8080/pa165/rest/users/disable?id=${userId}`, {
             headers: {
                 'Content-Type': 'application/json'

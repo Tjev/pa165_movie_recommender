@@ -18,7 +18,6 @@ export default function Login({token, setToken}) {
         e.preventDefault();
         await axios.post('http://localhost:8080/pa165/rest/users/auth', {emailAddress, password})
         .then((data) => {
-            console.log("Token =>", data);
             setToken(data.data);
         })
         .catch(error => {
