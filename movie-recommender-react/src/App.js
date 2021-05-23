@@ -13,6 +13,7 @@ import {AddActor} from "./components/AddActor";
 import {YourRatings} from "./components/YourRatings";
 import {GetRecommendations} from "./components/GetRecommendations";
 import {ManageUsers} from "./components/ManageUsers";
+import {HomePage} from "./components/HomePage";
 
 export function App() {
     const { token, setToken } = useToken();
@@ -49,7 +50,8 @@ export function App() {
         return (
             <div className="content">
                 <Switch>
-                    <Route path="/login"><Redirect to="/search-person"/></Route>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/login"><Redirect to="/"/></Route>
                     <Route path="/search-movie"><SearchMovie token={token} /></Route>
                     <Route path="/search-person" component={SearchPerson} />
                     <Route path="/create-person" component={CreatePerson} />
@@ -71,7 +73,8 @@ export function App() {
         return (
             <div className="content">
                 <Switch>
-                    <Route path="/login"><Redirect to="/search-person"/></Route>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/login"><Redirect to="/"/></Route>
                     <Route path="/search-movie"><SearchMovie token={token} /></Route>
                     <Route path="/search-person" component={SearchPerson} />
                     <Route path="/your-ratings" component={YourRatings} />
@@ -88,6 +91,7 @@ export function App() {
         return (
             <div className="content">
                 <Switch>
+                    <Route exact path="/" component={HomePage} />
                     <Route path="/login"><Login token={token} setToken={setToken} /></Route>
                     <Route path="/search-movie" component={SearchMovie} />
                     <Route path="/search-person" component={SearchPerson} />
