@@ -115,5 +115,4 @@ export function CreateMovie() {
             </form>
         </div>
     )
-
 }

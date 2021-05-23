@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        return em.createQuery("SELECT u FROM User u WHERE u.disabled = false", User.class).getResultList();
     }
 
     @Override

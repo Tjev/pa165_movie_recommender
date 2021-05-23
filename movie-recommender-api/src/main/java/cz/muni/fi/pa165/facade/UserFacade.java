@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,6 +23,13 @@ public interface UserFacade {
      * @return - DTO representation of the registered user
      */
     UserDetailedDTO register(UserRegisterDTO userRegisterDTO);
+
+    /**
+     * Retrieves all system users.
+     *
+     * @return - list of all system users
+     */
+    List<UserDTO> findAll();
 
     /**
      * Retrieves a user of the system with the matching id.
@@ -74,9 +82,9 @@ public interface UserFacade {
     /**
      * Disable an account of the given user
      *
-     * @param userDTO - user to be disabled
+     * @param id - id of the user to be disabled
      */
-    void disable(UserDTO userDTO);
+    void disable(Long id);
 
     /**
      * Updates the given user.

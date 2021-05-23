@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.*;
@@ -58,6 +59,27 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             throw new InvalidParameterException("Given parameters were invalid.", e);
         }
+    }
+
+    /**
+     * Retrieve all system users.
+     *
+     * curl -X GET -i http://localhost:8080/pa165/rest/users
+     *
+     * @return list of User DTO objects
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<UserDTO> findAll() {
+        logger.debug("rest findAll()");
+
+        List<UserDTO> result;
+        try {
+            result = userFacade.findAll();
+        } catch (FacadeLayerException e) {
+            throw new DataSourceException("Problem with the data source occurred.", e);
+        }
+
+        return result;
     }
 
     /**
@@ -219,18 +241,16 @@ public class UserController {
     /**
      * Disable the given user in the system.
      *
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"id": "1"}' http://localhost:8080/pa165/rest/users/disable
+     * curl -X POST -i -H "Content-Type: application/json" http://localhost:8080/pa165/rest/users/disable?id=1
      *
-     * @param userDTO user to be disabled
+     * @param id id of the user to be disabled
      */
-    @RequestMapping(value = "/disable", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void disable(@RequestBody UserDTO userDTO) {
-        logger.debug("rest disable({})", userDTO);
+    @RequestMapping(value = "/disable", method = RequestMethod.POST)
+    public final void disable(@RequestParam Long id) {
+        logger.debug("rest disable({})", id);
 
         try {
-            userFacade.disable(userDTO);
+            userFacade.disable(id);
         } catch (FacadeLayerException e) {
             throw new DataSourceException("Problem with the data source occurred.", e);
         } catch (IllegalArgumentException e) {

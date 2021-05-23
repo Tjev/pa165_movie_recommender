@@ -40,12 +40,12 @@ function MovieList({ movies, scores, token }) {
                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
                     {AddActorLink(id, title, token)}
                     {AddDirectorLink(id, title, token)}
-                    <NavLink exact activeClassName="active" to={{
+                    {token && <NavLink exact activeClassName="active" to={{
                         pathname:'/get-recommendations',
                         state: {id: id, title: title, token: token}
                     }} >
                         <button type="button">Search for movies like this</button>
-                    </NavLink>
+                    </NavLink>}
                     {token && <NavLink exact activeClassName="active" to={{
                         pathname:'/create-rating',
                         state: {id: id, title: title}
@@ -64,6 +64,7 @@ export function SearchMovie({token}) {
     const [scores, setScores] = useState([]);
 
     const handleSubmit = async (e) => {
+        if (!title) return;
         e.preventDefault();
         await axios.get(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
             .then(res => {

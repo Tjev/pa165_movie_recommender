@@ -7,6 +7,8 @@ import cz.muni.fi.pa165.entity.User;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 /**
  * Maps User entity related DTOs to their Entity counterparts.
  *
@@ -23,4 +25,6 @@ public interface UserMapper {
 
     UserAuthenticateDTO userToUserAuthenticateDTO(User user);
     User userAuthenticateDTOToUser(UserAuthenticateDTO userAuthenticateDTO);
+
+    List<UserDTO> usersToUserDTOs(List<User> users);
 }

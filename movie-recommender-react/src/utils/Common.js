@@ -7,26 +7,19 @@ function getJwtItem(key) {
 }
 
 export const getUser = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    console.log("JWT->", jwtDecode(jwtToken));
-    return (jwtToken) ? jwtDecode(jwtToken)['username'] : null;
-    //TODO return getJwtItem('username');
+    return getJwtItem('username');
 }
 
 export const getAdminStatus = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    console.log(jwtDecode(jwtToken));
-    return (jwtToken) ? jwtDecode(jwtToken)['admin'] : null;
+    return getJwtItem('admin');
 }
 
 export const getUserId = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    return (jwtToken) ? jwtDecode(jwtToken)['id'] : null;
+    return getJwtItem('id');
 }
 
 export const getEmail = () => {
-    const jwtToken = sessionStorage.getItem('token');
-    return (jwtToken) ? jwtDecode(jwtToken)['email'] : null;
+    return getJwtItem('email');
 }
 
 export function useToken() {
@@ -39,7 +32,12 @@ export function useToken() {
     const [token, setToken] = useState(getToken());
 
     const saveToken = (userToken) => {
-        sessionStorage.setItem('token', JSON.stringify(userToken));
+        // userToken is set to null on Logout
+        if (userToken === null) {
+            sessionStorage.removeItem('token')
+        } else {
+            sessionStorage.setItem('token', JSON.stringify(userToken));
+        }
         setToken(userToken);
     };
 

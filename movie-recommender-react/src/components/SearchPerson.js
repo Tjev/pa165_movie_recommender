@@ -27,6 +27,7 @@ export function SearchPerson() {
     const [persons, setPersons] = useState([]);
 
     const handleSubmit = async (e) => {
+        if (!personName) return;
         e.preventDefault();
         await fetch(`http://localhost:8080/pa165/rest/persons/find-by-name?name=${personName}`)
             .then(res => res.json())
