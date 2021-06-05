@@ -13,7 +13,8 @@ import java.util.Objects;
  * @author Kristian Tkacik
  */
 @Entity
-@Table(name = "rating")
+@Table(name = "rating", uniqueConstraints =
+@UniqueConstraint(columnNames = {"movie", "app_user"}))
 public class Rating implements Serializable {
 
     @Id
@@ -72,6 +73,7 @@ public class Rating implements Serializable {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
