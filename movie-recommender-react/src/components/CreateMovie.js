@@ -12,9 +12,21 @@ export function CreateMovie() {
     const [releaseYear, setReleaseYear] = useState('1895-12-28');
     const [movieGenre, setMovieGenre] = useState(allMovieGenres[0]);
     const [movieGenres, setMovieGenres] = useState([]);
+    const [isFormInvalid, setIsFormInvalid] = useState(false);
+
+    const validate = () => {
+        if (movieTitle !== "" && releaseYear !== "" && movieGenres.length !== 0) {
+            setIsFormInvalid(false);
+        } else {
+            setIsFormInvalid(true);
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (isFormInvalid) {
+            return;
+        }
         return await axios.post('http://localhost:8080/pa165/rest/movies/create',
             {
                 title: movieTitle,
@@ -64,7 +76,9 @@ export function CreateMovie() {
                                    value={movieTitle}
                                    onChange={e => setMovieTitle(e.target.value)}
                                    fullWidth
-                                   name="title"/>
+                                   name="title"
+                                   error={isFormInvalid && movieTitle === ""}
+                                   helperText={isFormInvalid && movieTitle === "" ? "Title be empty!" : " "}/>
                     </Grid>
 
                     <Grid item xs={2}>
@@ -85,14 +99,20 @@ export function CreateMovie() {
                         <TextField type="date"
                                    value={releaseYear}
                                    onChange={e => setReleaseYear(e.target.value)}
-                                   fullWidth/>
+                                   fullWidth
+                                   error={isFormInvalid && releaseYear === ""}
+                                   helperText={isFormInvalid && releaseYear === "" ? "Release date cannot be empty!" : " "}/>
                     </Grid>
 
                     <Grid item xs={2}>
                         <FormLabel>Add genre: </FormLabel>
                     </Grid>
                     <Grid item xs={4}>
-                        <TextField select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
+                        <TextField
+                            select
+                            value={movieGenre} onChange={e => setMovieGenre(e.target.value)}
+                            error={isFormInvalid && movieGenres.length === 0}
+                            helperText={isFormInvalid && movieGenres.length === 0 ? "At least one genre!" : " "}>
                             {allMovieGenres.map((option, i) =>
                                 <MenuItem key={i} value={option}>
                                     {reformatMovieGenre(option)}
@@ -102,7 +122,7 @@ export function CreateMovie() {
 
                     </Grid>
                     <Grid item xs={6}>
-                        <Button variant="contained" onClick={handleAddGenre} fullWidth
+                        <Button variant="contained" onClick={handleAddGenre}
                                 disabled={movieGenres.includes(movieGenre.toUpperCase())}>
                             Add genre
                         </Button>
@@ -112,9 +132,11 @@ export function CreateMovie() {
                         <FormLabel>Chosen genres: </FormLabel>
                     </Grid>
                     <Grid item xs={5}>
-                        <Typography>{movieGenres.length > 0
+                        <Typography>
+                            {movieGenres.length > 0
                             ? movieGenres.map(genre => reformatMovieGenre(genre)).join(', ')
-                            : "(Choose at least one genre)"}</Typography>
+                            : "(Choose at least one genre)"}
+                        </Typography>
                     </Grid>
                     <Grid item xs={5}>
                         <Button variant="contained" onClick={handleClearGenres} disabled={movieGenres.length === 0}>
@@ -123,7 +145,9 @@ export function CreateMovie() {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" fullWidth type="submit">Submit</Button>
+                        <Button variant="contained" color="primary" type="submit" onClick={validate}>
+                            Submit
+                        </Button>
                     </Grid>
                 </Grid>
             </form>
