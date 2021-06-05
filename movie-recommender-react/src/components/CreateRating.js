@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import axios from "axios";
 import {getUserId} from "../utils/Common";
-import {Box, Button, Typography} from "@material-ui/core";
+import {Box, Button, FormLabel, Grid, TextField, Typography, MenuItem} from "@material-ui/core";
 
 /**
  * @author Radoslav Chudovsky
@@ -11,11 +11,9 @@ const RatingSelect = ({rating, setter}) => {
     const values = [1, 2, 3, 4, 5]
 
     return (
-        <select name={3} value={rating} onChange={e => setter(e.target.value)}>
-            {values.map((option, i) => <option key={i} value={option}>
-                {option}
-            </option>)}
-        </select>
+        <TextField select name={3} value={rating} onChange={e => setter(e.target.value)}>
+            {values.map((option, i) => <MenuItem key={i} value={option}>{option}</MenuItem>)}
+        </TextField>
     )
 }
 
@@ -55,7 +53,7 @@ export function CreateRating() {
                     alert("Rating added successfully");
                     setSubmitted(true);
                 })
-            .catch((msg) => alert(msg))
+            .catch((msg) => console.log(msg))
     }
 
     return (
@@ -64,59 +62,59 @@ export function CreateRating() {
                 <Typography variant="h4">Create Rating for {location.state.title}</Typography>
             </Box>
             <form onSubmit={handleSubmit}>
-                <table>
-                    <tr>
-                        <td>
-                            <label>
-                                Originality:
-                            </label>
-                        </td>
-                        <td>
-                            <RatingSelect rating={originality} setter={setOriginality} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Soundtrack:
-                            </label>
-                        </td>
-                        <td>
-                            <RatingSelect rating={soundtrack} setter={setSoundtrack} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Narrative:
-                            </label>
-                        </td>
-                        <td>
-                            <RatingSelect rating={narrative} setter={setNarrative} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Cinematography:
-                            </label>
-                        </td>
-                        <td>
-                            <RatingSelect rating={cinematography} setter={setCinematography} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Depth:
-                            </label>
-                        </td>
-                        <td>
-                            <RatingSelect rating={depth} setter={setDepth} />
-                        </td>
-                    </tr>
-                    <Button variant="contained" color="primary" type="submit">Submit</Button>
-                </table>
+                <Grid container spacing={2}>
+                    <Grid item xs={5} />
+                    <Grid item xs={1}>
+                        <FormLabel>Originality: </FormLabel>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <RatingSelect rating={originality} setter={setOriginality} />
+                    </Grid>
+                    <Grid item xs={5} />
+
+                    <Grid item xs={5} />
+                    <Grid item xs={1}>
+                        <FormLabel>Soundtrack: </FormLabel>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <RatingSelect rating={soundtrack} setter={setSoundtrack} />
+                    </Grid>
+                    <Grid item xs={5} />
+
+                    <Grid item xs={5} />
+                    <Grid item xs={1}>
+                        <FormLabel>Narrative: </FormLabel>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <RatingSelect rating={narrative} setter={setNarrative} />
+                    </Grid>
+                    <Grid item xs={5} />
+
+                    <Grid item xs={5} />
+                    <Grid item xs={1}>
+                        <FormLabel>Cinematography: </FormLabel>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <RatingSelect rating={cinematography} setter={setCinematography} />
+                    </Grid>
+                    <Grid item xs={5} />
+
+                    <Grid item xs={5} />
+                    <Grid item xs={1}>
+                        <FormLabel>Depth: </FormLabel>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <RatingSelect rating={depth} setter={setDepth} />
+                    </Grid>
+                    <Grid item xs={5} />
+
+                    <Grid item xs={12}>
+                        <Button variant="contained" color="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Grid>
+
+                </Grid>
             </form>
         </div>
     )
