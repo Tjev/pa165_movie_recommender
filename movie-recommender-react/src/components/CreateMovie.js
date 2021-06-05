@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import {Box, Button, Typography, TextField, Grid, FormLabel} from "@material-ui/core";
+import {Box, Button, Typography, TextField, Grid, FormLabel, MenuItem} from "@material-ui/core";
 
 export function CreateMovie() {
     const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY",
@@ -42,14 +42,9 @@ export function CreateMovie() {
         setMovieGenres([]);
     }
 
-    const Options = ({ options }) => {
-        return (
-            options.map((option, i) =>
-                <option key={i} value={option.toString().toLowerCase()}>
-                    {option.toString().slice(0, 1).toUpperCase()
-                    + option.toString().slice(1, option.length).toLowerCase()}
-                </option>)
-        );
+    function reformatMovieGenre(genreToReformat) {
+        return genreToReformat.toString().slice(0, 1).toUpperCase()
+            + genreToReformat.toString().slice(1, genreToReformat.length).toLowerCase();
     }
 
     return (
@@ -97,9 +92,14 @@ export function CreateMovie() {
                         <FormLabel>Add genre: </FormLabel>
                     </Grid>
                     <Grid item xs={4}>
-                        <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)} fullWidth>
-                            <Options options={allMovieGenres}/>
-                        </select>
+                        <TextField select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
+                            {allMovieGenres.map((option, i) =>
+                                <MenuItem key={i} value={option}>
+                                    {reformatMovieGenre(option)}
+                                </MenuItem>
+                            )}
+                        </TextField>
+
                     </Grid>
                     <Grid item xs={6}>
                         <Button variant="contained" onClick={handleAddGenre} fullWidth
@@ -113,8 +113,7 @@ export function CreateMovie() {
                     </Grid>
                     <Grid item xs={5}>
                         <Typography>{movieGenres.length > 0
-                            ? movieGenres.map(genre => genre.toString().slice(0, 1).toUpperCase()
-                                + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')
+                            ? movieGenres.map(genre => reformatMovieGenre(genre)).join(', ')
                             : "(Choose at least one genre)"}</Typography>
                     </Grid>
                     <Grid item xs={5}>
