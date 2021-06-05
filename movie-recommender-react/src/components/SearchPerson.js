@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {getAdminStatus} from "../utils/Common";
+import {formatDate, getAdminStatus} from "../utils/Common";
 import {
     Box,
     Button,
@@ -41,7 +41,7 @@ function PersonList({ persons, setPersons }) {
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" align="left" component="p">
                                     {<p><b>Bio: </b> {bio}</p>}
-                                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                                    {<p><b>Date of birth: </b>{ formatDate(dateOfBirth) }</p>}
                                     <Grid container direction="row" spacing={2}>
                                         {getAdminStatus() &&
                                         <Grid item>

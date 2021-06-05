@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {Redirect, useLocation} from "react-router-dom";
 import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
+import {formatDate} from "../utils/Common";
 
 /**
  * @author Jiri Papousek
@@ -47,7 +48,7 @@ function PersonList({ persons, movieId }) {
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" align="left" component="p">
                                     {<p><b>Bio: </b> {bio}</p>}
-                                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                                    {<p><b>Date of birth: </b>{ formatDate(dateOfBirth) }</p>}
                                     <Button variant="contained" onClick={handleAddActor.bind(this, id)}>Add actor</Button>
                                 </Typography>
                             </CardContent>
