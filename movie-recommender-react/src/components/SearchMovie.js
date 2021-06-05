@@ -3,13 +3,13 @@ import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {AddActorLink} from "./AddActorLink";
-import {getUserId} from "../utils/Common";
+import {getAdminStatus, getUserId} from "../utils/Common";
 import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
-function MovieList({ movies, scores, token }) {
+function MovieList({ movies, scores, token, setMovies }) {
     const [ratedMoviesIDs, setRatedMoviesIDs] = useState([]);
 
     useEffect(() => {
@@ -21,7 +21,17 @@ function MovieList({ movies, scores, token }) {
                 .catch(console.log);
         }
         getRatings().then(ratings => {setRatedMoviesIDs(ratings.data.map(x => x.movie.id))});
-    }, [])
+    })
+
+    const handleDelete = async (movieId) => {
+        await axios.delete(`http://localhost:8080/pa165/rest/movies/remove`, {
+            data: {id: movieId},
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        setMovies((prev) => prev.filter((movie) => movie.id !== movieId));
+    }
 
     if (movies.length === 0) {
         return <p>No results found</p>;
@@ -43,11 +53,12 @@ function MovieList({ movies, scores, token }) {
                                 {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                                 {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                                 {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                                <Grid
-                                    container
-                                    direction="row"
-                                    spacing={2}
-                                >
+                                <Grid container direction="row" spacing={2}>
+                                    {getAdminStatus() &&
+                                        <Grid item>
+                                            <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
+                                        </Grid>
+                                    }
                                     {AddActorLink(id, title, token, actors)}
                                     {AddDirectorLink(id, title, token, directors)}
                                     {token &&
@@ -134,7 +145,7 @@ export function SearchMovie({token}) {
                 </form>
             </div>
             <div>
-                <MovieList movies={movies} scores={scores} token={token}/>
+                <MovieList movies={movies} scores={scores} token={token} setMovies={setMovies}/>
             </div>
         </div>
     );

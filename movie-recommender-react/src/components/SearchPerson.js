@@ -1,21 +1,31 @@
 import React, {useState} from 'react';
-import { theme } from "../utils/Common";
+import {getAdminStatus} from "../utils/Common";
 import {
     Box,
     Button,
     Card,
-    CardActionArea,
     CardContent,
     Grid,
-    MuiThemeProvider,
     TextField,
     Typography
 } from "@material-ui/core";
+import axios from "axios";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
-function PersonList({ persons }) {
+function PersonList({ persons, setPersons }) {
+
+    const handleDelete = async (personId) => {
+        await axios.delete(`http://localhost:8080/pa165/rest/persons/remove`, {
+            data: {id: personId},
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        setPersons((prev) => prev.filter((person) => person.id !== personId));
+    }
+
     if (persons.length === 0) {
         return <p>No results found</p>;
     }
@@ -32,6 +42,13 @@ function PersonList({ persons }) {
                                 <Typography variant="body2" color="textSecondary" align="left" component="p">
                                     {<p><b>Bio: </b> {bio}</p>}
                                     {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                                    <Grid container direction="row" spacing={2}>
+                                        {getAdminStatus() &&
+                                        <Grid item>
+                                            <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
+                                        </Grid>
+                                        }
+                                    </Grid>
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -82,7 +99,7 @@ export function SearchPerson() {
                     </form>
                 </div>
                 <div>
-                    <PersonList persons={persons} />
+                    <PersonList persons={persons} setPersons={setPersons} />
                 </div>
         </div>
     );
