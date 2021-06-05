@@ -48,7 +48,7 @@ public class ScoreComputationServiceTest {
 
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         closable = MockitoAnnotations.openMocks(this);
         scoreComputationService = new ScoreComputationServiceImpl(ratingDao, movieDao);
 

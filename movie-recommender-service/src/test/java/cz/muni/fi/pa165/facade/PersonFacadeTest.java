@@ -51,7 +51,7 @@ public class PersonFacadeTest {
     private MovieDTO movieDTO;
 
     @BeforeMethod
-    public void init() {
+    public void setUp() {
         closable = MockitoAnnotations.openMocks(this);
         personFacade = new PersonFacadeImpl(personMapper, movieMapper, personService);
 

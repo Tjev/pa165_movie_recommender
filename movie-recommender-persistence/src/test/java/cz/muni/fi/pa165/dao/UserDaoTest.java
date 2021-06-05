@@ -34,7 +34,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
     private User u2;
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         u1 = new User("John", "john@mail.com");
         u2 = new User("Maria", "maria@mail.com");
 

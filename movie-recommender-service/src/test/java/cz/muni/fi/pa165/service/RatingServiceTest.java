@@ -41,7 +41,7 @@ public class RatingServiceTest {
     private User user2;
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ratingService = new RatingServiceImpl(ratingDao);
 

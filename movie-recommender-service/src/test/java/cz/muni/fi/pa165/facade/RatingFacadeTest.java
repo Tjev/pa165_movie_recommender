@@ -51,7 +51,7 @@ public class RatingFacadeTest {
     private AutoCloseable closeable;
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         ratingFacade = new RatingFacadeImpl(ratingService, userService, movieService,
                 scoreComputationService, ratingMapper);

@@ -46,7 +46,7 @@ public class RatingDaoTest extends AbstractTestNGSpringContextTests {
     private User user2;
 
     @BeforeMethod
-    public void beforeTest() {
+    public void setUp() {
         Set<Genre> genres = new HashSet<>(Arrays.asList(Genre.ACTION));
 
         movie1 = new Movie("Shrek", null, LocalDate.of(2000, 1, 1), genres, null);

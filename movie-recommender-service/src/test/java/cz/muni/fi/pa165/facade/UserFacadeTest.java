@@ -45,7 +45,7 @@ public class UserFacadeTest {
     private UserRegisterDTO userRegisterDTO;
 
     @BeforeMethod
-    public void init() {
+    public void setUp() {
         closable = MockitoAnnotations.openMocks(this);
         userFacade = new UserFacadeImpl(userMapper, userService);
 
