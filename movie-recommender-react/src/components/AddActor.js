@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {useLocation} from "react-router-dom";
+import {Box, Button, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
  * @author Jiri Papousek
@@ -61,17 +62,25 @@ export function AddActor() {
     return (
         <div>
             <div className="add-actor-wrapper">
-                <h1>Search for an actor to add:</h1>
+                <Box mb={2}>
+                    <Typography variant="h4">Search for New Actor</Typography>
+                </Box>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Name:
-                        <input type="text"
-                               value={personName}
-                               onChange={e => setPersonName(e.target.value)}
-                               name="person name"
-                               placeholder="Enter person name"/>
-                    </label>
-                    <input type="submit" value="Search" />
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Grid item>
+                            <TextField value={personName} onInput={e => setPersonName(e.target.value)} placeholder="Enter person name"/>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" color="primary" type="submit">Search</Button>
+                        </Grid>
+
+                    </Grid>
                 </form>
             </div>
             <div>

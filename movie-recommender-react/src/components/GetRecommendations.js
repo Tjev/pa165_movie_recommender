@@ -3,6 +3,7 @@ import {NavLink, useLocation} from "react-router-dom";
 import axios from "axios";
 import {AddActorLink} from "./AddActorLink";
 import {AddDirectorLink} from "./AddDirectorLink";
+import {Box, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -73,7 +74,9 @@ export function GetRecommendations() {
 
     return (
         <div>
-            <h1>Recommendations for {location.state.title}</h1>
+            <Box mb={2}>
+                <Typography variant="h4">Recommendations for {location.state.title}</Typography>
+            </Box>
             <div>
                 <MovieList movies={movies} scores={scores} token={location.state.token} setMovies={setMovies} setScores={setScores} />
             </div>

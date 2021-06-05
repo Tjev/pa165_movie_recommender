@@ -4,6 +4,7 @@ import axios from "axios";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {AddActorLink} from "./AddActorLink";
 import {getUserId} from "../utils/Common";
+import {Box, Button, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -40,17 +41,25 @@ function MovieList({ movies, scores, token }) {
                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
                     {AddActorLink(id, title, token)}
                     {AddDirectorLink(id, title, token)}
-                    {token && <NavLink exact activeClassName="active" to={{
-                        pathname:'/get-recommendations',
-                        state: {id: id, title: title, token: token}
-                    }} >
-                        <button type="button">Search for movies like this</button>
+                    {token && <NavLink exact
+                                       activeClassName="active"
+                                       to={{
+                                           pathname:'/get-recommendations',
+                                           state: {id: id, title: title, token: token}
+                                       }}
+                                       style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" type="button">Search for movies like this</Button>
                     </NavLink>}
-                    {token && <NavLink exact activeClassName="active" to={{
-                        pathname:'/create-rating',
-                        state: {id: id, title: title}
-                    }} >
-                        <button type="button" disabled={ratedMoviesIDs.includes(id)}>Rate this movie</button>
+                    {token && <NavLink exact
+                                       activeClassName="active"
+                                       to={{
+                                           pathname:'/create-rating',
+                                           state: {id: id, title: title}
+                                       }}
+                                       style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" type="button" disabled={ratedMoviesIDs.includes(id)}>
+                            Rate this movie
+                        </Button>
                     </NavLink>}
                 </li>
             ))}
@@ -80,17 +89,24 @@ export function SearchMovie({token}) {
     return (
         <div>
             <div className="search-wrapper">
-                <h1>Search movie:</h1>
+                <Box mb={2}>
+                    <Typography variant="h4">Search Movie</Typography>
+                </Box>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Title:
-                        <input type="text"
-                               value={title}
-                               onChange={e => setTitle(e.target.value)}
-                               name="title"
-                               placeholder="Enter movie title"/>
-                    </label>
-                    <input type="submit" value="Search" />
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Grid item>
+                            <TextField value={title} onInput={e => setTitle(e.target.value)} placeholder="Enter movie title"/>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" color="primary" type="submit">Search</Button>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
             <div>

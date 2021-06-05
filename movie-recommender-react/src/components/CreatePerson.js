@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import DatePicker from 'react-date-picker'
 import axios from "axios";
+import {Box, Button, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik
@@ -26,7 +27,9 @@ export function CreatePerson() {
 
     return (
         <div className="create-person-wrapper">
-            <h1>Create person:</h1>
+            <Box mb={2}>
+                <Typography variant="h4">Create Person</Typography>
+            </Box>
             <form onSubmit={handleSubmit}>
                 <table>
                     <tr>
@@ -68,7 +71,7 @@ export function CreatePerson() {
                             <DatePicker value={dateOfBirth} onChange={setDateOfBirth} />
                         </td>
                     </tr>
-                    <input type="submit" value="Submit" />
+                    <Button variant="contained" color="primary" type="submit">Submit</Button>
                 </table>
             </form>
         </div>

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getUserId} from "../utils/Common";
 import axios from "axios";
+import {Box, Button, Typography} from "@material-ui/core";
 
 export function ManageUsers() {
     const [users, setUsers] = useState([]);
@@ -29,14 +30,16 @@ export function ManageUsers() {
             </div>
             {<p><b>Email: </b>{emailAddress}</p>}
             {<p><b>Admin: </b>{(admin).toString()}</p>}
-            <button onClick={() => handleDisable(id)}>Disable</button>
+            <Button variant="contained" onClick={() => handleDisable(id)}>Disable</Button>
         </li>
     )
 
     const renderUsers = (otherUsers) => {
         return (
             <div>
-                <h1>System users:</h1>
+                <Box mb={2}>
+                    <Typography variant="h4">User Management</Typography>
+                </Box>
                 <ul>
                     {otherUsers.map(user => renderUser(user))}
                 </ul>

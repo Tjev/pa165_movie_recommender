@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getUserId, getUser} from "../utils/Common";
 import axios from "axios";
+import {Box, Button, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik
@@ -28,7 +29,9 @@ export function YourRatings() {
 
     return (
         <div>
-            <h1>{getUser()}'s ratings:</h1>
+            <Box mb={2}>
+                <Typography variant="h4">{getUser()}'s ratings:</Typography>
+            </Box>
             {ratings.length === 0 && <p>You do not have any ratings</p>}
             <ul>
                 {ratings.map(({ id, movie, originality, soundtrack, narrative, cinematography, depth }) => (
@@ -41,7 +44,7 @@ export function YourRatings() {
                         {<p><b>Narrative: </b>{narrative}</p>}
                         {<p><b>Cinematography: </b>{cinematography}</p>}
                         {<p><b>Depth: </b>{depth}</p>}
-                        <button onClick={() => handleDelete(id)}>Delete</button>
+                        <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
                     </li>
                 ))}
             </ul>

@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react";
-import {BrowserRouter, HashRouter, NavLink, Redirect, Route, Router, Switch, useLocation} from "react-router-dom";
+import {HashRouter, NavLink, Redirect, Route, Switch, useLocation} from "react-router-dom";
 import {useToken, getAdminStatus} from "./utils/Common";
 import Login from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
@@ -14,6 +14,9 @@ import {YourRatings} from "./components/YourRatings";
 import {GetRecommendations} from "./components/GetRecommendations";
 import {ManageUsers} from "./components/ManageUsers";
 import {HomePage} from "./components/HomePage";
+import { theme } from "./utils/Common";
+import {MuiThemeProvider} from "@material-ui/core";
+
 
 export function App() {
     const { token, setToken } = useToken();
@@ -139,10 +142,12 @@ export function App() {
 
     return (
         <div className="App">
-            <HashRouter>
-                {(!token) ? <GetUnauthorizedHeader /> : ((!isAdmin) ? <GetHeader /> : <GetAdminHeader />)}
-                {(!token) ? <GetUnauthorizedRouteContent/> : ((!isAdmin) ? <GetRouteContent/> : <GetAdminRouteContent />)}
-            </HashRouter>
+            <MuiThemeProvider theme={theme}>
+                <HashRouter>
+                    {(!token) ? <GetUnauthorizedHeader /> : ((!isAdmin) ? <GetHeader /> : <GetAdminHeader />)}
+                    {(!token) ? <GetUnauthorizedRouteContent/> : ((!isAdmin) ? <GetRouteContent/> : <GetAdminRouteContent />)}
+                </HashRouter>
+            </MuiThemeProvider>
         </div>
       );
 }

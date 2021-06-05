@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import DatePicker from 'react-date-picker'
 import axios from "axios";
+import {Box, Button, Typography} from "@material-ui/core";
 
 export function CreateMovie() {
     const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY",
@@ -52,7 +53,9 @@ export function CreateMovie() {
 
     return (
         <div className="create-movie-wrapper">
-            <h1>Create movie:</h1>
+            <Box mb={2}>
+                <Typography variant="h4">Create Movie</Typography>
+            </Box>
             <form onSubmit={handleSubmit}>
                 <table>
                     <tr>
@@ -106,12 +109,12 @@ export function CreateMovie() {
                             <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
                                 <Options options={allMovieGenres}/>
                             </select>
-                            <button onClick={handleAddGenre}>Add genre</button>
-                            <button onClick={handleClearGenres}>Clear genres</button>
+                            <Button variant="contained" onClick={handleAddGenre}>Add genre</Button>
+                            <Button variant="contained" onClick={handleClearGenres}>Clear genres</Button>
                         </td>
                     </tr>
                 </table>
-                <input type="submit" value="Submit" />
+                <Button variant="contained" color="primary" type="submit">Submit</Button>
             </form>
         </div>
     )

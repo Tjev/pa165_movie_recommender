@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Redirect, useLocation} from "react-router-dom";
 import axios from "axios";
 import {getUserId} from "../utils/Common";
+import {Box, Button, Typography} from "@material-ui/core";
 
 /**
  * @author Radoslav Chudovsky
@@ -59,7 +60,9 @@ export function CreateRating() {
 
     return (
         <div className="create-rating-wrapper">
-            <h1>Create rating for {location.state.title}:</h1>
+            <Box mb={2}>
+                <Typography variant="h4">Create Rating for {location.state.title}</Typography>
+            </Box>
             <form onSubmit={handleSubmit}>
                 <table>
                     <tr>
@@ -112,7 +115,7 @@ export function CreateRating() {
                             <RatingSelect rating={depth} setter={setDepth} />
                         </td>
                     </tr>
-                    <input type="submit" value="Submit" />
+                    <Button variant="contained" color="primary" type="submit">Submit</Button>
                 </table>
             </form>
         </div>
