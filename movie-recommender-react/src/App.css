@@ -3,7 +3,7 @@
 }
 
 html, body {
-  background-color: #f05e23;
+  background-color: #f2d45c;
 }
 
 .content {
@@ -24,7 +24,7 @@ html, body {
 }
 
 .header a:hover {
-  color: #f05e23;
+  color: #b18e02;
 }
 
 .header small {
@@ -32,7 +32,7 @@ html, body {
 }
 
 .header .active {
-  color: #f05e23;
+  color: #b18e02;
 }
 
 ul {

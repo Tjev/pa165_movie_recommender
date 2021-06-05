@@ -68,7 +68,7 @@ public class RecommendationServiceTest {
     private final Rating m5u2Rating = setupRating(m5, u2);
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         recommendationService = new RecommendationServiceImpl(movieDao, ratingDao);
     }

@@ -40,7 +40,7 @@ public class UserServiceTest {
     private List<User> users;
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         closable = MockitoAnnotations.openMocks(this);
         userService = new UserServiceImpl(userDao);
 

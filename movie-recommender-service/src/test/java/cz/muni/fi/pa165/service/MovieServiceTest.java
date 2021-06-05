@@ -40,7 +40,7 @@ public class MovieServiceTest {
     private List<Movie> movies;
 
     @BeforeMethod
-    public void init() {
+    public void setUp() {
         closable = MockitoAnnotations.openMocks(this);
         movieService = new MovieServiceImpl(movieDao);
 

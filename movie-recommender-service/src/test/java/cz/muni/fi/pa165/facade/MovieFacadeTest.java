@@ -59,7 +59,7 @@ public class MovieFacadeTest {
     private Person p;
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
         movieFacade = new MovieFacadeImpl(
                 movieService,

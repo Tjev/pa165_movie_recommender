@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import jwtDecode from "jwt-decode";
+import {makeStyles} from "@material-ui/core/styles";
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { colors } from '@material-ui/core'
+
 
 function getJwtItem(key) {
     const jwtToken = sessionStorage.getItem('token');
@@ -46,3 +50,14 @@ export function useToken() {
         token
     }
 }
+
+export const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#ecc113'
+        },
+        secondary: {
+            main: '#e6e6e6'
+        }
+    }
+});
