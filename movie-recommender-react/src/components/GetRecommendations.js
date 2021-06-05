@@ -8,15 +8,16 @@ import {Box, Button, Card, CardContent, Grid, Typography} from "@material-ui/cor
 /**
  * @author Kristian Tkacik, Jiri Papousek
  */
-function MovieList({ movies, scores, token, setMovies, setScores}) {
+function MovieList({ movies, scores, token, setMovies, setScores, setTitle}) {
     let location = useLocation();
 
     if (movies.length === 0) {
         return <p>No results found</p>;
     }
 
-    const handleNewRecommend = async (e) => {
-        await axios.get(`http://localhost:8080/pa165/rest/movies/${e.currentTarget.value}/recommendations?amount=10`)
+    const handleNewRecommend = async (id, title) => {
+        setTitle(title);
+        await axios.get(`http://localhost:8080/pa165/rest/movies/${id}/recommendations?amount=10`)
             .then(res => {
                 setMovies(res.data);
                 return axios.all(res.data.map(
@@ -52,7 +53,7 @@ function MovieList({ movies, scores, token, setMovies, setScores}) {
                                         {AddActorLink(id, title, token)}
                                         {AddDirectorLink(id, title, token)}
                                         <Grid item>
-                                            <Button variant="contained" value={id} onClick={handleNewRecommend}>
+                                            <Button variant="contained" onClick={handleNewRecommend.bind(this, id, title)}>
                                                 <NavLink exact
                                                          activeClassName="active"
                                                          to={{
@@ -81,8 +82,10 @@ export function GetRecommendations() {
 
     const [movies, setMovies] = useState([]);
     const [scores, setScores] = useState([]);
+    const [title, setTitle] = useState([]);
 
     useEffect(async () => {
+        setTitle(location.state.title)
         await axios.get(`http://localhost:8080/pa165/rest/movies/${location.state.id}/recommendations?amount=10`)
             .then(res => {
                 setMovies(res.data);
@@ -97,10 +100,11 @@ export function GetRecommendations() {
     return (
         <div>
             <Box mb={2}>
-                <Typography variant="h4">Recommendations for {location.state.title}</Typography>
+                <Typography variant="h4">Recommendations for {title}</Typography>
             </Box>
             <div>
-                <MovieList movies={movies} scores={scores} token={location.state.token} setMovies={setMovies} setScores={setScores} />
+                <MovieList movies={movies} scores={scores} token={location.state.token}
+                           setMovies={setMovies} setScores={setScores} setTitle={setTitle} />
             </div>
         </div>
     );
