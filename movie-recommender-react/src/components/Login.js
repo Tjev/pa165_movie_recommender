@@ -61,7 +61,7 @@ export default function Login({token, setToken}) {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" fullWidth type="submit">Login</Button>
+                        <Button variant="contained" color="primary" type="submit">Login</Button>
                     </Grid>
 
                 </Grid>
