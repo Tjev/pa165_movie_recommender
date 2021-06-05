@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getUserId} from "../utils/Common";
 import axios from "axios";
-import {Box, Button, Typography} from "@material-ui/core";
+import {Box, Button, Card, CardContent, Grid, Typography} from "@material-ui/core";
 
 export function ManageUsers() {
     const [users, setUsers] = useState([]);
@@ -24,25 +24,34 @@ export function ManageUsers() {
     }
 
     const renderUser = ({id, username, emailAddress, admin}) => (
-        <li key={id}>
-            <div>
-                <h2>{username}</h2>
-            </div>
-            {<p><b>Email: </b>{emailAddress}</p>}
-            {<p><b>Admin: </b>{(admin).toString()}</p>}
-            <Button variant="contained" onClick={() => handleDisable(id)}>Disable</Button>
-        </li>
+        <Grid item xs={12}>
+            <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" align="left" component="h2">
+                        {username}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" align="left" component="p">
+                        {<p><b>Email: </b>{emailAddress}</p>}
+                        {<p><b>Admin: </b>{(admin).toString()}</p>}
+                        <Button variant="contained" onClick={() => handleDisable(id)}>Disable</Button>
+                    </Typography>
+                </CardContent>
+            </Card>
+        </Grid>
     )
 
     const renderUsers = (otherUsers) => {
+
         return (
             <div>
                 <Box mb={2}>
                     <Typography variant="h4">User Management</Typography>
                 </Box>
-                <ul>
-                    {otherUsers.map(user => renderUser(user))}
-                </ul>
+                <Box mt={1}>
+                    <Grid container  spacing={1}>
+                        {otherUsers.map(user => renderUser(user))}
+                    </Grid>
+                </Box>
             </div>
         )
     }

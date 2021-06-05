@@ -21,23 +21,23 @@ function PersonList({ persons }) {
     }
     return (
         <Box mt={1}>
-        <Grid container  spacing={1}>
-            {persons.map(({ id, name, bio, dateOfBirth }) => (
-                <Grid item xs={12}>
-                    <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" align="left" component="h2">
-                                {name}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" align="left" component="p">
-                                {<p><b>Bio: </b> {bio}</p>}
-                                {<p><b>Date of birth: </b>{dateOfBirth}</p>}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
+            <Grid container  spacing={1}>
+                {persons.map(({ id, name, bio, dateOfBirth }) => (
+                    <Grid item xs={12}>
+                        <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" align="left" component="h2">
+                                    {name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" align="left" component="p">
+                                    {<p><b>Bio: </b> {bio}</p>}
+                                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     );
 }

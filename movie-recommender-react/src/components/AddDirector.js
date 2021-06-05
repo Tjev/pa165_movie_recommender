@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {useLocation} from "react-router-dom";
-import {Box, Button, Grid, TextField, Typography} from "@material-ui/core";
+import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
  * @author Jiri Papousek
  */
 function PersonList({ persons, movieId }) {
 
-    const handleAddDirector = async (e) => {
-        e.preventDefault();
+    const handleAddDirector = async (id) => {
         const movie = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}`).catch(console.log);
 
-        movie.data.directors.push({id: e.target.value});
+        console.log(id);
+
+        movie.data.directors.push({id: id});
 
         return await axios.put('http://localhost:8080/pa165/rest/movies/update',
             movie.data)
@@ -26,19 +27,28 @@ function PersonList({ persons, movieId }) {
     if (persons.length === 0) {
         return <p>No results found</p>;
     }
+
     return (
-        <ul>
-            {persons.map(({ id, name, bio, dateOfBirth }) => (
-                <li key={id}>
-                    <div>
-                        <h2>{name}</h2>
-                    </div>
-                    {<p><b>Bio: </b> {bio}</p>}
-                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
-                    <button value={id} onClick={handleAddDirector}>Add director</button>
-                </li>
-            ))}
-        </ul>
+        <Box mt={1}>
+            <Grid container  spacing={1}>
+                {persons.map(({ id, name, bio, dateOfBirth }) => (
+                    <Grid item xs={12}>
+                        <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" align="left" component="h2">
+                                    {name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" align="left" component="p">
+                                    {<p><b>Bio: </b> {bio}</p>}
+                                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                                    <Button variant="contained" onClick={handleAddDirector.bind(this, id)}>Add director</Button>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     );
 }
 
