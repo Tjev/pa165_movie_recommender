@@ -82,11 +82,11 @@ export function AddActor() {
                         alignItems="center"
                         spacing={2}
                     >
-                        <Grid item>
-                            <TextField value={personName} onInput={e => setPersonName(e.target.value)} placeholder="Enter person name"/>
+                        <Grid item xs={11}>
+                            <TextField fullWidth value={personName} onInput={e => setPersonName(e.target.value)} placeholder="Enter person name"/>
                         </Grid>
-                        <Grid item>
-                            <Button variant="contained" color="primary" type="submit">Search</Button>
+                        <Grid item xs={1}>
+                            <Button fullWidth variant="contained" color="primary" type="submit">Search</Button>
                         </Grid>
 
                     </Grid>
