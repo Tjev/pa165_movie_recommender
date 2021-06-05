@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import DatePicker from 'react-date-picker'
 import axios from "axios";
-import {Box, Button, Typography} from "@material-ui/core";
+import {Box, Button, Typography, TextField, Grid, FormLabel} from "@material-ui/core";
 
 export function CreateMovie() {
     const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY",
@@ -10,7 +9,7 @@ export function CreateMovie() {
 
     const [movieTitle, setMovieTitle] = useState('');
     const [movieBio, setMovieBio] = useState('');
-    const [releaseYear, setReleaseYear] = useState('');
+    const [releaseYear, setReleaseYear] = useState('1895-12-28');
     const [movieGenre, setMovieGenre] = useState(allMovieGenres[0]);
     const [movieGenres, setMovieGenres] = useState([]);
 
@@ -32,8 +31,9 @@ export function CreateMovie() {
 
     const handleAddGenre = e => {
         e.preventDefault();
-        if (!movieGenres.includes(movieGenre)) {
+        if (!movieGenres.includes(movieGenre.toUpperCase())) {
             setMovieGenres([...movieGenres, movieGenre.toUpperCase()]);
+            setMovieGenre(allMovieGenres[0])
         }
     }
 
@@ -46,7 +46,8 @@ export function CreateMovie() {
         return (
             options.map((option, i) =>
                 <option key={i} value={option.toString().toLowerCase()}>
-                    {option.toString()}
+                    {option.toString().slice(0, 1).toUpperCase()
+                    + option.toString().slice(1, option.length).toLowerCase()}
                 </option>)
         );
     }
@@ -54,68 +55,79 @@ export function CreateMovie() {
     return (
         <div className="create-movie-wrapper">
             <Box mb={2}>
-                <Typography variant="h4">Create Movie</Typography>
+                <Typography variant="h4">Create movie</Typography>
             </Box>
+
             <form onSubmit={handleSubmit}>
-                <table>
-                    <tr>
-                        <td>
-                            <label>
-                                Title:
-                            </label>
-                        </td>
-                        <td>
-                            <input type="text"
+                <Grid container spacing={2}>
+
+                    <Grid item xs={2}>
+                        <FormLabel>Title: </FormLabel>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField type="text"
                                    value={movieTitle}
                                    onChange={e => setMovieTitle(e.target.value)}
-                                   name="title"
-                                   placeholder="Enter movie"
-                                   style={{width: 700}} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Bio:
-                            </label>
-                        </td>
-                        <td>
-                            <textarea value={movieBio}
-                                      onChange={e => setMovieBio(e.target.value)}
-                                      name="bio"
-                                      placeholder="Enter movie bio"
-                                      style={{width: 700, height: 100}} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Release year:
-                            </label>
-                        </td>
-                        <td>
-                            <DatePicker value={releaseYear} onChange={setReleaseYear} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Genres:</label>
-                        </td>
-                        <td>
-                            <p style={{textAlign: "left"}}>
-                                {movieGenres.length > 0
-                                    ? movieGenres.map(genre => genre.toString().slice(0, 1).toUpperCase() + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')
-                                    : "(Choose at least one genre)"}</p>
-                            <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)}>
-                                <Options options={allMovieGenres}/>
-                            </select>
-                            <Button variant="contained" onClick={handleAddGenre}>Add genre</Button>
-                            <Button variant="contained" onClick={handleClearGenres}>Clear genres</Button>
-                        </td>
-                    </tr>
-                </table>
-                <Button variant="contained" color="primary" type="submit">Submit</Button>
+                                   fullWidth
+                                   name="title"/>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <FormLabel>Bio (optional): </FormLabel>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField type="text"
+                                   value={movieBio}
+                                   onChange={e => setMovieBio(e.target.value)}
+                                   fullWidth
+                                   name="bio"/>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <FormLabel>Release date: </FormLabel>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField type="date"
+                                   value={releaseYear}
+                                   onChange={e => setReleaseYear(e.target.value)}
+                                   fullWidth/>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <FormLabel>Add genre: </FormLabel>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <select value={movieGenre} onChange={e => setMovieGenre(e.target.value)} fullWidth>
+                            <Options options={allMovieGenres}/>
+                        </select>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button variant="contained" onClick={handleAddGenre} fullWidth
+                                disabled={movieGenres.includes(movieGenre.toUpperCase())}>
+                            Add genre
+                        </Button>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <FormLabel>Chosen genres: </FormLabel>
+                    </Grid>
+                    <Grid item xs={5}>
+                        <Typography>{movieGenres.length > 0
+                            ? movieGenres.map(genre => genre.toString().slice(0, 1).toUpperCase()
+                                + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')
+                            : "(Choose at least one genre)"}</Typography>
+                    </Grid>
+                    <Grid item xs={5}>
+                        <Button variant="contained" onClick={handleClearGenres} disabled={movieGenres.length === 0}>
+                            Clear genres
+                        </Button>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Button variant="contained" color="primary" fullWidth type="submit">Submit</Button>
+                    </Grid>
+                </Grid>
             </form>
         </div>
-    )
+    );
 }
