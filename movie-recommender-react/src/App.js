@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react";
-import {BrowserRouter, NavLink, Redirect, Route, Router, Switch, useLocation} from "react-router-dom";
+import {BrowserRouter, HashRouter, NavLink, Redirect, Route, Router, Switch, useLocation} from "react-router-dom";
 import {useToken, getAdminStatus} from "./utils/Common";
 import Login from "./components/Login";
 import {SearchMovie} from "./components/SearchMovie";
@@ -139,10 +139,10 @@ export function App() {
 
     return (
         <div className="App">
-            <BrowserRouter basename="/pa165">
+            <HashRouter>
                 {(!token) ? <GetUnauthorizedHeader /> : ((!isAdmin) ? <GetHeader /> : <GetAdminHeader />)}
                 {(!token) ? <GetUnauthorizedRouteContent/> : ((!isAdmin) ? <GetRouteContent/> : <GetAdminRouteContent />)}
-            </BrowserRouter>
+            </HashRouter>
         </div>
       );
 }
