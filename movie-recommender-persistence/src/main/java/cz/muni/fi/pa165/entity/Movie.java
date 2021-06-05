@@ -59,7 +59,7 @@ public class Movie implements Serializable {
     @JoinTable(name = "actor_movie")
     private Set<Person> actors = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Column(name = "ratings")
     private Set<Rating> ratings = new HashSet<>();
 

@@ -21,7 +21,7 @@ function MovieList({ movies, scores, token, setMovies }) {
                 .catch(console.log);
         }
         getRatings().then(ratings => {setRatedMoviesIDs(ratings.data.map(x => x.movie.id))});
-    })
+    }, [])
 
     const handleDelete = async (movieId) => {
         await axios.delete(`http://localhost:8080/pa165/rest/movies/remove`, {
