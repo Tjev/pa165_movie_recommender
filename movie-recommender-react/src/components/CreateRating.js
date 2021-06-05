@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useLocation} from "react-router-dom";
+import {Redirect, useLocation} from "react-router-dom";
 import axios from "axios";
 import {getUserId} from "../utils/Common";
 
@@ -27,6 +27,12 @@ export function CreateRating() {
     const [cinematography, setCinematography] = useState(1);
     const [depth, setDepth] = useState(1);
 
+    const [submitted, setSubmitted] = useState(false);
+
+    if (submitted) {
+        return <Redirect to="/search-movie"/>;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         await axios.post('http://localhost:8080/pa165/rest/ratings/create',
@@ -44,7 +50,10 @@ export function CreateRating() {
                 }
             })
             .then(
-                () => alert("Rating added successfully"))
+                () => {
+                    alert("Rating added successfully");
+                    setSubmitted(true);
+                })
             .catch((msg) => alert(msg))
     }
 
