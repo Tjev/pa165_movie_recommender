@@ -43,34 +43,44 @@ function MovieList({ movies, scores, token }) {
                                 {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                                 {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                                 {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                                {AddActorLink(id, title, token)}
-                                {AddDirectorLink(id, title, token)}
-                                {token &&
-                                    <Button variant="contained">
-                                        <NavLink exact
-                                                 activeClassName="active"
-                                                 to={{
-                                                     pathname:'/get-recommendations',
-                                                     state: {id: id, title: title, token: token}
-                                                 }}
-                                                 style={{ textDecoration: 'none', color: 'black' }}>
-                                            Search for movies like this
-                                        </NavLink>
-                                    </Button>
-                                }
-                                {token &&
-                                    <Button variant="contained" disabled={ratedMoviesIDs.includes(id)}>
-                                        <NavLink
-                                                 activeClassName="active"
-                                                 to={{
-                                                     pathname:'/create-rating',
-                                                     state: {id: id, title: title}
-                                                 }}
-                                                 style={{ textDecoration: 'none', color: 'black' }}>
-                                            Rate this movie
-                                        </NavLink>
-                                    </Button>
-                                }
+                                <Grid
+                                    container
+                                    direction="row"
+                                    spacing={2}
+                                >
+                                    {AddActorLink(id, title, token)}
+                                    {AddDirectorLink(id, title, token)}
+                                    {token &&
+                                    <Grid item>
+                                        <Button variant="contained">
+                                            <NavLink exact
+                                                     activeClassName="active"
+                                                     to={{
+                                                         pathname:'/get-recommendations',
+                                                         state: {id: id, title: title, token: token}
+                                                     }}
+                                                     style={{ textDecoration: 'none', color: 'black' }}>
+                                                Search for movies like this
+                                            </NavLink>
+                                        </Button>
+                                    </Grid>
+                                    }
+                                    {token &&
+                                    <Grid item>
+                                        <Button variant="contained" disabled={ratedMoviesIDs.includes(id)}>
+                                            <NavLink
+                                                activeClassName="active"
+                                                to={{
+                                                    pathname:'/create-rating',
+                                                    state: {id: id, title: title}
+                                                }}
+                                                style={{ textDecoration: 'none', color: 'black' }}>
+                                                Rate this movie
+                                            </NavLink>
+                                        </Button>
+                                    </Grid>
+                                    }
+                                </Grid>
                             </Typography>
                         </CardContent>
                     </Card>

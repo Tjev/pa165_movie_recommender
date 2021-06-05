@@ -44,19 +44,27 @@ function MovieList({ movies, scores, token, setMovies, setScores}) {
                                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                                     {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                                    {AddActorLink(id, title, token)}
-                                    {AddDirectorLink(id, title, token)}
-                                    <Button variant="contained" value={id} onClick={handleNewRecommend}>
-                                        <NavLink exact
-                                                 activeClassName="active"
-                                                 to={{
-                                                     pathname:'/get-recommendations',
-                                                     state: {id: id, title: title}
-                                                 }}
-                                                 style={{ textDecoration: 'none', color: 'black' }}>
-                                            Search for movies like this
-                                        </NavLink>
-                                    </Button>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        spacing={2}
+                                    >
+                                        {AddActorLink(id, title, token)}
+                                        {AddDirectorLink(id, title, token)}
+                                        <Grid item>
+                                            <Button variant="contained" value={id} onClick={handleNewRecommend}>
+                                                <NavLink exact
+                                                         activeClassName="active"
+                                                         to={{
+                                                             pathname:'/get-recommendations',
+                                                             state: {id: id, title: title}
+                                                         }}
+                                                         style={{ textDecoration: 'none', color: 'black' }}>
+                                                    Search for movies like this
+                                                </NavLink>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
                                 </Typography>
                             </CardContent>
                         </Card>
