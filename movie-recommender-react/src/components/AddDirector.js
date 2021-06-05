@@ -33,7 +33,7 @@ function PersonList({ persons, movieId }) {
                         <h2>{name}</h2>
                     </div>
                     {<p><b>Bio: </b> {bio}</p>}
-                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                    {<p><b>Date of birth: </b>{ formatDate(dateOfBirth) }</p>}
                     <button value={id} onClick={handleAddDirector}>Add director</button>
                 </li>
             ))}

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {useLocation} from "react-router-dom";
+import {formatDate} from "../utils/Common";
 
 /**
  * @author Jiri Papousek
@@ -33,7 +34,7 @@ function PersonList({ persons, movieId }) {
                         <h2>{name}</h2>
                     </div>
                     {<p><b>Bio: </b> {bio}</p>}
-                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                    {<p><b>Date of birth: </b>{ formatDate(dateOfBirth) }</p>}
                     <button value={id} onClick={handleAddActor}>Add actor</button>
                 </li>
             ))}

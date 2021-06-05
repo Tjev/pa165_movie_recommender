@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import jwtDecode from "jwt-decode";
+import moment from "moment";
 
 function getJwtItem(key) {
     const jwtToken = sessionStorage.getItem('token');
@@ -45,4 +46,12 @@ export function useToken() {
         setToken: saveToken,
         token
     }
+}
+
+export function formatDate(date) {
+    return moment(date).format('Do MMMM YYYY');
+}
+
+export function formatYear(date) {
+    return moment(date).format('YYYY');
 }

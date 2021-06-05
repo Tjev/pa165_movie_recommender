@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {AddActorLink} from "./AddActorLink";
-import {getUserId} from "../utils/Common";
+import {formatYear, getUserId} from "../utils/Common";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -34,7 +34,7 @@ function MovieList({ movies, scores, token }) {
                     </div>
                     {<p><b>Score: </b> {scores[index]} / 5</p>}
                     {<p><b>Bio: </b> {bio}</p>}
-                    {<p><b>Release year: </b>{releaseYear}</p>}
+                    {<p><b>Release year: </b>{ formatYear(releaseYear) }</p>}
                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                     {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}

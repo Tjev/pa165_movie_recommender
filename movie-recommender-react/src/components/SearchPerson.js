@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {formatDate} from "../utils/Common";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -15,7 +16,7 @@ function PersonList({ persons }) {
                         <h2>{name}</h2>
                     </div>
                     {<p><b>Bio: </b> {bio}</p>}
-                    {<p><b>Date of birth: </b>{dateOfBirth}</p>}
+                    {<p><b>Date of birth: </b>{ formatDate(dateOfBirth) }</p>}
                 </li>
             ))}
         </ul>
