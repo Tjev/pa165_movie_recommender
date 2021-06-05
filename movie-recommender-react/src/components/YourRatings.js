@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getUserId, getUser} from "../utils/Common";
 import axios from "axios";
-import {Box, Button, Typography} from "@material-ui/core";
+import {Box, Button, Card, CardContent, Grid, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik
@@ -33,21 +33,30 @@ export function YourRatings() {
                 <Typography variant="h4">{getUser()}'s ratings:</Typography>
             </Box>
             {ratings.length === 0 && <p>You do not have any ratings</p>}
-            <ul>
-                {ratings.map(({ id, movie, originality, soundtrack, narrative, cinematography, depth }) => (
-                    <li key={id}>
-                        <div>
-                            <h2>{movie.title}</h2>
-                        </div>
-                        {<p><b>Originality: </b>{originality}</p>}
-                        {<p><b>Soundtrack: </b>{soundtrack}</p>}
-                        {<p><b>Narrative: </b>{narrative}</p>}
-                        {<p><b>Cinematography: </b>{cinematography}</p>}
-                        {<p><b>Depth: </b>{depth}</p>}
-                        <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
-                    </li>
-                ))}
-            </ul>
+            <Box mt={1}>
+                <Grid container  spacing={1}>
+                    {ratings.map(({ id, movie, originality, soundtrack, narrative, cinematography, depth }) => (
+                        <Grid item xs={12}>
+                            <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" align="left" component="h2">
+                                        {movie.title}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="textSecondary" align="left" component="p">
+                                        {<p><b>Originality: </b>{originality}</p>}
+                                        {<p><b>Soundtrack: </b>{soundtrack}</p>}
+                                        {<p><b>Narrative: </b>{narrative}</p>}
+                                        {<p><b>Cinematography: </b>{cinematography}</p>}
+                                        {<p><b>Depth: </b>{depth}</p>}
+                                        <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </div>
     );
 }
