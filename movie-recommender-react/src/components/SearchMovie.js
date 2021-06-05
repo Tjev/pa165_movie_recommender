@@ -48,8 +48,8 @@ function MovieList({ movies, scores, token }) {
                                     direction="row"
                                     spacing={2}
                                 >
-                                    {AddActorLink(id, title, token)}
-                                    {AddDirectorLink(id, title, token)}
+                                    {AddActorLink(id, title, token, actors)}
+                                    {AddDirectorLink(id, title, token, directors)}
                                     {token &&
                                     <Grid item>
                                         <Button variant="contained">

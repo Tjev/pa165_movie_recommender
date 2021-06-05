@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {Redirect, useLocation} from "react-router-dom";
 import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
@@ -8,18 +8,26 @@ import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@mate
  */
 function PersonList({ persons, movieId }) {
 
-    const handleAddActor = async (e) => {
-        e.preventDefault();
+    const [submitted, setSubmitted] = useState(false);
+
+    if (submitted) {
+        return <Redirect to="/search-movie"/>;
+    }
+
+    const handleAddActor = async (id) => {
         const movie = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}`).catch(console.log);
 
-        movie.data.actors.push({id: e.currentTarget.value});
+        movie.data.actors.push({id: id});
 
         return await axios.put('http://localhost:8080/pa165/rest/movies/update',
             movie.data)
             .then(
                 response => JSON.stringify(response))
             .then(
-                () => alert("Actor successfully added"))
+                () => {
+                    alert("Actor successfully added");
+                    setSubmitted(true);
+                })
             .catch((msg) => alert(msg))
     }
 
@@ -63,7 +71,11 @@ export function AddActor() {
         await fetch(`http://localhost:8080/pa165/rest/persons/find-by-name?name=${personName}`)
             .then(res => res.json())
             .then((data) => {
-                setPersons(data);
+                let actorIds = location.state.actors.map(actor => actor.id);
+                let candidates = data.filter(person => {
+                    return !(actorIds.includes(person.id));
+                });
+                setPersons(candidates);
             })
             .catch(console.log);
     }
