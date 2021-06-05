@@ -137,6 +137,10 @@ public class Movie implements Serializable {
         directors.add(director);
     }
 
+    public void removeDirector(Person director) {
+        directors.remove(director);
+    }
+
     public Set<Person> getActors() {
         return Collections.unmodifiableSet(actors);
     }
@@ -149,6 +153,10 @@ public class Movie implements Serializable {
      */
     public void addActor(Person actor) {
         actors.add(actor);
+    }
+
+    public void removeActor(Person actor) {
+        actors.remove(actor);
     }
 
     public Set<Rating> getRatings() {

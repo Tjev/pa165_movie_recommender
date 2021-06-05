@@ -96,6 +96,11 @@ public class Person implements Serializable {
         directedMovies.add(movie);
     }
 
+    public void removeDirectedMovie(Movie movie) {
+        movie.removeDirector(this);
+        directedMovies.remove(movie);
+    }
+
     public Set<Movie> getActsInMovies() {
         return Collections.unmodifiableSet(actsInMovies);
     }
@@ -108,6 +113,11 @@ public class Person implements Serializable {
     public void addActsInMovie(Movie movie) {
         movie.addActor(this);
         actsInMovies.add(movie);
+    }
+
+    public void removeActsInMovie(Movie movie) {
+        movie.removeActor(this);
+        actsInMovies.remove(movie);
     }
 
     @Override
