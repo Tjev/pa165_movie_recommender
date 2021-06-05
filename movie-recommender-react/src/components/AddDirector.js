@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {Redirect, useLocation} from "react-router-dom";
 import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
@@ -8,10 +8,14 @@ import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@mate
  */
 function PersonList({ persons, movieId }) {
 
+    const [submitted, setSubmitted] = useState(false);
+
+    if (submitted) {
+        return <Redirect to="/search-movie"/>;
+    }
+
     const handleAddDirector = async (id) => {
         const movie = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}`).catch(console.log);
-
-        console.log(id);
 
         movie.data.directors.push({id: id});
 
@@ -20,7 +24,10 @@ function PersonList({ persons, movieId }) {
             .then(
                 response => JSON.stringify(response))
             .then(
-                () => alert("Director successfully added"))
+                () => {
+                    alert("Director successfully added");
+                    setSubmitted(true);
+                })
             .catch((msg) => alert(msg))
     }
 
@@ -64,7 +71,11 @@ export function AddDirector() {
         await fetch(`http://localhost:8080/pa165/rest/persons/find-by-name?name=${personName}`)
             .then(res => res.json())
             .then((data) => {
-                setPersons(data);
+                let directorIds = location.state.directors.map(director => director.id);
+                let candidates = data.filter(person => {
+                    return !(directorIds.includes(person.id));
+                });
+                setPersons(candidates);
             })
             .catch(console.log);
     }

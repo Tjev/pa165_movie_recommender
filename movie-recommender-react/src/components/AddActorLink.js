@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {Button, Grid} from "@material-ui/core";
 import React from "react";
 
-export function AddActorLink(id, title, token) {
+export function AddActorLink(id, title, token, actors) {
     if (token && getAdminStatus()) {
         return (
             <Grid item>
@@ -12,7 +12,7 @@ export function AddActorLink(id, title, token) {
                              activeClassName="active"
                              to={{
                                  pathname:'/add-actor',
-                                 state: {id: id, title: title}
+                                 state: {id: id, title: title, actors: actors}
                              }}
                              style={{ textDecoration: 'none', color: "black" }}>
                         Add actor
