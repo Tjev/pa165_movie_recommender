@@ -18,7 +18,7 @@ public class MovieCreateDTO {
     private String bio;
     private LocalDate releaseYear;
     private ArrayList<Genre> genres;
-    private byte[] graphics;
+    private String graphics;
 
     public String getTitle() {
         return title;
@@ -52,11 +52,11 @@ public class MovieCreateDTO {
         this.genres = genres;
     }
 
-    public byte[] getGraphics() {
+    public String getGraphics() {
         return graphics;
     }
 
-    public void setGraphics(byte[] graphics) {
+    public void setGraphics(String graphics) {
         this.graphics = graphics;
     }
 
@@ -89,7 +89,6 @@ public class MovieCreateDTO {
                 ", bio='" + bio + '\'' +
                 ", releaseYear=" + releaseYear +
                 ", genres=" + genres +
-                ", graphics=" + Arrays.toString(graphics) +
                 '}';
     }
 }

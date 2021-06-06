@@ -4,7 +4,7 @@ import axios from "axios";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {AddActorLink} from "./AddActorLink";
 import {formatYear, getAdminStatus, getUserId} from "../utils/Common";
-import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
+import {Box, Button, Card, CardContent, CardMedia, Grid, TextField, Typography} from "@material-ui/core";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -39,61 +39,67 @@ function MovieList({ movies, scores, token, setMovies }) {
     return (
         <Box mt={1}>
             <Grid container  spacing={1}>
-                {movies.map(({ id, title, bio, releaseYear, genres, directors, actors }, index) => (
+                {movies.map(({ id, title, bio, releaseYear, genres, directors, actors, graphics }, index) => (
                 <Grid item xs={12}>
                     <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" align="left" component="h2">
-                                {title}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" align="left" component="p">
-                                {<p><b>Score: </b> {scores[index]} / 5</p>}
-                                {<p><b>Bio: </b> {bio}</p>}
-                                {<p><b>Release year: </b>{ formatYear(releaseYear) }</p>}
-                                {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
-                                {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
-                                {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                                <Grid container direction="row" spacing={2}>
-                                    {getAdminStatus() &&
+                    <CardMedia
+                            style={{height: 150, width: 150, alignItems: 'center'}}
+                            image={"data:image/jpg;base64," + graphics}
+                            title={`The graphics (poster) of \"${title}\"`}
+                        />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" align="left" component="h2">
+                                    {title}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" align="left" component="p">
+                                    {<p><b>Score: </b> {scores[index]} / 5</p>}
+                                    {<p><b>Bio: </b> {bio}</p>}
+                                    {<p><b>Release year: </b>{ formatYear(releaseYear) }</p>}
+                                    {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
+                                    {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
+                                    {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
+                                    <Grid container direction="row" spacing={2}>
+                                        {getAdminStatus() &&
+                                            <Grid item>
+                                                <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
+                                            </Grid>
+                                        }
+                                        {AddActorLink(id, title, token, actors)}
+                                        {AddDirectorLink(id, title, token, directors)}
+                                        {token &&
                                         <Grid item>
-                                            <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
+                                            <Button variant="contained">
+                                                <NavLink exact
+                                                        activeClassName="active"
+                                                        to={{
+                                                            pathname:'/get-recommendations',
+                                                            state: {id: id, title: title, token: token}
+                                                        }}
+                                                        style={{ textDecoration: 'none', color: 'black' }}>
+                                                    Search for movies like this
+                                                </NavLink>
+                                            </Button>
                                         </Grid>
-                                    }
-                                    {AddActorLink(id, title, token, actors)}
-                                    {AddDirectorLink(id, title, token, directors)}
-                                    {token &&
-                                    <Grid item>
-                                        <Button variant="contained">
-                                            <NavLink exact
-                                                     activeClassName="active"
-                                                     to={{
-                                                         pathname:'/get-recommendations',
-                                                         state: {id: id, title: title, token: token}
-                                                     }}
-                                                     style={{ textDecoration: 'none', color: 'black' }}>
-                                                Search for movies like this
-                                            </NavLink>
-                                        </Button>
+                                        }
+                                        {token &&
+                                        <Grid item>
+                                            <Button variant="contained" disabled={ratedMoviesIDs.includes(id)}>
+                                                <NavLink
+                                                    activeClassName="active"
+                                                    to={{
+                                                        pathname:'/create-rating',
+                                                        state: {id: id, title: title}
+                                                    }}
+                                                    style={{ textDecoration: 'none', color: 'black' }}>
+                                                    Rate this movie
+                                                </NavLink>
+                                            </Button>
+                                        </Grid>
+                                        }
                                     </Grid>
-                                    }
-                                    {token &&
-                                    <Grid item>
-                                        <Button variant="contained" disabled={ratedMoviesIDs.includes(id)}>
-                                            <NavLink
-                                                activeClassName="active"
-                                                to={{
-                                                    pathname:'/create-rating',
-                                                    state: {id: id, title: title}
-                                                }}
-                                                style={{ textDecoration: 'none', color: 'black' }}>
-                                                Rate this movie
-                                            </NavLink>
-                                        </Button>
-                                    </Grid>
-                                    }
-                                </Grid>
-                            </Typography>
-                        </CardContent>
+                                </Typography>
+                            </CardContent>
+                        
                     </Card>
                 </Grid>
             ))}

@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.entity.Movie;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -16,6 +17,14 @@ import java.util.List;
  */
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE, componentModel = "spring")
 public interface MovieMapper {
+
+    default byte[] toBytes(String string) {
+        return Base64.getDecoder().decode(string);
+    }
+
+    default String toStr(byte[] bytes) {
+        return (bytes != null) ? Base64.getEncoder().encodeToString(bytes) : null;
+    }
 
     MovieDTO movieToMovieDTO(Movie movie);
     Movie movieDTOToMovie(MovieDTO movieDTO);

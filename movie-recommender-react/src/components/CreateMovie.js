@@ -13,6 +13,10 @@ export function CreateMovie() {
     const [movieGenre, setMovieGenre] = useState(allMovieGenres[0]);
     const [movieGenres, setMovieGenres] = useState([]);
     const [isFormInvalid, setIsFormInvalid] = useState(false);
+    const [movieGraphicsURL, setMovieGraphicsURL] = useState('');
+    const [movieGraphicsFile, setMovieGraphicsFile] = useState(null);
+
+    const reader = new FileReader();
 
     const validate = () => {
         if (movieTitle !== "" && releaseYear !== "" && movieGenres.length !== 0) {
@@ -22,17 +26,30 @@ export function CreateMovie() {
         }
     }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        reader.onload = () => {resolve(reader.result.split(',')[1])};
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isFormInvalid) {
             return;
         }
+
+        let serializedGraphics = '';
+        if (movieGraphicsFile) {
+            serializedGraphics = await toBase64(movieGraphicsFile);
+        }
+
         return await axios.post('http://localhost:8080/pa165/rest/movies/create',
             {
                 title: movieTitle,
                 bio: movieBio,
                 releaseYear: releaseYear,
                 genres: movieGenres,
+                graphics: serializedGraphics,
             })
             .then(
                 response => JSON.stringify(response))
@@ -57,6 +74,16 @@ export function CreateMovie() {
     function reformatMovieGenre(genreToReformat) {
         return genreToReformat.toString().slice(0, 1).toUpperCase()
             + genreToReformat.toString().slice(1, genreToReformat.length).toLowerCase();
+    }
+
+    const handleFileUpload = (e) => {
+        let file = e.target.files[0]
+        if (!file) {
+            return;
+        }
+        let fileURL = URL.createObjectURL(file);
+        setMovieGraphicsFile(file);
+        setMovieGraphicsURL(fileURL);
     }
 
     return (
@@ -148,6 +175,24 @@ export function CreateMovie() {
                         <Button variant="contained" color="primary" type="submit" onClick={validate}>
                             Submit
                         </Button>
+                    </Grid>
+
+                    <Grid item xs={3}>
+                        <input
+                        type="file"
+                        id="contained-file-button"
+                        accept=".jpeg, .png, .jpg"
+                        onChange={handleFileUpload}
+                        hidden
+                        />
+                        <label htmlFor="contained-file-button">
+                            <Button variant="contained" color="primary" component="span">
+                                Upload graphics
+                            </Button>
+                        </label>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <img src={movieGraphicsURL}/>
                     </Grid>
                 </Grid>
             </form>

@@ -20,6 +20,7 @@ public class MovieDetailedDTO {
     private String bio;
     private LocalDate releaseYear;
     private ArrayList<Genre> genres;
+    private String graphics;
 
     private ArrayList<PersonDTO> directors;
     private ArrayList<PersonDTO> actors;
@@ -87,6 +88,14 @@ public class MovieDetailedDTO {
 
     public void setRatings(ArrayList<RatingDTO> ratings) {
         this.ratings = ratings;
+    }
+
+    public String getGraphics() {
+        return graphics;
+    }
+
+    public void setGraphics(String graphics) {
+        this.graphics = graphics;
     }
 
     @Override
