@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import {makeStyles} from "@material-ui/core/styles";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { colors } from '@material-ui/core'
-
+import moment from 'moment'
 
 function getJwtItem(key) {
     const jwtToken = sessionStorage.getItem('token');
@@ -49,6 +49,14 @@ export function useToken() {
         setToken: saveToken,
         token
     }
+}
+
+export function formatDate(date) {
+    return moment(date).format('Do MMMM YYYY');
+}
+
+export function formatYear(date) {
+    return moment(date).format('YYYY');
 }
 
 export const theme = createMuiTheme({

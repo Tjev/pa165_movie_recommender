@@ -4,6 +4,7 @@ import axios from "axios";
 import {AddActorLink} from "./AddActorLink";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {Box, Button, Card, CardContent, Grid, Typography} from "@material-ui/core";
+import {formatYear} from "../utils/Common";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -41,7 +42,7 @@ function MovieList({ movies, scores, token, setMovies, setScores, setTitle}) {
                                 <Typography variant="body2" color="textSecondary" align="left" component="p">
                                     {<p><b>Score: </b> {scores[index]} / 5</p>}
                                     {<p><b>Bio: </b> {bio}</p>}
-                                    {<p><b>Release year: </b>{releaseYear}</p>}
+                                    {<p><b>Release year: </b>{ formatYear(releaseYear) }</p>}
                                     {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
                                     {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
                                     {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
