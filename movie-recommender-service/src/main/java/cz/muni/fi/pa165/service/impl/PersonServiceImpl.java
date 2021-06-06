@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.service.impl;
 
 import cz.muni.fi.pa165.dao.PersonDao;
+import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.entity.Person;
 import cz.muni.fi.pa165.exception.ServiceLayerException;
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of PersonService interface
@@ -109,13 +111,23 @@ public class PersonServiceImpl implements PersonService {
             throw new IllegalArgumentException("Person parameter is null.");
         }
 
-        Person found = findById(person.getId());
+        Person foundPerson = findById(person.getId());
 
-        if (found == null) {
+        if (foundPerson == null) {
             throw new IllegalArgumentException("Person is not in the database.");
         }
 
         try {
+            Set<Movie> actedIn = foundPerson.getActsInMovies();
+            for (Movie movie: actedIn) {
+                movie.removeActor(foundPerson);
+            }
+
+            Set<Movie> directed = foundPerson.getDirectedMovies();
+            for (var movie: directed) {
+                movie.removeDirector(foundPerson);
+            }
+
             personDao.remove(person);
         } catch (PersistenceException | DataAccessException e) {
             throw new ServiceLayerException("Error occurred while removing Person.", e);

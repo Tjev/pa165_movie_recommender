@@ -137,6 +137,16 @@ public class Movie implements Serializable {
         directors.add(director);
     }
 
+    /**
+     * Removes many-to-many connection to the given director
+     * and this movie.
+     *
+     * @param director director that directed this movie
+     */
+    public void removeDirector(Person director) {
+        directors.remove(director);
+    }
+
     public Set<Person> getActors() {
         return Collections.unmodifiableSet(actors);
     }
@@ -149,6 +159,16 @@ public class Movie implements Serializable {
      */
     public void addActor(Person actor) {
         actors.add(actor);
+    }
+
+    /**
+     * Removes many-to-many connection to the given actor
+     * and this movie.
+     *
+     * @param actor actor that acted in this movie
+     */
+    public void removeActor(Person actor) {
+        actors.remove(actor);
     }
 
     public Set<Rating> getRatings() {

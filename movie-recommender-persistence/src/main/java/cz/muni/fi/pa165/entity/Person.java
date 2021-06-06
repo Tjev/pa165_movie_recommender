@@ -87,7 +87,7 @@ public class Person implements Serializable {
     }
 
     /**
-     * Adds connection to movie that has been directed by the person.
+     * Adds a connection to the movie that has been directed by this person.
      *
      * @param movie that has been directed by this person
      */
@@ -96,18 +96,38 @@ public class Person implements Serializable {
         directedMovies.add(movie);
     }
 
+    /**
+     * Removes the connection to the movie that has been directed by this person.
+     *
+     * @param movie that has been directed by this person
+     */
+    public void removeDirectedMovie(Movie movie) {
+        movie.removeDirector(this);
+        directedMovies.remove(movie);
+    }
+
     public Set<Movie> getActsInMovies() {
         return Collections.unmodifiableSet(actsInMovies);
     }
 
     /**
-     * Adds connection to movie the person acted in.
+     * Adds a connection to the movie this person acted in.
      *
      * @param movie in which the person acted
      */
     public void addActsInMovie(Movie movie) {
         movie.addActor(this);
         actsInMovies.add(movie);
+    }
+
+    /**
+     * Removes the connection to the movie this person acted in.
+     *
+     * @param movie in which the person acted
+     */
+    public void removeActsInMovie(Movie movie) {
+        movie.removeActor(this);
+        actsInMovies.remove(movie);
     }
 
     @Override
