@@ -42,23 +42,25 @@ function MovieList({ movies, scores, token, setMovies }) {
                 {movies.map(({ id, title, bio, releaseYear, genres, directors, actors, graphics }, index) => (
                 <Grid item xs={12}>
                     <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
-                    <CardMedia
-                            style={{height: 150, width: 150, alignItems: 'center'}}
-                            image={"data:image/jpg;base64," + graphics}
-                            title={`The graphics (poster) of \"${title}\"`}
-                        />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" align="left" component="h2">
-                                    {title}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" align="left" component="p">
-                                    {<p><b>Score: </b> {scores[index]} / 5</p>}
-                                    {<p><b>Bio: </b> {bio}</p>}
-                                    {<p><b>Release year: </b>{ formatYear(releaseYear) }</p>}
-                                    {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
-                                    {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
-                                    {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
-                                    <Grid container direction="row" spacing={2}>
+                        <CardContent style={{"padding-bottom": "16px"}}>
+                            <Grid container>
+                                <Grid item container direction="column" xs={9} justify="space-between">
+                                    <Grid item>
+                                        <Typography gutterBottom variant="h5" align="left" component="h2">
+                                            {title}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant="body2" color="textSecondary" align="left" component="p">
+                                            {<p><b>Score: </b> {scores[index]} / 5</p>}
+                                            {<p><b>Description: </b> {bio}</p>}
+                                            {<p><b>Release year: </b>{ formatYear(releaseYear) }</p>}
+                                            {<p><b>Genres: </b>{genres.map(genre => genre.toString().slice(0, 1) + genre.toString().slice(1, genre.length).toLowerCase()).join(', ')}</p>}
+                                            {<p><b>Directed by: </b>{directors.map(director => director.name).join(', ')}</p>}
+                                            {<p><b>Actors: </b>{actors.map(actor => actor.name).join(', ')}</p>}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item container spacing={2}>
                                         {getAdminStatus() &&
                                             <Grid item>
                                                 <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
@@ -97,8 +99,12 @@ function MovieList({ movies, scores, token, setMovies }) {
                                         </Grid>
                                         }
                                     </Grid>
-                                </Typography>
-                            </CardContent>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <img src={"data:image/jpg;base64," + graphics} style={{"max-width": "95%", "margin": "5px"}}/>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
                         
                     </Card>
                 </Grid>
@@ -116,6 +122,7 @@ export function SearchMovie({token}) {
     const handleSubmit = async (e) => {
         if (!title) return;
         e.preventDefault();
+
         await axios.get(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
             .then(res => {
                 setMovies(res.data);
