@@ -4,7 +4,8 @@ import axios from "axios";
 import {AddDirectorLink} from "./AddDirectorLink";
 import {AddActorLink} from "./AddActorLink";
 import {formatYear, getAdminStatus, getUserId} from "../utils/Common";
-import {Box, Button, Card, CardContent, CardMedia, Grid, TextField, Typography} from "@material-ui/core";
+import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core"
+import BrokenImageIcon from '@material-ui/icons/BrokenImage';
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -31,6 +32,15 @@ function MovieList({ movies, scores, token, setMovies }) {
             }
         })
         setMovies((prev) => prev.filter((movie) => movie.id !== movieId));
+    }
+
+    const noImage = () => {
+        return (
+            <Grid container direction="column" style={{"display": "flex", "width": "95%", "height": "95%", "margin": "5px", "align-items": "center", "justify-content": "center", "background-color": "white"}}>
+                <BrokenImageIcon style={{fontSize: 150}}/>
+                <Typography>No graphics.</Typography>
+            </Grid>
+        )
     }
 
     if (movies.length === 0) {
@@ -100,8 +110,11 @@ function MovieList({ movies, scores, token, setMovies }) {
                                         }
                                     </Grid>
                                 </Grid>
-                                <Grid item xs={3}>
-                                    <img src={"data:image/jpg;base64," + graphics} style={{"max-width": "95%", "margin": "5px"}}/>
+                                <Grid item xs={3} justify="center">
+                                    {graphics
+                                    ? <img src={"data:image/jpg;base64," + graphics} style={{"max-width": "95%", "margin": "5px"}}/>
+                                    : noImage()
+                                    }
                                 </Grid>
                             </Grid>
                         </CardContent>
