@@ -36,7 +36,7 @@ function MovieList({ movies, scores, token, setMovies }) {
 
     const noImage = () => {
         return (
-            <Grid container direction="column" style={{"display": "flex", "width": "95%", "height": "95%", "margin": "5px", "align-items": "center", "justify-content": "center", "background-color": "white"}}>
+            <Grid container direction="column" style={{"display": "flex", "width": "95%", "height": "95%", "margin": "5px", "alignItems": "center", "justifyContent": "center", "backgroundColor": "white"}}>
                 <BrokenImageIcon style={{fontSize: 150}}/>
                 <Typography>No graphics.</Typography>
             </Grid>
@@ -52,7 +52,7 @@ function MovieList({ movies, scores, token, setMovies }) {
                 {movies.map(({ id, title, bio, releaseYear, genres, directors, actors, graphics }, index) => (
                 <Grid item xs={12}>
                     <Card fullwidth style={{backgroundColor: "#e6e6e6"}}>
-                        <CardContent style={{"padding-bottom": "16px"}}>
+                        <CardContent style={{"paddingBottom": "16px"}}>
                             <Grid container>
                                 <Grid item container direction="column" xs={9} justify="space-between">
                                     <Grid item>
@@ -112,7 +112,7 @@ function MovieList({ movies, scores, token, setMovies }) {
                                 </Grid>
                                 <Grid item xs={3} justify="center">
                                     {graphics
-                                    ? <img src={"data:image/jpg;base64," + graphics} style={{"max-width": "95%", "margin": "5px"}}/>
+                                    ? <img src={"data:image/jpg;base64," + graphics} style={{"maxWidth": "95%", "margin": "5px"}}/>
                                     : noImage()
                                     }
                                 </Grid>
