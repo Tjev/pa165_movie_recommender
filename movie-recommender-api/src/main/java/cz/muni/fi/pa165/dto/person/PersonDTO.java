@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dto.person;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
