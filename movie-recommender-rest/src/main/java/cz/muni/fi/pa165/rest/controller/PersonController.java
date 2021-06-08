@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.rest.controller;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import cz.muni.fi.pa165.dto.person.PersonCreateDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
@@ -48,7 +49,7 @@ public class PersonController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public final PersonDetailedDTO create(@RequestBody PersonCreateDTO personCreateDTO) {
+    public final PersonDetailedDTO create(@Valid @RequestBody PersonCreateDTO personCreateDTO) {
         logger.debug("rest create({})", personCreateDTO);
 
         try {
@@ -123,7 +124,7 @@ public class PersonController {
     @RequestMapping(value = "/update", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final PersonDetailedDTO update(@RequestBody PersonDetailedDTO personDetailedDTO) {
+    public final PersonDetailedDTO update(@Valid @RequestBody PersonDetailedDTO personDetailedDTO) {
         logger.debug("rest update({})", personDetailedDTO);
 
         try {
@@ -143,7 +144,7 @@ public class PersonController {
      * @param personDTO person to be removed
      */
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void remove(@RequestBody PersonDTO personDTO) {
+    public final void remove(@Valid @RequestBody PersonDTO personDTO) {
         logger.debug("rest remove({})", personDTO);
 
         try {

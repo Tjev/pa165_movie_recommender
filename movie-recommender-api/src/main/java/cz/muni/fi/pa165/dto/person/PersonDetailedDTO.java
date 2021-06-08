@@ -2,6 +2,9 @@ package cz.muni.fi.pa165.dto.person;
 
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -14,9 +17,16 @@ import java.util.Set;
  */
 public class PersonDetailedDTO {
 
+    @NotNull
     private Long id;
+
+    @Size(max=255)
     private String name;
+
+    @Past
     private LocalDate dateOfBirth;
+
+    @Size(max=511)
     private String bio;
 
     private ArrayList<MovieDTO> directedMovies;
