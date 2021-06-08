@@ -4,12 +4,14 @@ import cz.muni.fi.pa165.dto.movie.MovieCreateDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
+import cz.muni.fi.pa165.entity.Genre;
+import cz.muni.fi.pa165.entity.Movie;
+import cz.muni.fi.pa165.entity.Person;
+import cz.muni.fi.pa165.mapper.MovieMapper;
+import cz.muni.fi.pa165.mapper.PersonMapper;
 import cz.muni.fi.pa165.service.MovieService;
 import cz.muni.fi.pa165.service.RecommendationService;
 import cz.muni.fi.pa165.service.ScoreComputationService;
-import cz.muni.fi.pa165.entity.*;
-import cz.muni.fi.pa165.mapper.MovieMapper;
-import cz.muni.fi.pa165.mapper.PersonMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
@@ -19,7 +21,6 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
