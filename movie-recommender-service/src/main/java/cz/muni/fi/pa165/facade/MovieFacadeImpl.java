@@ -244,6 +244,7 @@ public class MovieFacadeImpl implements MovieFacade {
                 Comparator.comparing(scoreService::getOverallScoreForMovie)
         );
 
+        Collections.reverse(intersection);
         return intersection;
     }
 
@@ -253,13 +254,14 @@ public class MovieFacadeImpl implements MovieFacade {
         set.addAll(l1);
         set.addAll(l2);
 
-        set.removeAll(getSortedIntersection(l1, l2));
+        getSortedIntersection(l1, l2).forEach(set::remove);
 
         List<Movie> disjunctiveUnion = new ArrayList<>(set);
         disjunctiveUnion.sort(
                 Comparator.comparing(scoreService::getOverallScoreForMovie)
         );
 
+        Collections.reverse(disjunctiveUnion);
         return disjunctiveUnion;
     }
 }

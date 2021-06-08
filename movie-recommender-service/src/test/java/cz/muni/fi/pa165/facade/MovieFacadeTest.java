@@ -4,12 +4,14 @@ import cz.muni.fi.pa165.dto.movie.MovieCreateDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
 import cz.muni.fi.pa165.dto.person.PersonDTO;
+import cz.muni.fi.pa165.entity.Genre;
+import cz.muni.fi.pa165.entity.Movie;
+import cz.muni.fi.pa165.entity.Person;
+import cz.muni.fi.pa165.mapper.MovieMapper;
+import cz.muni.fi.pa165.mapper.PersonMapper;
 import cz.muni.fi.pa165.service.MovieService;
 import cz.muni.fi.pa165.service.RecommendationService;
 import cz.muni.fi.pa165.service.ScoreComputationService;
-import cz.muni.fi.pa165.entity.*;
-import cz.muni.fi.pa165.mapper.MovieMapper;
-import cz.muni.fi.pa165.mapper.PersonMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
@@ -319,13 +321,13 @@ public class MovieFacadeTest {
         MovieDetailedDTO m4DTO = new MovieDetailedDTO();
         m4DTO.setTitle(m4.getTitle());
 
-        MovieDetailedDTO m5DTO = new MovieDetailedDTO();
-        m5DTO.setTitle(m5.getTitle());
+        MovieDetailedDTO m3DTO = new MovieDetailedDTO();
+        m3DTO.setTitle(m3.getTitle());
 
 
-        List<MovieDetailedDTO> expected = List.of(m4DTO, m1DTO, m5DTO);
+        List<MovieDetailedDTO> expected = List.of(m1DTO, m4DTO, m3DTO);
 
-        when(movieMapper.movieListToMovieDetailedDTOList(List.of(m4, m1, m5))).thenReturn(expected);
+        when(movieMapper.movieListToMovieDetailedDTOList(List.of(m1, m4, m3))).thenReturn(expected);
 
         List<MovieDetailedDTO> result = movieFacade.getRecommendations(inputDTO, 3);
 
