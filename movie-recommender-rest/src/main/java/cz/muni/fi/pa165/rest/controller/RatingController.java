@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -51,7 +52,7 @@ public class RatingController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public final RatingDTO create(@RequestBody RatingCreateDTO ratingCreateDTO) {
+    public final RatingDTO create(@Valid @RequestBody RatingCreateDTO ratingCreateDTO) {
         logger.debug("rest create({})", ratingCreateDTO);
 
         try {
@@ -74,7 +75,7 @@ public class RatingController {
     @RequestMapping(value = "/update", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final RatingDTO update(@RequestBody RatingDTO ratingDTO) {
+    public final RatingDTO update(@Valid @RequestBody RatingDTO ratingDTO) {
         logger.debug("rest update({})", ratingDTO);
 
         try {
@@ -96,7 +97,7 @@ public class RatingController {
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void remove(@RequestBody RatingDTO ratingDTO) {
+    public final void remove(@Valid @RequestBody RatingDTO ratingDTO) {
         logger.debug("rest remove({})", ratingDTO);
 
         try {

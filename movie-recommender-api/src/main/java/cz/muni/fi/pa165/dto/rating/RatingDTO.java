@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.dto.rating;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Objects;
  */
 public class RatingDTO {
 
+    @NotNull
     private Long id;
     private UserDTO user;
     private MovieDTO movie;

@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dto.movie.MovieDTO;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -14,8 +15,10 @@ import java.util.Objects;
  */
 public class RatingCreateDTO {
 
+    @NotNull
     private UserDTO user;
 
+    @NotNull
     private MovieDTO movie;
 
     @Min(value = 1, message = "Minimum rating value is 1")
