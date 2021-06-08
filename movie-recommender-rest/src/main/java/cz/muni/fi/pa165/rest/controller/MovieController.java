@@ -3,8 +3,6 @@ package cz.muni.fi.pa165.rest.controller;
 import cz.muni.fi.pa165.dto.movie.MovieCreateDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDTO;
 import cz.muni.fi.pa165.dto.movie.MovieDetailedDTO;
-import cz.muni.fi.pa165.dto.person.PersonDetailedDTO;
-import cz.muni.fi.pa165.entity.Movie;
 import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.facade.MovieFacade;
 import cz.muni.fi.pa165.rest.exception.DataSourceException;
@@ -15,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +45,7 @@ public class MovieController {
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public final MovieDetailedDTO create(@RequestBody MovieCreateDTO movieCreateDTO) {
+    public final MovieDetailedDTO create(@Valid @RequestBody MovieCreateDTO movieCreateDTO) {
         logger.debug("rest create({})", movieCreateDTO);
 
         try {
@@ -282,7 +281,7 @@ public class MovieController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final MovieDetailedDTO update(@RequestBody MovieDetailedDTO movieDetailedDTO) {
+    public final MovieDetailedDTO update(@Valid @RequestBody MovieDetailedDTO movieDetailedDTO) {
         logger.debug("rest update({})", movieDetailedDTO);
 
         try {
@@ -302,7 +301,7 @@ public class MovieController {
      * @param movieDTO movie to be removed
      */
     @RequestMapping(value = "/remove", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final void remove(@RequestBody MovieDTO movieDTO) {
+    public final void remove(@Valid @RequestBody MovieDTO movieDTO) {
         logger.debug("rest remove({})", movieDTO);
 
         try {

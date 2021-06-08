@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.dto.person.PersonDTO;
 import cz.muni.fi.pa165.dto.rating.RatingDTO;
 import cz.muni.fi.pa165.entity.Genre;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.Objects;
  */
 public class MovieDetailedDTO {
 
+    @NotNull
     private Long id;
     private String title;
     private String bio;

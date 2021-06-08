@@ -1,10 +1,13 @@
 package cz.muni.fi.pa165.dto.movie;
 
 import cz.muni.fi.pa165.entity.Genre;
+import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -14,10 +17,19 @@ import java.util.Objects;
  */
 public class MovieCreateDTO {
 
+    @NotNull
+    @Size(min = 1, max = 255, message = "Title must be long at least 1 at most 255 characters.")
     private String title;
+
+    @Size(max = 511, message = "Bio can be long at least 1 at most 511 characters.")
     private String bio;
+
+    @NotNull
     private LocalDate releaseYear;
+
+    @NotEmpty(message = "Genres cannot be empty.")
     private ArrayList<Genre> genres;
+
     private String graphics;
 
     public String getTitle() {

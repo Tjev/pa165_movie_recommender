@@ -19,6 +19,9 @@ import java.util.List;
 public interface MovieMapper {
 
     default byte[] toBytes(String string) {
+        if (string == null) {
+            return null;
+        }
         return Base64.getDecoder().decode(string);
     }
 
