@@ -8,7 +8,6 @@ import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.service.UserService;
-import org.hibernate.JDBCException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
