@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -319,13 +320,13 @@ public class MovieFacadeTest {
         MovieDetailedDTO m4DTO = new MovieDetailedDTO();
         m4DTO.setTitle(m4.getTitle());
 
-        MovieDetailedDTO m5DTO = new MovieDetailedDTO();
-        m5DTO.setTitle(m5.getTitle());
+        MovieDetailedDTO m3DTO = new MovieDetailedDTO();
+        m3DTO.setTitle(m3.getTitle());
 
 
-        List<MovieDetailedDTO> expected = List.of(m4DTO, m1DTO, m5DTO);
+        List<MovieDetailedDTO> expected = List.of(m1DTO, m4DTO, m3DTO);
 
-        when(movieMapper.movieListToMovieDetailedDTOList(List.of(m4, m1, m5))).thenReturn(expected);
+        when(movieMapper.movieListToMovieDetailedDTOList(List.of(m1, m4, m3))).thenReturn(expected);
 
         List<MovieDetailedDTO> result = movieFacade.getRecommendations(inputDTO, 3);
 
