@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dto.user;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -9,9 +10,13 @@ import java.util.Objects;
  */
 public class UserDTO {
 
+    @NotNull
     private Long id;
+
     private String username;
+
     private boolean admin;
+
     private String emailAddress;
 
     public Long getId() {

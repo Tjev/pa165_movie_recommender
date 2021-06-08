@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dto.user;
 
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 /**
@@ -9,9 +10,18 @@ import java.util.Objects;
  */
 public class UserRegisterDTO {
 
+    @NotNull
     private Long id;
+
+    @NotEmpty
+    @Size(max = 255)
     private String username;
+
+    @NotEmpty
+    @Size(max = 255)
     private String password;
+
+    @Email
     private String emailAddress;
 
     public Long getId() {

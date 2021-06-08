@@ -6,8 +6,6 @@ import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
 import cz.muni.fi.pa165.dto.user.UserRegisterDTO;
-import cz.muni.fi.pa165.entity.Movie;
-import cz.muni.fi.pa165.entity.Rating;
 import cz.muni.fi.pa165.exception.FacadeLayerException;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.entity.User;

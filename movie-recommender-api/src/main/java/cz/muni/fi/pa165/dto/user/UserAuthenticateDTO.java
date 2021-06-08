@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.dto.user;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
 /**
  * DTO class representing authentication of User entities.
  *
@@ -7,7 +10,10 @@ package cz.muni.fi.pa165.dto.user;
  */
 public class UserAuthenticateDTO {
 
+    @Email
     private String emailAddress;
+
+    @NotEmpty
     private String password;
 
     public String getEmailAddress() { return emailAddress; }

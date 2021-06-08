@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.dto.user;
 
 import cz.muni.fi.pa165.dto.rating.RatingDTO;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,10 +15,17 @@ import java.util.Objects;
  */
 public class UserDetailedDTO {
 
+    @NotNull
     private Long id;
+
+    @NotEmpty
     private String username;
+
     private boolean admin;
+
+    @Email
     private String emailAddress;
+
     private ArrayList<RatingDTO> ratings;
 
     public Long getId() {
