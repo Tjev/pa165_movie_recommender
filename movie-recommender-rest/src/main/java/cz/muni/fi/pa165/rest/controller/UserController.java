@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.rest.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import cz.muni.fi.pa165.dto.user.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.user.UserDTO;
 import cz.muni.fi.pa165.dto.user.UserDetailedDTO;
@@ -17,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -49,7 +48,7 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public final UserDetailedDTO register(@RequestBody UserRegisterDTO userRegisterDTO) {
+    public final UserDetailedDTO register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         logger.debug("rest register({})", userRegisterDTO);
 
         try {
@@ -177,7 +176,7 @@ public class UserController {
     @RequestMapping(value = "/auth", method = RequestMethod.POST,
                     consumes = MediaType.APPLICATION_JSON_VALUE,
                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public final String authenticate(@RequestBody UserAuthenticateDTO userAuthenticateDTO) {
+    public final String authenticate(@Valid @RequestBody UserAuthenticateDTO userAuthenticateDTO) {
         logger.debug("rest authenticate user ({})", userAuthenticateDTO.getEmailAddress());
 
         Optional<String> token;
@@ -269,7 +268,7 @@ public class UserController {
     @RequestMapping(value = "/update", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final UserDetailedDTO update(@RequestBody UserDetailedDTO userDetailedDTO) {
+    public final UserDetailedDTO update(@Valid @RequestBody UserDetailedDTO userDetailedDTO) {
         logger.debug("rest update({})", userDetailedDTO);
 
         try {
