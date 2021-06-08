@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.dto.movie;
 
 import cz.muni.fi.pa165.entity.Genre;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Objects;
  */
 public class MovieDTO {
 
+    @NotNull
     private Long id;
     private String title;
     private String bio;

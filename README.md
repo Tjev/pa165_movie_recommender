@@ -9,12 +9,12 @@ If the deployment is successful, the app should be available at [http://localhos
 
 ## Credentials
 
-###Admin:
+### Admin:
 
 Email: `jevo@email.com`, 
 Password: `jevoheslo`
 
-###Regular users:
+### Regular users:
 
 Email: `papi@email.com`,
 Password: `papiheslo`
