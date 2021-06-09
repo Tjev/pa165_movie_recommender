@@ -39,54 +39,70 @@ export function CreatePerson() {
             </Box>
 
             <form onSubmit={handleSubmit} autoComplete="off">
+
                 <Grid container spacing={2}>
+                    <Grid item container direction="column" spacing={2} xs={11}>
 
-                    <Grid item xs={2}>
-                        <FormLabel>Name: </FormLabel>
-                    </Grid>
-                    <Grid item xs={10}>
-                        <TextField type="text"
-                                   value={personName}
-                                   onChange={e => setPersonName(e.target.value)}
-                                   fullWidth
-                                   name="name"
-                                   placeholder="Enter person name"
-                                   error={isFormInvalid && personName === ""}
-                                   helperText={isFormInvalid && personName === "" ? "Empty field!" : " "} />
-                    </Grid>
+                        <Grid item container alignItems="center">
+                            <Grid item container xs={2} justify="flex-start">
+                                <FormLabel>Name: </FormLabel>
+                            </Grid>
+                            <Grid item xs={10} style={{"margin-top": "7px"}}>
+                                <TextField
+                                    type="text"
+                                    value={personName}
+                                    onChange={e => setPersonName(e.target.value)}
+                                    fullWidth
+                                    name="name"
+                                    placeholder="Enter person name"
+                                    error={isFormInvalid && personName === ""}
+                                    helperText={isFormInvalid && personName === "" ? "Empty field!" : " "}
+                                />
+                            </Grid>
+                        </Grid>
 
-                    <Grid item xs={2}>
-                        <FormLabel>Bio: </FormLabel>
-                    </Grid>
-                    <Grid item xs={10}>
-                        <TextField value={personBio}
-                                   onChange={e => setPersonBio(e.target.value)}
-                                   name="bio"
-                                   multiline
-                                   rows={4}
-                                   placeholder="Enter person bio"
-                                   fullWidth
-                                   error={isFormInvalid && personBio === ""}
-                                   helperText={isFormInvalid && personBio === "" ? "Empty field!" : " "} />
-                    </Grid>
+                        <Grid item container alignItems="center">
+                            <Grid item container xs={2} justify="flex-start">
+                                <FormLabel>Bio: </FormLabel>
+                            </Grid>
+                            <Grid item xs={10} style={{"margin-top": "7px"}}>
+                                <TextField
+                                    value={personBio}
+                                    onChange={e => setPersonBio(e.target.value)}
+                                    name="bio"
+                                    multiline
+                                    rows={4}
+                                    variant="outlined"
+                                    placeholder="Enter person bio"
+                                    fullWidth
+                                    error={isFormInvalid && personBio === ""}
+                                    helperText={isFormInvalid && personBio === "" ? "Empty field!" : " "}
+                                />
+                            </Grid>
+                        </Grid>
 
-                    <Grid item xs={2}>
-                        <FormLabel>Date of birth: </FormLabel>
+                        <Grid item container alignItems="center">
+                            <Grid item container xs={2} justify="flex-start">
+                                <FormLabel>Date of birth: </FormLabel>
+                            </Grid>
+                            <Grid item xs={10} style={{"margin-top": "7px"}}>
+                                <TextField
+                                    type="date"
+                                    value={dateOfBirth}
+                                    onChange={e => setDateOfBirth(e.target.value)}
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={10}>
-                        <TextField type="date"
-                                   value={dateOfBirth}
-                                   onChange={e => setDateOfBirth(e.target.value)}
-                                   fullWidth />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Button variant="contained" color="primary" type="submit" onClick={validate}>
-                            Submit
-                        </Button>
-                    </Grid>
-
                 </Grid>
+
+                <Box xs={12} justify="center" spacing={2} style={{"marginTop": "15px"}}>
+                    <Button variant="contained" color="primary" type="submit" onClick={validate}>
+                        Submit
+                    </Button>
+                </Box>
+
             </form>
         </div>
     );
