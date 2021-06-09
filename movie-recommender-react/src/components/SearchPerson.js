@@ -42,7 +42,7 @@ function PersonList({ persons, setPersons }) {
                                 <Typography variant="body2" color="textSecondary" align="left" component="p">
                                     {<p><b>Bio: </b> {bio}</p>}
                                     {<p><b>Date of birth: </b>{ formatDate(dateOfBirth) }</p>}
-                                    <Grid container direction="row" spacing={2}>
+                                    <Grid container spacing={2} justify="flex-end" style={{"padding-right": "15px"}}>
                                         {getAdminStatus() &&
                                         <Grid item>
                                             <Button variant="contained" onClick={() => handleDelete(id)}>Delete</Button>
