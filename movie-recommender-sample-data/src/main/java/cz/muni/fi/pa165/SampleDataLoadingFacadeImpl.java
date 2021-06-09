@@ -10,7 +10,9 @@ import cz.muni.fi.pa165.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -77,26 +79,25 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Person elijah = createPerson("Elijah Wood", LocalDate.of(1981, 1, 28), "Elijah Wood is an American actor best known for portraying Frodo Baggins in Peter Jackson's blockbuster Lord of the Rings film trilogy.");
         Person ian = createPerson("Ian McKellen", LocalDate.of(1939, 5, 25), "Widely regarded as one of greatest stage and screen actors both in his native Great Britain and internationally, twice nominated for the Oscar and recipient of every major theatrical award in the UK and US, Ian Murray McKellen was born on May 25, 1939 in Burnley, Lancashire, England, to Margery Lois (Sutcliffe) and Denis Murray McKellen, a civil engineer and lay preacher.");
 
+        Movie zombieland = createMovie("Zombieland", "A shy student trying to reach his family in Ohio, a gun-toting bruiser in search or the last Twinkie and a pair of sisters striving to get to an amusement park join forces in a trek across a zombie-filled America.", LocalDate.of(2009, 1, 1), Set.of(Genre.ACTION, Genre.HORROR, Genre.COMEDY), loadImage("../../../../../movie-recommender-sample-data/images/zombieland.jpg"));
+        Movie onceUpon = createMovie("Once Upon a Time... in Hollywood", "A faded television actor and his stunt double strive to achieve fame and success in the final years of Hollywood's Golden Age in 1969 Los Angeles.", LocalDate.of(2019, 1, 1), Set.of(Genre.COMEDY, Genre.DRAMA), loadImage("../../../../../movie-recommender-sample-data/images/onceupon.jpg"));
 
-        Movie zombieland = createMovie("Zombieland", "A shy student trying to reach his family in Ohio, a gun-toting bruiser in search or the last Twinkie and a pair of sisters striving to get to an amusement park join forces in a trek across a zombie-filled America.", LocalDate.of(2009, 1, 1), Set.of(Genre.ACTION, Genre.HORROR, Genre.COMEDY), null);
-        Movie onceUpon = createMovie("Once Upon a Time... in Hollywood", "A faded television actor and his stunt double strive to achieve fame and success in the final years of Hollywood's Golden Age in 1969 Los Angeles.", LocalDate.of(2019, 1, 1), Set.of(Genre.COMEDY, Genre.DRAMA), null);
+        Movie matrix = createMovie("Matrix", "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.", LocalDate.of(1999, 1, 1), Set.of(Genre.ACTION, Genre.SCIFI), loadImage("../../../../../movie-recommender-sample-data/images/matrix.jpg"));
+        Movie cloudAtlas = createMovie("Cloud Atlas", "An exploration of how the actions of individual lives impact one another in the past, present and future, as one soul is shaped from a killer into a hero, and an act of kindness ripples across centuries to inspire a revolution.", LocalDate.of(2012, 1, 1), Set.of(Genre.ACTION, Genre.DRAMA, Genre.MYSTERY), loadImage("../../../../../movie-recommender-sample-data/images/cloudatlas.jpg"));
+        Movie wolfwalkers = createMovie("Wolfwalkers", "A young apprentice hunter and her father journey to Ireland to help wipe out the last wolf pack. But everything changes when she befriends a free-spirited girl from a mysterious tribe rumored to transform into wolves by night.", LocalDate.of(2020, 1, 1), Set.of(Genre.ANIMATION, Genre.FAMILY, Genre.ADVENTURE), loadImage("../../../../../movie-recommender-sample-data/images/wolfwakers.jpg"));
 
-        Movie matrix = createMovie("Matrix", "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.", LocalDate.of(1999, 1, 1), Set.of(Genre.ACTION, Genre.SCIFI), null);
-        Movie cloudAtlas = createMovie("Cloud Atlas", "An exploration of how the actions of individual lives impact one another in the past, present and future, as one soul is shaped from a killer into a hero, and an act of kindness ripples across centuries to inspire a revolution.", LocalDate.of(2012, 1, 1), Set.of(Genre.ACTION, Genre.DRAMA, Genre.MYSTERY), null);
-        Movie wolfwalkers = createMovie("Wolfwalkers", "A young apprentice hunter and her father journey to Ireland to help wipe out the last wolf pack. But everything changes when she befriends a free-spirited girl from a mysterious tribe rumored to transform into wolves by night.", LocalDate.of(2020, 1, 1), Set.of(Genre.ANIMATION, Genre.FAMILY, Genre.ADVENTURE), null);
+        Movie hatefulEight = createMovie("The Hateful Eight", "In the dead of a Wyoming winter, a bounty hunter and his prisoner find shelter in a cabin currently inhabited by a collection of nefarious characters.", LocalDate.of(2016, 1, 21), Set.of(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY), loadImage("../../../../../movie-recommender-sample-data/images/hateful.jpg"));
+        Movie greenBook = createMovie("Green Book", "A working-class Italian-American bouncer becomes the driver of an African-American classical pianist on a tour of venues through the 1960s American South.", LocalDate.of(2018, 11, 16), Set.of(Genre.BIOGRAPHY, Genre.COMEDY, Genre.DRAMA), loadImage("../../../../../movie-recommender-sample-data/images/greenbook.jpeg"));
+        Movie yourName = createMovie("Your Name", "Two strangers find themselves linked in a bizarre way. When a connection forms, will distance be the only thing to keep them apart?", LocalDate.of(2016, 8, 26), Set.of(Genre.ANIMATION, Genre.DRAMA, Genre.FANTASY), loadImage("../../../../../movie-recommender-sample-data/images/yourname.jpg"));
 
-        Movie hatefulEight = createMovie("The Hateful Eight", "In the dead of a Wyoming winter, a bounty hunter and his prisoner find shelter in a cabin currently inhabited by a collection of nefarious characters.", LocalDate.of(2016, 1, 21), Set.of(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY), null);
-        Movie greenBook = createMovie("Green Book", "A working-class Italian-American bouncer becomes the driver of an African-American classical pianist on a tour of venues through the 1960s American South.", LocalDate.of(2018, 11, 16), Set.of(Genre.BIOGRAPHY, Genre.COMEDY, Genre.DRAMA), null);
-        Movie yourName = createMovie("Your Name", "Two strangers find themselves linked in a bizarre way. When a connection forms, will distance be the only thing to keep them apart?", LocalDate.of(2016, 8, 26), Set.of(Genre.ANIMATION, Genre.DRAMA, Genre.FANTASY), null);
+        Movie johnWick = createMovie("John Wick", "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.", LocalDate.of(2014, 10, 24), Set.of(Genre.ACTION, Genre.CRIME, Genre.THRILLER), loadImage("../../../../../movie-recommender-sample-data/images/johnwick.jpg"));
+        Movie theBigLebowski = createMovie("The Big Lebowski", "Jeff \"The Dude\" Lebowski, mistaken for a millionaire of the same name, seeks restitution for his ruined rug and enlists his bowling buddies to help get it.", LocalDate.of(1998, 3, 6), Set.of(Genre.COMEDY, Genre.CRIME), loadImage("../../../../../movie-recommender-sample-data/images/lebowski.jpg"));
+        Movie pulpFiction = createMovie("Pulp Fiction", "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.", LocalDate.of(1994, 10, 14), Set.of(Genre.CRIME, Genre.DRAMA, Genre.COMEDY), loadImage("../../../../../movie-recommender-sample-data/images/pulpfiction.jpg"));
 
-        Movie johnWick = createMovie("John Wick", "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.", LocalDate.of(2014, 10, 24), Set.of(Genre.ACTION, Genre.CRIME, Genre.THRILLER), null);
-        Movie theBigLebowski = createMovie("The Big Lebowski", "Jeff \"The Dude\" Lebowski, mistaken for a millionaire of the same name, seeks restitution for his ruined rug and enlists his bowling buddies to help get it.", LocalDate.of(1998, 3, 6), Set.of(Genre.COMEDY, Genre.CRIME), null);
-        Movie pulpFiction = createMovie("Pulp Fiction", "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.", LocalDate.of(1994, 10, 14), Set.of(Genre.CRIME, Genre.DRAMA, Genre.COMEDY), null);
-
-        Movie interstellar = createMovie("Interstellar", "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.", LocalDate.of(2014, 11, 7), Set.of(Genre.ADVENTURE, Genre.DRAMA, Genre.SCIFI), null);
-        Movie lotr1 = createMovie("The Lord of the Rings: The Fellowship of the Ring", "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.", LocalDate.of(2001, 12, 19), Set.of(Genre.ACTION, Genre.ADVENTURE, Genre.DRAMA), null);
-        Movie lotr2 = createMovie("The Lord of the Rings: The Two Towers", "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.", LocalDate.of(2002, 12, 18), Set.of(Genre.ACTION, Genre.ADVENTURE, Genre.DRAMA), null);
-        Movie lotr3 = createMovie("The Lord of the Rings: The Return of the King", "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.", LocalDate.of(2003, 12, 17), Set.of(Genre.ACTION, Genre.ADVENTURE, Genre.DRAMA), null);
+        Movie interstellar = createMovie("Interstellar", "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.", LocalDate.of(2014, 11, 7), Set.of(Genre.ADVENTURE, Genre.DRAMA, Genre.SCIFI), loadImage("../../../../../movie-recommender-sample-data/images/interstellar.jpg"));
+        Movie lotr1 = createMovie("The Lord of the Rings: The Fellowship of the Ring", "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.", LocalDate.of(2001, 12, 19), Set.of(Genre.ACTION, Genre.ADVENTURE, Genre.DRAMA), loadImage("../../../../../movie-recommender-sample-data/images/lotr1.jpg"));
+        Movie lotr2 = createMovie("The Lord of the Rings: The Two Towers", "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.", LocalDate.of(2002, 12, 18), Set.of(Genre.ACTION, Genre.ADVENTURE, Genre.DRAMA), loadImage("../../../../../movie-recommender-sample-data/images/lotr2.jpg"));
+        Movie lotr3 = createMovie("The Lord of the Rings: The Return of the King", "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.", LocalDate.of(2003, 12, 17), Set.of(Genre.ACTION, Genre.ADVENTURE, Genre.DRAMA), loadImage("../../../../../movie-recommender-sample-data/images/lotr3.jpg"));
 
         addActors(zombieland, emmaStone);
         addActors(onceUpon, bradPitt);
@@ -215,5 +216,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         for (Person person : persons) {
             personService.update(person);
         }
+    }
+
+    private byte[] loadImage(String path) throws IOException {
+        File f = new File(path);
+        return Files.readAllBytes(f.getAbsoluteFile().toPath());
     }
 }
