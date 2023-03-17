@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {Box, Button, Typography, TextField, Grid, FormLabel, MenuItem} from "@material-ui/core";
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+import {backendURL} from "../Constants";
 
 export function CreateMovie() {
     const allMovieGenres = ["ACTION", "ADULT", "ADVENTURE", "ANIMATION", "BIOGRAPHY", "COMEDY", "CRIME", "DOCUMENTARY",
@@ -44,7 +45,7 @@ export function CreateMovie() {
             serializedGraphics = await toBase64(movieGraphicsFile);
         }
 
-        return await axios.post('http://localhost:8080/pa165/rest/movies/create',
+        return await axios.post(`http://${backendURL}:8080/pa165/rest/movies/create`,
             {
                 title: movieTitle,
                 bio: movieBio,

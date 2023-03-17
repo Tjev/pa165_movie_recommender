@@ -3,6 +3,7 @@ import {Redirect, useLocation} from "react-router-dom";
 import axios from "axios";
 import {getUserId} from "../utils/Common";
 import {Box, Button, FormLabel, Grid, TextField, Typography, MenuItem} from "@material-ui/core";
+import {backendURL} from "../Constants";
 
 /**
  * @author Radoslav Chudovsky
@@ -34,7 +35,7 @@ export function CreateRating() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:8080/pa165/rest/ratings/create',
+        await axios.post(`http://${backendURL}:8080/pa165/rest/ratings/create`,
             {
                 user: {id: getUserId()},
                 movie: {id: location.state.id},

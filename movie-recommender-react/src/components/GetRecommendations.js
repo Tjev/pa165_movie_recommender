@@ -6,6 +6,7 @@ import {AddDirectorLink} from "./AddDirectorLink";
 import {Box, Button, Card, CardContent, Grid, Typography} from "@material-ui/core";
 import {formatYear} from "../utils/Common";
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+import {backendURL} from "../Constants";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -36,11 +37,11 @@ function MovieList({ movies, scores, token, setMovies, setScores, setTitle}) {
 
     const handleNewRecommend = async (id, title) => {
         setTitle(title);
-        await axios.get(`http://localhost:8080/pa165/rest/movies/${id}/recommendations?amount=10`)
+        await axios.get(`http://${backendURL}:8080/pa165/rest/movies/${id}/recommendations?amount=10`)
             .then(res => {
                 setMovies(res.data);
                 return axios.all(res.data.map(
-                    movie => axios.get(`http://localhost:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
+                    movie => axios.get(`http://${backendURL}:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
             })
             .then(res => {
                 setScores(res);
@@ -121,11 +122,11 @@ export function GetRecommendations() {
 
     useEffect(async () => {
         setTitle(location.state.title)
-        await axios.get(`http://localhost:8080/pa165/rest/movies/${location.state.id}/recommendations?amount=10`)
+        await axios.get(`http://${backendURL}:8080/pa165/rest/movies/${location.state.id}/recommendations?amount=10`)
             .then(res => {
                 setMovies(res.data);
                 return axios.all(res.data.map(
-                    movie => axios.get(`http://localhost:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
+                    movie => axios.get(`http://${backendURL}:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
             })
             .then( res => {
                 setScores(res);

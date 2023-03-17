@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {Box, Button, FormLabel, Grid, TextField, Typography} from "@material-ui/core";
+import {backendURL} from "../Constants";
 
 /**
  * @author Kristian Tkacik
@@ -21,7 +22,7 @@ export function CreatePerson() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        return await axios.post('http://localhost:8080/pa165/rest/persons/create',
+        return await axios.post(`http://${backendURL}:8080/pa165/rest/persons/create`,
             {
             name: personName,
             bio: personBio,

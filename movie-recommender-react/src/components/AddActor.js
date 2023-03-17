@@ -3,6 +3,7 @@ import axios from "axios";
 import {Redirect, useLocation} from "react-router-dom";
 import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core";
 import {formatDate} from "../utils/Common";
+import {backendURL} from "../Constants";
 
 /**
  * @author Jiri Papousek
@@ -16,11 +17,11 @@ function PersonList({ persons, movieId }) {
     }
 
     const handleAddActor = async (id) => {
-        const movie = await axios.get(`http://localhost:8080/pa165/rest/movies/${movieId}`).catch(console.log);
+        const movie = await axios.get(`http://${backendURL}:8080/pa165/rest/movies/${movieId}`).catch(console.log);
 
         movie.data.actors.push({id: id});
 
-        return await axios.put('http://localhost:8080/pa165/rest/movies/update',
+        return await axios.put(`http://${backendURL}:8080/pa165/rest/movies/update`,
             movie.data)
             .then(
                 response => JSON.stringify(response))
@@ -69,7 +70,7 @@ export function AddActor() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetch(`http://localhost:8080/pa165/rest/persons/find-by-name?name=${personName}`)
+        await fetch(`http://${backendURL}:8080/pa165/rest/persons/find-by-name?name=${personName}`)
             .then(res => res.json())
             .then((data) => {
                 let actorIds = location.state.actors.map(actor => actor.id);

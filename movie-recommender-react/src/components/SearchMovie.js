@@ -6,6 +6,7 @@ import {AddActorLink} from "./AddActorLink";
 import {formatYear, getAdminStatus, getUserId} from "../utils/Common";
 import {Box, Button, Card, CardContent, Grid, TextField, Typography} from "@material-ui/core"
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+import {backendURL} from "../Constants";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -18,14 +19,14 @@ function MovieList({ movies, scores, token, setMovies }) {
             return;
         }
         const getRatings = async () => {
-            return await axios.get(`http://localhost:8080/pa165/rest/ratings/find-by-user?id=${getUserId()}`)
+            return await axios.get(`http://${backendURL}:8080/pa165/rest/ratings/find-by-user?id=${getUserId()}`)
                 .catch(console.log);
         }
         getRatings().then(ratings => {setRatedMoviesIDs(ratings.data.map(x => x.movie.id))});
     }, [])
 
     const handleDelete = async (movieId) => {
-        await axios.delete(`http://localhost:8080/pa165/rest/movies/remove`, {
+        await axios.delete(`http://${backendURL}:8080/pa165/rest/movies/remove`, {
             data: {id: movieId},
             headers: {
                 'Content-Type': 'application/json'
@@ -136,11 +137,11 @@ export function SearchMovie({token}) {
         if (!title) return;
         e.preventDefault();
 
-        await axios.get(`http://localhost:8080/pa165/rest/movies/find-by-title?title=${title}`)
+        await axios.get(`http://${backendURL}:8080/pa165/rest/movies/find-by-title?title=${title}`)
             .then(res => {
                 setMovies(res.data);
                 return axios.all(res.data.map(
-                    movie => axios.get(`http://localhost:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
+                    movie => axios.get(`http://${backendURL}:8080/pa165/rest/movies/${movie.id}/overall-score`).then(res => res.data)));
             })
             .then( res => {
                 setScores(res);

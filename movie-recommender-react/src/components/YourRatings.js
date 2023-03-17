@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {getUserId, getUser} from "../utils/Common";
 import axios from "axios";
 import {Box, Button, Card, CardContent, Grid, Typography} from "@material-ui/core";
+import {backendURL} from "../Constants";
 
 /**
  * @author Kristian Tkacik
@@ -11,14 +12,14 @@ export function YourRatings() {
 
     useEffect(() => {
         const getRatings = async () => {
-            return await axios.get(`http://localhost:8080/pa165/rest/ratings/find-by-user?id=${getUserId()}`)
+            return await axios.get(`http://${backendURL}:8080/pa165/rest/ratings/find-by-user?id=${getUserId()}`)
                 .catch(console.log);
         }
         getRatings().then(ratings => setRatings(ratings.data));
     }, [])
 
     const handleDelete = async (ratingId) => {
-        await axios.delete(`http://localhost:8080/pa165/rest/ratings/remove`, {
+        await axios.delete(`http://${backendURL}:8080/pa165/rest/ratings/remove`, {
             data: {id: ratingId},
             headers: {
                 'Content-Type': 'application/json'

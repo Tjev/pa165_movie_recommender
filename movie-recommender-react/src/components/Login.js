@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router'
 import {Button, Grid, FormLabel, TextField, Typography, Box} from "@material-ui/core";
 import PasswordField from 'material-ui-password-field'
+import {backendURL} from "../Constants";
 
 export default function Login({token, setToken}) {
 
@@ -17,7 +18,7 @@ export default function Login({token, setToken}) {
 
     const HandleSubmit = async e => {
         e.preventDefault();
-        await axios.post('http://localhost:8080/pa165/rest/users/auth', {emailAddress, password})
+        await axios.post(`http://${backendURL}:8080/pa165/rest/users/auth`, {emailAddress, password})
         .then((data) => {
             setToken(data.data);
         })

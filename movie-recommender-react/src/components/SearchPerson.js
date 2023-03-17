@@ -10,6 +10,7 @@ import {
     Typography
 } from "@material-ui/core";
 import axios from "axios";
+import {backendURL} from "../Constants";
 
 /**
  * @author Kristian Tkacik, Jiri Papousek
@@ -17,7 +18,7 @@ import axios from "axios";
 function PersonList({ persons, setPersons }) {
 
     const handleDelete = async (personId) => {
-        await axios.delete(`http://localhost:8080/pa165/rest/persons/remove`, {
+        await axios.delete(`http://${backendURL}:8080/pa165/rest/persons/remove`, {
             data: {id: personId},
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +67,7 @@ export function SearchPerson() {
     const handleSubmit = async (e) => {
         if (!personName) return;
         e.preventDefault();
-        await fetch(`http://localhost:8080/pa165/rest/persons/find-by-name?name=${personName}`)
+        await fetch(`http://${backendURL}:8080/pa165/rest/persons/find-by-name?name=${personName}`)
             .then(res => res.json())
             .then((data) => {
                 setPersons(data);
